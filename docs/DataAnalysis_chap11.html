@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.43">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>11日目 : 因子分析 – 心理学データ解析法</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./DataAnalysis_chap12.html" rel="next">
+<link href="./DataAnalysis_chap10.html" rel="prev">
+<link href="./img/favicon.ico" rel="icon">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-6752a065e7716ac41838f31b38b352fb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "一致なし",
+    "search-matching-documents-text": "一致した文書",
+    "search-copy-link-title": "検索へのリンクをコピー",
+    "search-hide-matches-text": "追加の検索結果を非表示",
+    "search-more-match-text": "追加の検索結果",
+    "search-more-matches-text": "追加の検索結果",
+    "search-clear-button-title": "消去",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "検索",
+    "search-label": "サーチ"
+  }
+}</script><script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script><script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script><script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script><link rel="stylesheet" href="mystyle.css">
+<meta name="twitter:title" content="11日目 : 因子分析 – 心理学データ解析法">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https://so-ichi.com/DataAnalysis_chap11_files/figure-html/fig01-1.png">
+<meta name="twitter:image-height" content="1152">
+<meta name="twitter:image-width" content="1536">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">心理学データ解析法</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="サーチ"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="ナビゲーションを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">データ解析法</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./DataAnalysis_chap01.html"> 
+<span class="menu-text">基礎</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./DataAnalysis_chap02.html"> 
+<span class="menu-text">記述統計とグラフ</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./DataAnalysis_chap03.html"> 
+<span class="menu-text">独立性の検定</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./DataAnalysis_chap04.html"> 
+<span class="menu-text">平均の差の検定</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./DataAnalysis_chap05.html"> 
+<span class="menu-text">分散分析</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./DataAnalysis_chap06.html"> 
+<span class="menu-text">相関分析</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./DataAnalysis_chap07.html"> 
+<span class="menu-text">3変数の関連</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./DataAnalysis_chap08.html"> 
+<span class="menu-text">回帰分析</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./DataAnalysis_chap09.html"> 
+<span class="menu-text">レポート</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./DataAnalysis_chap10.html"> 
+<span class="menu-text">ダミーと交差項</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./DataAnalysis_chap11.html"> 
+<span class="menu-text">因子分析</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./DataAnalysis_chap12.html"> 
+<span class="menu-text">構造方程式モデル</span></a>
+  </li>  
+</ul>
+</div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <a href="https://github.com/ma2ura/psych_data_analysis" title="ソースコード" class="quarto-navigation-tool px-1" aria-label="ソースコード"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="リーダーモードの切り替え">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="サイドバーを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./DataAnalysis_chap11.html">11日目 : 因子分析</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="サイドバーを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">はじめに</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./DataAnalysis_chap01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1日目：R入門とデータの読み込み</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./DataAnalysis_chap02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2日目: 記述統計と基本グラフ</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./DataAnalysis_chap03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3日目：クロス集計表</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./DataAnalysis_chap04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4日目：平均の差の検定</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./DataAnalysis_chap05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5日目：分散分析</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./DataAnalysis_chap06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6日目 : 相関分析</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./DataAnalysis_chap07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">7日目 : 3変数の関連</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./DataAnalysis_chap08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8日目 : 回帰分析</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./DataAnalysis_chap09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">9日目 : ミニレポート</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./DataAnalysis_chap10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10日目 : ダミー変数の利用と交互作用項</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./DataAnalysis_chap11.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">11日目 : 因子分析</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./DataAnalysis_chap12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">12日目 : 構造方程式モデル</span></a>
+  </div>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2"><h2 id="toc-title">目次</h2>
+   
+  <ul>
+<li><a href="#%E5%9B%A0%E5%AD%90%E5%88%86%E6%9E%90%E3%81%AE%E8%80%83%E3%81%88%E6%96%B9" id="toc-因子分析の考え方" class="nav-link active" data-scroll-target="#%E5%9B%A0%E5%AD%90%E5%88%86%E6%9E%90%E3%81%AE%E8%80%83%E3%81%88%E6%96%B9">因子分析の考え方</a></li>
+  <li>
+<a href="#%E5%9B%A0%E5%AD%90%E5%88%86%E6%9E%90%E3%83%A2%E3%83%87%E3%83%AB" id="toc-因子分析モデル" class="nav-link" data-scroll-target="#%E5%9B%A0%E5%AD%90%E5%88%86%E6%9E%90%E3%83%A2%E3%83%87%E3%83%AB">因子分析モデル</a>
+  <ul class="collapse">
+<li><a href="#m%E5%9B%A0%E5%AD%90%E3%83%A2%E3%83%87%E3%83%AB" id="toc-m因子モデル" class="nav-link" data-scroll-target="#m%E5%9B%A0%E5%AD%90%E3%83%A2%E3%83%87%E3%83%AB">m因子モデル</a></li>
+  </ul>
+</li>
+  <li><a href="#%E5%9B%A0%E5%AD%90%E5%BE%97%E7%82%B9" id="toc-因子得点" class="nav-link" data-scroll-target="#%E5%9B%A0%E5%AD%90%E5%BE%97%E7%82%B9">因子得点</a></li>
+  <li>
+<a href="#%E5%88%86%E6%9E%90" id="toc-分析" class="nav-link" data-scroll-target="#%E5%88%86%E6%9E%90">分析</a>
+  <ul class="collapse">
+<li><a href="#%E5%9B%A0%E5%AD%90%E5%BE%97%E7%82%B9%E3%81%AE%E4%BF%9D%E5%AD%98" id="toc-因子得点の保存" class="nav-link" data-scroll-target="#%E5%9B%A0%E5%AD%90%E5%BE%97%E7%82%B9%E3%81%AE%E4%BF%9D%E5%AD%98">因子得点の保存</a></li>
+  <li><a href="#%E5%AE%BF%E9%A1%8C" id="toc-宿題" class="nav-link" data-scroll-target="#%E5%AE%BF%E9%A1%8C">宿題</a></li>
+  <li><a href="#psych%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8" id="toc-psychパッケージ" class="nav-link" data-scroll-target="#psych%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8"><code>psych</code>パッケージ</a></li>
+  </ul>
+</li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">11日目 : 因子分析</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header><p><strong>因子分析</strong>(factor analysis)は，心理尺度などを用いる質問紙を用いた研究・調査を行う場合は必須の分析手法です。 今回に限り，テキスト「行動科学の統計学」ではなく，因子分析についての記述が丁寧な南風原 (2002)『<strong>心理統計学の基礎</strong>』有斐閣を中心に進める。</p>
+<aside>
+あるいは松尾・中村 (2002)『誰も教えてくれなかった因子分析』北大路書房もオススメである。
+</aside><section id="因子分析の考え方" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="因子分析の考え方">因子分析の考え方</h2>
+<p>8つの性格特性を200名の大学生について7件法で尋ねる。</p>
+<ul>
+<li>温和</li>
+<li>陽気</li>
+<li>外交的</li>
+<li>親切</li>
+<li>社交的</li>
+<li>協力的</li>
+<li>積極的</li>
+<li>素直</li>
+</ul>
+<p>すべてポジティブな用語であり，似ているものも多い。そこでより少数の変数で特性を測れないか，を考える。</p>
+<p><strong>RQ : 1つの特性にあてはまる人は，他のすべてにもあてはまる傾向があるのでは？あるいは，いくつかの特性群に分類することができるのでは？</strong></p>
+<p>この8つの特性を分類することで，個人の特性をより少数の変数で把握することができる。 情報量を減らさずに分析で利用する変数の数を減らすことができれば，分析が容易になる。 たとえば，回帰分析で回帰式に8個の特性をすべて入れ込むと，多重共線性もあり，好ましくない可能性がある。 因子分析では，複数の変数の共通因子を特定するこで，次元を落とすことを目的としている。</p>
+<aside>
+例えば，パーソナル心理学で有名な<strong>BIG5</strong>では，個人の性格を5つで代表できる，と主張している。
+</aside><p>テキストに記載されている性格特性の相関係数を見てみると，外交的と社交的，積極的と外交的，積極的と社交的は高く正の相関がある。 これら8つの観測変数を，</p>
+<ol type="1">
+<li>8つの観測変数に<strong>共通する</strong>部分</li>
+<li>8つの観測変数に<strong>共通しない</strong>部分</li>
+</ol>
+<p>に分類することを考える。 ここでは，因子分析により，複数(3項目以上)の<strong>連続変数</strong>の観測変数の共通する部分を抽出する。</p>
+</section><section id="因子分析モデル" class="level2"><h2 class="anchored" data-anchor-id="因子分析モデル">因子分析モデル</h2>
+<p>因子分析の1因子モデルを数式で表すと，</p>
+<p><span class="math display">
+\text{温和}  = \beta _1 \times f + \varepsilon_1\\
+\text{陽気}  = \beta _2 \times f + \varepsilon_2\\
+\vdots\\
+\text{素直}  = \beta _8 \times f + \varepsilon_8\\
+</span></p>
+<p>となる。 ここで<span class="math inline">\beta</span>は<strong>因子負荷</strong>(factor loading，あるいは因子スコア)であり，<span class="math inline">f</span>は<strong>共通因子</strong>(common factor)，<span class="math inline">\varepsilon</span>は<strong>独自因子</strong>(unique factor)を表す。</p>
+<section id="m因子モデル" class="level3"><h3 class="anchored" data-anchor-id="m因子モデル">m因子モデル</h3>
+<p>8個の個人特性の背後に2つの共通因子<span class="math inline">f_1</span>と<span class="math inline">f_2</span>があると考える場合，因子モデルは次のように表すことができる。</p>
+<p><span class="math display">
+\text{温和}  = \beta _{11} \times f_1 + \beta _{12} \times f_2 + \varepsilon_1\\
+\text{陽気}  = \beta _{21} \times f_2 + \beta _{22} \times f_2 + \varepsilon_2\\
+\vdots\\
+\text{素直}  = \beta _{81} \times f_8 + \beta _{82} \times f_2 + \varepsilon_8\\
+</span></p>
+<p>KbjuPNJZyqaF</p>
+<p>一般的に，<span class="math inline">p</span>個の観測変数(アンケート項目)に対して，<span class="math inline">m</span>この共通因子によって説明されるとする因子モデルは，</p>
+<p><span class="math display">
+\begin{align}
+y_j &amp;= \beta_{j1} f_1 + \beta_{j2} f_2 + \cdots + \beta _{jm} f_m + \varepsilon_j\\
+    &amp;=\sum _{g=1}^m \beta_{jg} f_g + \varepsilon_j, \quad (j=1,2, \dots, p)
+\end{align}
+</span></p>
+<p>となる。</p>
+</section></section><section id="因子得点" class="level2"><h2 class="anchored" data-anchor-id="因子得点">因子得点</h2>
+<p>抽出した因子における個人の位置を因子得点(factor score)として保存し，分析に用いることがある。 この因子得点がアンケートなどで集められた複数の質問項目から抽出された因子に基づく合成尺度として利用される。</p>
+</section><section id="分析" class="level1 page-columns page-full"><h1>分析</h1>
+<p>いつものテキスト302頁のデータを用いる。 飲み物の好みの仮想データであり，コーヒー(<span class="math inline">cafe</span>)，紅茶(<span class="math inline">tea</span>)，ミルク(<span class="math inline">milk</span>)，水(<span class="math inline">water</span>)，緑茶(<span class="math inline">g\_tea</span>)，ウーロン茶(<span class="math inline">w\_tea</span>)，性別(<span class="math inline">sex</span>)のデータから構成されている。 各項目に対する好みは，5点尺度で測定されている。</p>
+<p>最初にデータを読み込む。</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">tidyverse</span>, <span class="va">stargazer</span><span class="op">)</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"data/chap14.csv"</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 20 Columns: 8
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+dbl (8): ID, café, tea, milk, water, g_tea, w_tea, sex
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<p>まずは記述統計と相関行列を確認する。</p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       ID            café           tea            milk         water    
+ Min.   : 1.00   Min.   :0.00   Min.   :1.00   Min.   :2.0   Min.   :0.0  
+ 1st Qu.: 5.75   1st Qu.:2.00   1st Qu.:2.75   1st Qu.:3.0   1st Qu.:0.0  
+ Median :10.50   Median :2.00   Median :3.00   Median :3.5   Median :1.5  
+ Mean   :10.50   Mean   :2.45   Mean   :3.10   Mean   :3.5   Mean   :1.3  
+ 3rd Qu.:15.25   3rd Qu.:3.00   3rd Qu.:4.00   3rd Qu.:4.0   3rd Qu.:2.0  
+ Max.   :20.00   Max.   :4.00   Max.   :5.00   Max.   :5.0   Max.   :3.0  
+     g_tea          w_tea           sex     
+ Min.   :0.00   Min.   :1.00   Min.   :1.0  
+ 1st Qu.:1.00   1st Qu.:2.00   1st Qu.:1.0  
+ Median :2.00   Median :2.50   Median :1.0  
+ Mean   :1.70   Mean   :2.75   Mean   :1.4  
+ 3rd Qu.:2.25   3rd Qu.:4.00   3rd Qu.:2.0  
+ Max.   :3.00   Max.   :4.00   Max.   :2.0  </code></pre>
+</div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">df</span><span class="op">[</span>,<span class="fl">2</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          café        tea       milk      water      g_tea     w_tea
+café 1.0000000 0.85391330 0.78157516 0.15326638 0.22996981 0.1902252
+tea   0.8539133 1.00000000 0.89102797 0.01906146 0.08032598 0.1148106
+milk  0.7815752 0.89102797 1.00000000 0.06170959 0.13002373 0.1486753
+water 0.1532664 0.01906146 0.06170959 1.00000000 0.71972685 0.8826051
+g_tea 0.2299698 0.08032598 0.13002373 0.71972685 1.00000000 0.7790519
+w_tea 0.1902252 0.11481064 0.14867526 0.88260506 0.77905187 1.0000000</code></pre>
+</div>
+</div>
+<p>相関係数行列より，コーヒーと紅茶や，コーヒーと牛乳，紅茶と牛乳，水と緑茶，緑茶とウーロン茶といった相関が高い項目が見つけられる。</p>
+<p>因子分析は，基本関数<code><a href="https://rdrr.io/r/stats/factanal.html">factanal()</a></code>関数を用いる。 第1引数はデータ・フレーム，第2引数で因子数を指定，第3引数で軸の回転を指定，第4因数で因子得点の計算方法を指定する。</p>
+<aside>
+基本関数<code><a href="https://rdrr.io/r/stats/factanal.html">factanal()</a></code>は引数<code>factors</code>を指定しないとエラーになるため，因子数を指定しなくても動くように改良された<code>factanal2()</code>を利用するとよい。
+</aside><p>軸の回転をしないときは<code>none</code>，プロマックス回転なら<code>promax</code>，バリマックス回転なら<code>varimax</code>とする。 因子得点の計算方法は，デフォルトは<code>none</code>，あとは<code>regression</code>や<code>Bartlett</code>がある。</p>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">f1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/factanal.html">factanal</a></span><span class="op">(</span><span class="va">df</span><span class="op">[</span>,<span class="fl">2</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span>,factors <span class="op">=</span> <span class="fl">2</span>, rotation <span class="op">=</span> <span class="st">"promax"</span>, scores <span class="op">=</span> <span class="st">"regression"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">f1</span>,cutoff<span class="op">=</span><span class="fl">0</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+factanal(x = df[, 2:7], factors = 2, scores = "regression", rotation = "promax")
+
+Uniquenesses:
+café   tea  milk water g_tea w_tea 
+0.247 0.015 0.192 0.163 0.356 0.063 
+
+Loadings:
+      Factor1 Factor2
+café  0.855   0.069 
+tea    0.999  -0.056 
+milk   0.899  -0.001 
+water -0.064   0.922 
+g_tea  0.012   0.801 
+w_tea  0.026   0.964 
+
+               Factor1 Factor2
+SS loadings      2.544   2.429
+Proportion Var   0.424   0.405
+Cumulative Var   0.424   0.829
+
+Factor Correlations:
+        Factor1 Factor2
+Factor1   1.000   0.147
+Factor2   0.147   1.000
+
+Test of the hypothesis that 2 factors are sufficient.
+The chi square statistic is 1.73 on 4 degrees of freedom.
+The p-value is 0.786 </code></pre>
+</div>
+</div>
+<aside><code>cutoff=0</code>のオプションをつけることで，すべての因子負荷を出力する。
+</aside><p>因子負荷量をみると，因子1はコーヒー・紅茶・ミルク，因子2は水・緑茶・麦茶の負荷量が高い。 第1因子に「味の濃い飲み物」，第2因子に「味の薄い飲み物」という名前をつけてみる。</p>
+<p>この因子負荷量を第1因子と第2因子の軸をもつ平面にプロットする。</p>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">f1</span><span class="op">$</span><span class="va">loadings</span>, type <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="va">f1</span><span class="op">$</span><span class="va">loadings</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">df</span><span class="op">[</span>,<span class="fl">2</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="co"># 散布図の点を項目名にする</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="DataAnalysis_chap11_files/figure-html/fig01-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="因子得点の保存" class="level2"><h2 class="anchored" data-anchor-id="因子得点の保存">因子得点の保存</h2>
+<p><code><a href="https://rdrr.io/r/stats/factanal.html">factanal()</a></code>で因子分析を行うと，オブジェクトとして因子得点が計算される。 因子得点は，<code>scores</code>というオブジェクト(行列形式)で保存されているため，確認してみる。</p>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">f1</span><span class="op">$</span><span class="va">scores</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           Factor1    Factor2
+ [1,] -0.178523355  0.3690318
+ [2,]  1.015440684 -1.6155025
+ [3,]  0.877004772 -1.0030949
+ [4,] -1.131833963  1.1416150
+ [5,]  1.886141136 -1.1270865
+ [6,] -0.236835287  1.0050679
+ [7,]  0.807421122  1.2269626
+ [8,]  0.012360586 -0.7529136
+ [9,] -0.148168863  0.4826660
+[10,] -1.101479472  1.2552492
+[11,]  0.002527429 -0.7132283
+[12,] -1.905266829 -0.3279822
+[13,] -0.002238124 -0.9454804
+[14,]  0.762593579  0.9828963
+[15,] -0.081255768 -0.6121495
+[16,]  0.702990932  1.1125873
+[17,]  0.887818606 -0.7479554
+[18,] -1.033460041  0.5173932
+[19,]  0.722531589  0.9710820
+[20,] -1.857768732 -1.2191579</code></pre>
+</div>
+</div>
+<p>この因子得点をもとのデータ・フレームに追加する。</p>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">$</span><span class="va">fac1</span> <span class="op">&lt;-</span> <span class="va">f1</span><span class="op">$</span><span class="va">score</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>  <span class="co"># 行列の1列目が第1因子</span></span>
+<span><span class="va">df</span><span class="op">$</span><span class="va">fac2</span> <span class="op">&lt;-</span> <span class="va">f1</span><span class="op">$</span><span class="va">score</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>  <span class="co"># 行列の2列目が第2因子</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/attach.html">attach</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>因子得点を追加したデータ・フレームを用いて分析を進める。 因子に男女差があるかどうかを調べてみる。</p>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">fac1</span> <span class="op">~</span> <span class="va">sex</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  fac1 by sex
+t = -0.057752, df = 17.892, p-value = 0.9546
+alternative hypothesis: true difference in means between group 1 and group 2 is not equal to 0
+95 percent confidence interval:
+ -0.9471975  0.8965368
+sample estimates:
+mean in group 1 mean in group 2 
+    -0.01013213      0.01519819 </code></pre>
+</div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">fac2</span> <span class="op">~</span> <span class="va">sex</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  fac2 by sex
+t = -1.0334, df = 14.195, p-value = 0.3187
+alternative hypothesis: true difference in means between group 1 and group 2 is not equal to 0
+95 percent confidence interval:
+ -1.4552064  0.5080329
+sample estimates:
+mean in group 1 mean in group 2 
+     -0.1894347       0.2841520 </code></pre>
+</div>
+</div>
+<p>男女差は統計的に有意ではないため，両因子において男女差があるとは言えない。</p>
+</section><section id="宿題" class="level2"><h2 class="anchored" data-anchor-id="宿題">宿題</h2>
+<p>5教科の成績データ50名分を読み込む。</p>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"data/seiseki.csv"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 50 Columns: 6
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+dbl (6): ID, 国語, 英語, 数学, 物理, 化学
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<p>まずは変数間の相関係数を確認する。</p>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          国語      英語      数学      物理      化学
+国語 1.0000000 0.6851226 0.3009210 0.1851784 0.3686794
+英語 0.6851226 1.0000000 0.4991927 0.3878504 0.4400419
+数学 0.3009210 0.4991927 1.0000000 0.8084774 0.7666267
+物理 0.1851784 0.3878504 0.8084774 1.0000000 0.7499504
+化学 0.3686794 0.4400419 0.7666267 0.7499504 1.0000000</code></pre>
+</div>
+</div>
+<p>つぎに，因子分析を行う。「文系」と「理系」という2因子が表れることを予想して，因子数は2とする。</p>
+<div class="cell">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">f2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/factanal.html">factanal</a></span><span class="op">(</span><span class="va">df2</span>,factors <span class="op">=</span> <span class="fl">2</span>, rotation <span class="op">=</span> <span class="st">"promax"</span>, scores <span class="op">=</span> <span class="st">"regression"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">f2</span>,cutoff<span class="op">=</span><span class="fl">0</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+factanal(x = df2, factors = 2, scores = "regression", rotation = "promax")
+
+Uniquenesses:
+ 国語  英語  数学  物理  化学 
+0.005 0.436 0.171 0.191 0.279 
+
+Loadings:
+     Factor1 Factor2
+国語 -0.149   1.060 
+英語  0.239   0.607 
+数学  0.923  -0.026 
+物理  0.964  -0.158 
+化学  0.806   0.084 
+
+               Factor1 Factor2
+SS loadings      2.509   1.524
+Proportion Var   0.502   0.305
+Cumulative Var   0.502   0.807
+
+Factor Correlations:
+        Factor1 Factor2
+Factor1   1.000   0.475
+Factor2   0.475   1.000
+
+Test of the hypothesis that 2 factors are sufficient.
+The chi square statistic is 1.47 on 1 degree of freedom.
+The p-value is 0.225 </code></pre>
+</div>
+</div>
+<p>これを因子を軸とする平面に描写する。</p>
+<div class="cell">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>family<span class="op">=</span><span class="st">"HiraKakuProN-W3"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">f2</span><span class="op">$</span><span class="va">loadings</span>, type <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="va">f2</span><span class="op">$</span><span class="va">loadings</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="DataAnalysis_chap11_files/figure-html/fig02-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>この結果より，第1因子は数学，物理，化学を代表しており，第2因子は国語と英語を代表していると考えられる。 そこで第1因子を「理系」，第2因子を「文系」と名付ける。</p>
+</section><section id="psychパッケージ" class="level2"><h2 class="anchored" data-anchor-id="psychパッケージ">
+<code>psych</code>パッケージ</h2>
+<p><code>psych</code>パッケージは心理学で用いる分析手法が用意されたパッケージで，因子分析には<code><a href="https://rdrr.io/pkg/psych/man/fa.parallel.html">fa.parallel()</a></code>がある。</p>
+<div class="cell">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># install.packages("psych") # first time only</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://personality-project.org/r/psych/">psych</a></span><span class="op">)</span> <span class="co"># 心理学研究用</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+次のパッケージを付け加えます: 'psych'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>以下のオブジェクトは 'package:ggplot2' からマスクされています:
+
+    %+%, alpha</code></pre>
+</div>
+</div>
+<p>次に，上記のデータを用いて分析を再実行する。</p>
+<div class="cell">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/fa.parallel.html">fa.parallel</a></span><span class="op">(</span><span class="va">df2</span>, fm <span class="op">=</span> <span class="st">"minres"</span>, fa <span class="op">=</span> <span class="st">"fa"</span>, cor <span class="op">=</span> <span class="st">"cor"</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="DataAnalysis_chap11_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Parallel analysis suggests that the number of factors =  2  and the number of components =  NA </code></pre>
+</div>
+</div>
+<!--
+|     | 第1因子 | 第2因子 | 共通因子 |
+|:---|:---:|:---:|:---:|
+|コーヒー| 0.86 | 0.07 | 0.76 |
+|紅茶|1.00|||
+|牛乳||||
+|水||||
+|緑茶||||
+|麦茶||||
+-->
+
+
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "コピーしました");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "コピーしました");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/so-ichi\.com");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // default icon
+          link.classList.add("external");
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="./DataAnalysis_chap10.html" class="pagination-link" aria-label="10日目 : ダミー変数の利用と交互作用項">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">10日目 : ダミー変数の利用と交互作用項</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./DataAnalysis_chap12.html" class="pagination-link" aria-label="12日目 : 構造方程式モデル">
+        <span class="nav-page-text">12日目 : 構造方程式モデル</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Copyright 2025, Soichi Matsuura</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+<li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ma2ura/psych_data_analysis">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/matsuura_rits">
+      <i class="bi bi-twitter" role="img" aria-label="Twitter">
+</i> 
+    </a>
+  </li>  
+</ul>
+</div>
+  </div>
+</footer>
+
+
+</body></html>
