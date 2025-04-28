@@ -1,0 +1,141 @@
+# 9日目 : ミニレポート {.unnumbered}
+
+## データの説明
+
+<span class="markp">Wooldridge "Introductory Econometrics: A Modern Approach"</span>のデータセットを利用して、分析の練習をします。
+RでWooldridgeテキストのデータセットが利用できるようになるパッケージ`wooldridge`を用います。
+今回は，この`wooldridge`パッケージに収録されている`wage2`を用いるので、以下のように必要なパッケージを`pacman`パッケージの`p_load()`関数で読み出して、`data()`関数で`wage2`を読み込みます。
+
+```{r packages}
+pacman::p_load(
+  tidyverse, 
+  wooldridge, 
+  stargazer, 
+  rockchalk, 
+  corrr,
+  corrplot)
+data("wage2")
+```
+
+データセットのうち，以下の変数を用いる。
+
+- `wage` : 月収（ドル） 今回の従属変数
+- `hours` : 平均週労働時間
+- `IQ` : IQスコア
+- `educ` : 教育年数
+- `exper` : 経験年数
+- `tenure` : 勤続変数
+- `age` : 年齢
+- `married` : 結婚ダミー
+- `black` : 黒人ダミー
+- `south` : 南部在住ダミー
+- `sibs` : きょうだいの人数
+- `brthord` : 出生順
+- `meduc` : 母の教育
+- `feduc` : 父の教育
+
+このデータセット`wage2`を用いて，賃金(wage)(月収でドル)を従属変数とした次の分析を行います。
+
+1. 主たる独立変数を1つ選ぶ（連続変数から選ぶ）
+2. 別の独立変数を4つ以上選ぶ（連続変数とダミー変数を少なくとも1つずつ選ぶ）
+3. 従属変数と独立変数(合計5個以上)の相関行列を作成する。ただし，係数のみ記載すれば良い（有意水準のアスタリスクはいらない）。
+4. 以下の回帰分析を行い，表にまとめる。
+  - モデル1：賃金と主たる独立変数の単回帰分析
+  - モデル2：賃金と独立変数(5個以上)の重回帰分析
+  - モデル3：独立変数とダミー変数の交互作用項を加えた重回帰分析を行う。中心化は行わなくてもよい。
+5. 交互作用項を図示する
+6. 結果を文章で説明する。
+
+## 相関行列
+
+いきなり回帰分析をするのではなく、まずは変数間の関係を確認するために、`wage2`に収録されている変数間の相関係数行列を作成します。
+基本関数`cor()`と`corrplot`パッケージの`corrplot()`関数を用いて相関行列の表を作成します。
+
+<!---
+```{r cor}
+cortab <- wage2 |> correlate()
+cortab |> shave() |> fashion(decimals = 3)
+```
+--->
+
+
+```{r cor_matrix}
+wage2 |>
+  cor(use = "pairwise.complete.obs") |>
+  corrplot::corrplot(method = "number")
+```
+
+この表より，賃金`wage`と強い線形関係がある変数には，`IQ`，knowledge of world of work score `KWW`、教育年数`educ`，父親の教育年数`feduc`，母親の教育年数`meduc`があることが分かりました。
+
+
+## 単回帰分析
+
+1つの変数で1つの変数を説明する単回帰分析をやってみます。
+ここでは、賃金`wage`を従属変数，教育年数`educ`を独立変数とした次の回帰モデルを推定します。
+
+$$
+wage_i = \beta_0 + \beta_1 educ_i + \varepsilon_i
+$$
+
+回帰モデルを推定するためには、`lm()`関数を用います。
+`lm()`関数は引数として、
+- `formula`：回帰モデルの数式
+- `data`：データフレーム
+
+
+を指定します。
+
+```{r mutate}
+df <- wage2 |> 
+  mutate(
+    d_edu = if_else(educ > 16, 1, 0),
+    m_educ = educ - mean(educ),
+    m_exper = exper - mean(exper),
+    m_IQ = IQ - mean(IQ),
+  )
+
+# 回帰モデルの推定
+reg01 <- lm(wage ~ educ, data = df)
+summary(reg01)
+```
+
+賃金を教育年数で回帰した結果、教育年数`educ`の回帰係数は $60.214$ となっており、教育年数が1年増えるごとに、賃金が$60.214$ドル増加することが分かります。
+
+## 重回帰分析
+
+次に，賃金`wage`を従属変数，教育年数`educ`，経験年数`exper`，IQ`IQ`，黒人ダミー`black`を独立変数とした重回帰分析を行う。
+交互作用項として使用する教育年数，経験年数，IQは，中心化する。
+
+$$
+\begin{aligned}
+wage_i &= \beta_0 + \beta_1 educ_i + \beta_2 exper_i + \beta_3 IQ_i + \beta_4 black_i + \varepsilon_i\\
+wage_i &= \beta_0 + \beta_1 educ_i + \beta_2 exper_i + \beta_3 IQ_i + \beta_4 black_i + \beta_5 IQ_i \times black_i +  \varepsilon_i 
+\end{aligned}
+$$
+```{r reg_model_02}
+reg02 <- lm(wage ~ m_educ + m_exper + m_IQ + black + d_edu, data = df)
+```
+
+上記の重回帰モデルに，経験年数`exper`と結婚`married`の交差項を組み込み，交互作用の検証を行う。
+
+```{r reg_model_03}
+reg03 <- lm(wage ~ m_educ + m_exper + m_IQ + black + m_educ:m_exper, data = df)
+```
+
+分析結果を表にする。
+
+```{r reg_tab}
+stargazer(reg01, reg02, reg03,
+  digits = 2, digits.extra = 0, align = TRUE,
+  omit.table.layout = 'n', # IMPORTANT!!!
+  keep.stat = c('n', 'adj.rsq', 'f'), df = FALSE,
+  type = 'html'
+)
+```
+
+交互効果を図にする。
+
+```{r plotslopes}
+plotSlopes(reg03, modx = "m_educ", plotx = "m_exper")
+```
+

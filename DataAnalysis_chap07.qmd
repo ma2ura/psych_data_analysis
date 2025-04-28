@@ -1,0 +1,115 @@
+# 7日目 : 3変数の関連 {.unnumbered}
+
+3変数の関連は統計分析で重要であり，そのうち
+
+- 疑似相関
+- 媒介関係
+- 交互作用 (来週以降)
+
+といった重要概念について学習する。
+
+## 相関と因果関係
+
+ただの「関係性」から原因と結果の「因果関係」へと議論をシフトすることで，「なぜそのような関連があるのか」という因果関係・原因・メカニズムを探求する。
+
+因果関係の条件
+
+1. 2変数間に関連があること
+2. 2変数間に時間的な順序関係がある（原因が先で結果が後）
+3. 2変数間の関係が，時間的に先行する他の変数によって説明されないこと（疑似相関，見せかけの相関でないこと）
+
+
+媒介関係や疑似相関関係を分析するには，第3変数の影響を取り除くと，2つの関連はどうなるかを確認する。
+これを**コントロールする**や**統制する**という。
+
+変数により分析方法の違い
+
+- 3つのカテゴリ変数：3重クロス表
+- 3つの連続変数：偏相関係数
+
+## 偏相関係数 (partial correlation coefficient)
+
+変数$z$をコントロールした上で，変数$x$と$y$の偏相関係数は次のように定義される。
+
+$$
+r_{xy\cdot z} = \frac{r_{xy} - r_{xz}r_{yz}}{\sqrt{1 - r_{xz}^2} \sqrt{1 - r_{yz}^2}}
+$$
+
+
+## 分析
+
+練習用データ`attitude`を用いて，偏相関係数の計算を行う。
+
+```{r}
+d9 <- data.frame(attitude)
+attach(d9)
+```
+
+上司に対する総合的な評価(`rating`)は，上司が成果に応じて昇進を認めてくれるかどうかについて評価(`raises`)で決まる，という仮説を考えてみる。
+まず，`cor.test()`を用いて相関係数の検定を行う。
+
+```{r}
+cor.test(rating,raises)
+```
+
+分析の結果，`r cor.test(rating,raises)$estimate`と高い相関があることが分かる。
+しかし，他の第3の変数の存在を見落としている可能性もある。
+そこで，全変数の相関行列をみてみる。
+
+```{r}
+cor(d9)
+```
+
+
+すると，上司に対する総合的な評価(`rating`)は他の変数とも高い相関があることが分かる。
+そこで，「上司が研修の機会を与えてくれるかどうか(`learning`)を追加して，分析してみる。
+
+```{r}
+cor.test(raises,learning) # 成果昇進と研修機会
+cor.test(rating,learning) # 上司への評価と研修機会
+```
+
+偏相関係数を計算する。
+
+```{r}
+#install.packages("ppcor")
+library(ppcor)
+pcor.test(rating,raises,learning)
+```
+
+つまり研修機会をコントロールした後の，成果に応じた昇進と上司の総合的評価との偏相関係数は，`r pcor.test(rating,raises,learning)$estimate`となり，前に計算した相関係数`r cor(rating,raises)`と比べて小さな値となり，研修機会の提供が影響を与えていることがわかる。
+
+## 課題
+
+上記の分析で，`learning`の代わりに`privileges`を用いて再検証してみる。
+
+まずは，`rating`，`raises`と`privileges`の相関係数を計算してみる。
+
+```{r}
+cor.test(raises,learning) # 成果昇進と研修機会
+cor.test(rating,learning) # 上司への評価と研修機会
+```
+
+次に，「部下をえこひいきしないことへの評価」を表す`privileges`をコントロールした場合の，成果昇進と上司に対する総合的評価の偏相関係数を計算する。
+
+```{r}
+pcor.test(rating,raises,privileges)
+```
+
+偏相関係数は`r round(pcor.test(rating,raises,privileges)$estimate, digits = 3)`となり，えこひいきしないことも少しは影響しているが，成果昇進と上司に対する総合的評価の関係に強い影響を与えているわけではない。
+
+
+
+```{r}
+pacman::p_load(lavaan, semPlot)
+
+# 回帰
+res1 <- lm(rating ~ raises*privileges, data = d9)
+#res2 <- lm(rating ~ privileges, data = d9)
+res3 <- lm(privileges ~ raises, data = d9)
+# パス図を描画
+semPaths(res1 + res3, "model", "est", intercepts = FALSE)
+```
+
+
+

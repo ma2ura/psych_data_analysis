@@ -1,0 +1,172 @@
+# 3日目：クロス集計表 {.unnumbered}
+
+<span class = "marky">2変数の関係を確認する方法</span>として，クロス集計表と独立性の検定である $\chi^2$ 検定について学習します。
+以下では、前回学習した`tidyverse`のパッケージを用いて、データの読み込みやデータの抽出・加工、グラフの作成を行います。
+
+```{r}
+pacman::p_load(tidyverse)
+```
+
+## データの読み込みと確認
+
+```{r}
+chap5 <- read_csv("data/chap5.csv")
+```
+
+`table()`関数を用いてシンプルなクロス表を作成します。
+`table()`関数は引数として2つのベクトルを受け取り、クロス集計表を作成します。
+このとき、ベクトルの要素がカテゴリカル変数となっている必要があります。
+
+:::{.aside}
+度数のみのシンプルなクロス表は`table()`関数を用いて作成しますが、
+連続変数の場合は、`cut()`関数を用いてカテゴリカル変数に変換する必要があります。
+:::
+
+```{r}
+table(chap5$sex, chap5$regu) # クロス表を作成
+```
+
+`addmargins()`を用いて，クロス表に合計欄を付け加えます。
+
+:::{.aside}
+周辺合計を追加するなら`addmargins()`
+:::
+
+```{r}
+t1 <- table(chap5$sex, chap5$regu)
+addmargins(t1)
+
+```
+
+列合計と行合計が追加されていることが確認できました。
+
+`prop.table()`関数で相対度数にしてみます。
+デフォルトでは，全体相対度数となっているが，オプションで`margin = 1`を指定すると行相対度数，`margin = 2`を指定すると列相対度数となります。
+
+:::{.aside}
+相対度数のクロス表は`prop.table()`関数で，`margin = 1`で行相対度数，`margin = 2`で列相対度数のクロス表になる
+:::
+
+```{r}
+prop.table(t1)
+```
+
+テキストで紹介されている`gmodels`関数を用いると，キレイな表ができるがコードが長くなるので，各自で学習する。
+
+パッケージを読み込む。
+
+```{r}
+pacman::p_load(gmodels)
+```
+
+`CrossTable()`関数で作表する。
+
+:::{.aside}
+`gmodels`パッケージの`CrossTable()`関数で情報量の多いクロス表が作成できる
+:::
+
+```{r}
+CrossTable(chap5$sex, chap5$regu, 
+           expected = F, prop.r = T, prop.c = F,
+           prop.t = F, prop.chisq = F,
+           chisq = T, asresid = T, format = "SPSS")
+```
+
+
+## クラメールのVと $\chi^2$ 検定
+
+$r$ 行 $\times c$ 列のクロス表の行要素と列要素の関係の強さを表す尺度の1つにクラメールのV(Cremer's V)があります。
+クラメールのVの定義は次の通りです。
+$$
+V = \sqrt{\frac{\chi^2}{N \times \min (r-1,c-1)}}
+$$
+
+$r$ 行 $c$ 列のクロス集計表の $i$ 行 $j$ 列の観測度数を $O_{ij}$，期待度数を $E_{ij}$， $i$ 行の合計を $n_{i \cdot}$，$j$ 列の合計を $n_{\cdot j}$，全データの合計を $n$ とおくと，分子の $\chi ^2$ 値は次式で計算される。
+
+$$
+\chi ^2 = \displaystyle \sum_{i = 1}^r {\displaystyle \sum_{j = 1}^c}
+\frac{(O_{ij} - E_{ij})^2}{E_{ij}}
+$$
+
+ここで，期待度数$E_{ij}$は次式で求める。
+
+$$
+E_{ij} = \frac{n_{i\cdot} \times n_{\cdot j}}{n}
+$$
+
+
+クロス表からクラメールのVと$\chi ^2$統計量を出力するため，`vcd`パッケージの`assocstats()`を用いる。
+
+```{r}
+pacman::p_load(vcd)
+assocstats(t1)
+```
+
+クラメールのVは $0.439$ と比較的強い関連性が確認できた。
+
+せっかくなので，上記の関数を使わずに，定義通りに計算して$\chi ^2$値とクラメールの$V$を計算してみる。
+クロス表は，
+
+| |あり|なし|
+|---|:---:|:---:|
+|男 | 10 | 4 |
+|女 | 3 | 8 |
+
+ここから，期待度数を計算する。
+
+$$
+\begin{align*}
+E_{\text{男},\text{あり}} &= \frac{14 \times 13}{25} = 7.28\\
+E_{\text{男},\text{なし}} &= \frac{14 \times 12}{25} = 6.72\\
+E_{\text{女},\text{あり}} &= \frac{11 \times 13}{25} = 5.72\\
+E_{\text{女},\text{なし}} &= \frac{11 \times 12}{25} = 5.28
+\end{align*}
+$$
+
+つまり期待度数のクロス表は次のようになる。
+
+| |あり|なし|
+|---|:---:|:---:|
+|男 | 7.28 | 6.72 |
+|女 | 5.72 | 5.28 |
+
+これをRで計算する。
+期待度数を計算して，行列`em`を作成する。
+
+```{r}
+m <- matrix(t1, nrow = 2, ncol = 2) # 実際の度数
+em <- matrix(nrow=2,ncol=2) # 期待度数
+for (i in 1:ncol(m)){
+  for (j in 1:nrow(m)) {
+  em[i,j] <- (sum(m[i,]) * sum(m[,j])) / sum(m)  
+  }
+}
+print(em) # emは期待度数の行列
+```
+
+
+ここから$\chi^2$値を計算し，`chisq.test()`関数の結果と比較する。
+
+```{r}
+(chi2 <- sum( (m - em)^2 / em ))
+(res <- chisq.test(t1))
+```
+
+あれ，手計算の`r round(chi2,digits=3)`と，関数`r round(res$statistic,digits=3)`の結果が違う。。
+
+<!-- 
+## モザイク図を作成する。
+
+```{r fig.height=6, fig.width=6}
+# t1にラベルをつけたあと、明示的にtable型に戻す
+rownames(t1) <- c("Female", "Male")
+colnames(t1) <- c("No", "Yes")
+t1 <- as.table(t1)   # ★これが重要
+
+# そしてmosaic
+vcd::mosaic(t1, shade = TRUE)
+
+
+flights <- fly  %>%
+  filter(!is.na(do_you_recline), !is.na(rude_to_recline))
+``` -->

@@ -1,0 +1,208 @@
+# 12日目 : 構造方程式モデル {.unnumbered}
+
+## SEMについて
+
+**構造方程式モデル**(Structural Equation Modeling: SEM)とは，線形回帰や因子分析といった分析手法を一般化して体系化したものです。
+以前は共分散構造分析と呼ばれていましたが，共分散や分散を中心に扱う手法ではないため、最近は構造方程式モデルやSEMと呼ばれることが多いです。
+またSEMの世界では，
+
+- 回帰分析を**構造方程式**
+- 因子分析を**測定方程式**
+
+というらしいです。
+
+## パス図
+
+変数の因果関係や相互関係を図で表したものであり，基本的に研究者が仮説や設定として事前に用意しておくものです。
+つまり探索的な因子分析とは異なり，<span class="markp">潜在変数(共通因子)から影響を受ける要素を事前に想定したモデル</span>となります。
+パス図の表現するルールとして，
+
+- **四角形**：観測変数　データにあるもの
+- **楕円**：潜在変数(因子)　データにないもの
+- **小さい円**：誤差
+- **一方向の矢印**：影響の方向（因果関係?）
+- **両方向の矢印**：共分散や相関
+
+## 分析
+
+RでSEMを行う場合に事実上の標準となっているパッケージが`lavaan`です。
+まずいつもの`tidyverse`と今回利用する`lavaan`を読み込みます。
+
+```{r}
+pacman::p_load(tidyverse, lavaan)
+```
+
+ここでは，Rで構造方程式モデル推定を勉強のためのバイブルである**豊田 (2014)「共分散構造分析 R編」東京図書**のデータを用いる。
+データはこのテキストの[資料配付サイト](http://www.tokyo-tosho.co.jp/books/978-4-489-02180-0/)から入手できる。
+
+```{r}
+df <- read_csv("data/seminar.csv")
+```
+
+```{r rename, echo=FALSE}
+df <- df |>
+  dplyr::rename(
+    text = テキスト,
+    pre = プレゼン,
+    pace = ペース,
+    sup = 講師対処,
+    satis = 満足度,
+    comp = 理解度,
+    mat = 目的一致
+  ) |>
+  select(-1)
+```
+
+このデータは，セミナーにおける「充実感」と「講師の質」を調査するためのデータであり，
+
+- テキストの良さ `text`
+- プレゼンの良さ `pre`
+- ペースの適切さ `pace`
+- 講師の対処の良さ `sup`
+- セミナーへの満足度 `satis`
+- 理解度 `comp`
+- 目的一致 `mat`
+
+から構成されている。上の4つは「講師の質」を表し，下の3つは「本人の充実度」を表しそうである。
+
+最初に，変数を定義する。
+`lavaan`でモデルを設定するための記法は
+
+- `=~` ：右辺の要素から左辺の共通因子を推定する因子分析モデル
+- `~` ：右辺を左辺で回帰する回帰モデル
+- `~~` ：左辺と右辺の相関関係
+
+となっている。これを`'`で囲むことでモデルの指定ができる。
+
+```{r estimation}
+model1 <- ' # 因子分析
+  f1 =~ text + pre + pace + sup
+  f2 =~ satis + comp + mat
+  #f2 ~~ f1
+  '
+```
+
+上記で構築した`model1`を`lavaan`の`sem()`関数で推定する。
+
+```{r}
+fit <- cfa(
+  model = model1, 
+  data = df,
+  estimator = "ML")
+```
+
+推定結果を結果を`summary()` で表示する。
+
+```{r}
+summary(object = fit, standardize = TRUE)
+```
+
+
+推定結果から，パス図を作成するために，`semPlot`パッケージを用いる。
+
+```{r fig.height=6, fig.width=6}
+pacman::p_load(semPlot)
+semPaths(
+  fit, 
+  what = "paths", 
+  whatLabels = "std", 
+  edge.label.cex = 1.2, 
+  residuals = FALSE, 
+  intercepts = FALSE)
+```
+
+
+## 課題
+
+以前利用した，飲み物の好みについてのアンケート調査データを用いて，構造方程式を構築し，推定する。
+
+```{r}
+df2 <- read_csv("data/chap14.csv") # 飲み物のデータ
+names(df2)[names(df2) == "café"] <- "cafe"
+```
+
+
+資料に示されたパス図をもとに，モデルを構築し，推定する。
+
+```{r model2}
+# モデルの指定
+model2 <- "
+f3 =~ cafe + tea + milk
+f3 ~ sex
+"
+
+# 構造方程式モデル
+fit2 <- sem(
+  model2, # モデル
+  data = df2, # データ
+  auto.var = TRUE # 自動的に共分散を推定
+  )
+
+summary(fit2, standardized = TRUE) # 結果表示
+```
+
+
+推定結果からパス図を作成する。
+
+```{r fit2}
+#| fig-height: 6
+#| fig-width: 6
+
+semPaths(
+  fit2, # 推定結果
+  what = "paths", # パス図
+  whatLabels = "std", # 標準化係数
+  edge.label.cex = 1.2, # ラベルのサイズ
+  residuals = FALSE, # 残差を表示しない
+  intercepts = FALSE # 切片を表示しない
+  )
+```
+
+さらに，複雑なパス図に基づいて次のようにモデルを構築する。
+
+```{r}
+# モデルの指定
+model3 <- ' # sem
+  f3 =~ cafe + tea + milk
+  f4 =~ water + g_tea + w_tea
+  f3 ~ sex
+  f4 ~ sex
+  '
+```
+
+上記のモデルを推定し，作図する。
+
+```{r fit3}
+#| fig-height: 6
+#| fig-width: 6
+
+# モデル推定
+fit3 <- sem(
+  model3, # モデル
+  data = df2,  # データ
+  auto.var = TRUE # 自動的に共分散を推定
+  )
+
+# 結果表示
+summary(
+  fit3, # 推定結果
+  standardized = TRUE # 標準化係数を表示
+  )
+
+# パス図
+semPaths(
+  fit3, # 推定結果
+  what = "paths", # パス図
+  whatLabels = "std", # 標準化係数
+  fit.measures = TRUE, # 適合度指標
+  edge.label.cex = 1.2, # ラベルのサイズ
+  residuals = FALSE, # 残差を表示しない
+  intercepts = FALSE # 切片を表示しない
+  ) 
+```
+
+
+
+
+
+

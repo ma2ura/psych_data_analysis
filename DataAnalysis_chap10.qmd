@@ -1,0 +1,139 @@
+# 10日目 : ダミー変数の利用と交互作用項 {.unnumbered}
+
+カテゴリー変数を独立変数とした回帰分析を行う場合，カテゴリー変数を**ダミー変数**(dummy variable)に変換して分析を行う。
+ダミー変数とは**0と1の値を取る変数**である。たとえば，男なら1，男じゃないなら0という風にカテゴリーをコード化する。
+
+職業威信スコアに与える影響の分析に性別の影響を組み込むために，男性ダミー変数をモデルに組み込む。
+
+$$
+y_i = \alpha + \beta _1 \text{年齢}_i + \beta _2 \text{教育年数}_i + \beta _3 \text{男性ダミー}_i + \varepsilon_i
+$$
+男性ダミー変数は，男性なら1，そうでないなら0という値とるため，次のように場合分けできる。
+
+$$
+\text{男性 : } y_i = \alpha + \beta _1 \text{年齢}_i + \beta _2 \text{教育年数}_i + \beta _3 \times 1+ \varepsilon_i\\
+\text{女性 : } y_i = \alpha + \beta _1 \text{年齢}_i + \beta _2 \text{教育年数}_i + \varepsilon_i
+$$
+
+つまり，$\beta_3$が性別の違いが職業威信スコアに影響を与えているかどうか，を示している。男性が女性に比べて職業威信スコアが高いなら，$\beta_3$は統計的に正に有意になるだろう。
+
+
+## データ分析
+
+では次に，データを用いて分析してみよう。
+
+```{r read_csv}
+pacman::p_load(tidyverse, stargazer)
+df <- read_csv("data/chap12.csv")
+```
+
+上記の回帰モデルを`lm()`関数を用いてOLS推定する。
+
+```{r}
+res1 <- lm(like ~ age + gender + eduyear + tv, data = df)
+summary(res1)
+```
+
+
+# 交互作用を含んだ回帰分析
+
+
+
+変数の内容と記述統計量を確認する。
+その前に，変数`gender`はカテゴリー変数なので，factor型に変換しておく。
+
+```{r}
+df$gender <- as.factor(df$gender)
+summary(df)
+```
+
+まずは，単独変数のみを組み入れた重回帰分析で主効果の分析を行う。つまり，次の回帰式を推定する。
+
+$$
+like = \beta _0 + \beta _1 age + \beta _2 gender + \beta _3 eduyear + \beta _4 tv + \varepsilon
+$$
+
+```{r reg11, results='asis'}
+res11 <- lm(like ~ age + gender + eduyear + tv, data = df)
+stargazer(res11,
+          digits = 2, digits.extra = 0, align = TRUE,
+          omit.table.layout = 'n', # IMPORTANT!!!
+          keep.stat = c('n', 'adj.rsq', 'f'), df = FALSE,
+          type = 'html'
+          )
+```
+
+変数`gender`の回帰係数$\beta _2$は統計的に正に有意であり，男性の方が女性より政治家好感度が高いことが分かる。
+
+## 中心化
+
+次に，交互作用項を組み込んだ分析を行うが，交互作用項を含む変数を回帰モデルに組み込む場合，多重共線性の影響がでる可能性があるため，連続変数を中心化する。
+つまり，連続変数からその平均値を差し引くことでデータの平均を0にする。
+
+```{r mean-center}
+df$age_c <- df$age - mean(df$age)
+df$eduyear_c <- df$eduyear - mean(df$eduyear)
+df$tv_c <- df$tv - mean(df$tv)
+```
+
+例えば，年齢と教育年数の交互作用項をモデルに組み込むことを考える。
+まず，中心化する前のデータを用いて年齢と教育年数の交互作用項と年齢の散布図を書いてみる。
+
+```{r  fig.height=6, fig.width=6}
+df$eduyear_age <- df$eduyear * df$age
+plot(df$eduyear_age,df$age)
+cor(df$eduyear_age,df$age)
+```
+
+年齢と年齢$\times$教育年数の相関係数は非常に高く，この両方の変数を独立変数として組み込んだ重回帰分析では多重共線性の可能性がでてくる。
+
+次に，両方の変数を中心化したケースで散布図を書いてみる。
+
+```{r fig.height=6, fig.width=6}
+df$eduyear_age_c <- df$eduyear_c * df$age_c
+plot(df$eduyear_age_c,df$age_c)
+cor(df$eduyear_age_c,df$age_c)
+```
+
+
+中心化した変数で回帰分析を再度実行してみる。
+
+```{r reg11c, results='asis'}
+res11c <- lm(like ~ age_c + gender + eduyear_c + tv_c, data = df)
+stargazer(res11c,
+          digits = 2, digits.extra = 0, align = TRUE,
+          omit.table.layout = 'n', # IMPORTANT!!!
+          keep.stat = c('n', 'adj.rsq', 'f'), df = FALSE,
+          type = 'html',style='aer'
+          )
+```
+
+2つの結果を比較してみる。
+結果が異なっているのは，切片の項だけですね。
+
+## 交互効果
+
+交互効果とは，**2変数以上の変数を組み合わせた効果**をいう。
+
+
+$$
+like = \beta _0 + \beta _1 age + \beta _2 gender + \beta _3 eduyear + \beta _4 tv + \beta_5 gender \times age + \varepsilon
+$$
+
+さらに交互作用項を追加したモデル
+
+$$
+like = \beta _0 + \beta _1 age + \beta _2 gender + \beta _3 eduyear + \beta _4 tv + \beta_5 gender \times age + \beta_6 gender \times eduyear  + \varepsilon 
+$$
+と
+
+```{r reg13, results='asis'}
+res12 <- lm(like ~ age_c + gender + eduyear_c + tv_c + gender:age_c, data = df)
+res13 <- lm(like ~ age_c + gender + eduyear_c + tv_c + gender:age_c + gender:eduyear_c, data = df)
+stargazer(res11c,res12,res13,
+          digits = 2, digits.extra = 0, align = TRUE,
+          omit.table.layout = 'n', # IMPORTANT!!!
+          keep.stat = c('n', 'adj.rsq', 'f'), df = FALSE,
+          type = 'html',style='aer'
+          )
+```

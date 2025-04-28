@@ -1,0 +1,298 @@
+# 6日目 : 相関分析 {.unnumbered}
+
+2つの連続変数(continuous variables)間の関係をみるための方法を学習する。
+たとえば，職の社会的威信の高さ(威信スコア)と収入の関連を調べるとする。
+社会学では威信スコアを用いて次のような研究を行っている。
+
+- 社会階層論「地位の一貫性」
+- 時代におって地位の一貫性は異なる。
+
+まず連続変数と連続変数の関係を調べるため，散布図(scatter diagram)を書き，その後に相関係数(correlation coefficient)をみる。
+
+## 散布図
+
+散布図(scatter diagram)とは，2変数の値の組を点で表した図であり，全体的な傾向をつかむ。
+最初からRで用意されているデータセット`cars`を用いて散布図を書く。
+
+```{r scatter}
+par(family="HiraKakuPro-W3")
+plot(
+  cars$dist, cars$speed, 
+  xlab="距離", ylab="速度"
+  )
+```
+
+:::{.aside}
+作図は`plot()`で行う。plot(y軸,x軸)と書く。
+:::
+
+## ピアソンの積率相関係数
+
+ピアソンの積率相関係数(peason's correlation coefficient)を求める。
+相関係数を計算するために必要な要素として，2変数の共分散(covariance)を計算する。
+変数$x$と$y$の共分散$C_{xy}$は，
+
+$$
+C_{xy} = \frac 1n \sum_{t=1}^n (x_i - \bar x) (y_i - \bar y)
+$$
+
+と計算できる。
+ここで分子が$x$と$y$のかけ算となっていることに注目しよう。
+各変数から平均値を除いて散布図を書くと，
+
+```{r, fig.width = 5, fig.height = 5}
+par(family="HiraKakuPro-W3")
+mdist <- cars$dist - mean(cars$dist)
+mspeed <- cars$speed - mean(cars$speed)
+plot(mdist,mspeed,xlab="距離の平均偏差", ylab="速度の平均偏差")
+abline(h = mean(mspeed))
+abline(v = mean(mdist))
+```
+
+とデータの中心(平均)が0になっていることが分かる。
+この2変数のかけ算となるため，右上と左下の組は符号が正となり，左上と右下の組の組は符号が負となる。
+このかけ算の結果の平均が共分散であるため，共分散の符号が正ということは，右上や左下のデータが多い，つまり右肩上がりの関係がある，ということである。
+
+
+```{r, fig.width = 5, fig.height = 5}
+par(family="HiraKakuPro-W3")
+group <- as.factor(ifelse(mdist >= 0 & mspeed >= 0 | mdist < 0 & mspeed < 0, 1, 0))
+plot(mdist,mspeed,col=c("blue","red")[group],xlab="距離の平均偏差",ylab="速度の平均偏差")
+abline(h = mean(mspeed))
+abline(v = mean(mdist))
+```
+
+
+共分散は2変数のかけ算となっており，単位に依存してしまうため，各変数の標本標準偏差$s$で除することで基準化したものが，相関係数(correlation coefficient)である。
+
+$$
+r _{xy} = \frac{C_{xy}}{s_x \times s_y} = \frac{\frac 1n \sum _{i=1}^n (x_i - \bar x)(y_i - \bar y)}{\sqrt{\frac 1n \sum _{i=1}^n (x_i - \bar x)^2} \times \sqrt{\frac 1n \sum _{i=1}^n (y_i - \bar y)^2} }
+$$
+
+これは定義より$-1$から$1$の値を取る。
+
+## 相関係数の統計的検定
+
+$t$値を算出して判定する。
+母集団における相関係数が$0$であるという帰無仮説の下での$t$値を計算する。
+
+$$
+t = |r| \times \frac{\sqrt{n-2}}{\sqrt{1-r^2}}
+$$
+
+## 相関係数の結果の出し方
+
+対角線の右上(グレー部分)は書いても書かなくてもOKである。有意かどうかの記号を数値の右に書く。
+表の注で，サンプルサイズ$n$や有意性の記号の意味を説明する。
+
+|   | 年齢 | 教育年数 | 職業威信スコア | 個人所得 |
+|---|---|---|---|---|
+|年齢         | 1.00 | - | - | - |
+|教育年数      | -0.19** | 1.00 | - | - |
+|職業威信スコア | -0.05 | 0.37** | 1.00 | - |
+|個人所得      | 0.11** | 0.27** | 0.39** | 1.00 |
+
+## 相関分析の注意
+
+- 異なる相関関係をもつグループは分けて分析する
+- 相関係数は外れ値の影響を受けやすい
+
+
+# 分析
+
+データを読み込む。
+
+```{r}
+pacman::p_load(tidyverse)
+df <- read_csv("data/chap8.csv")
+```
+
+サンプルは女性から構成されており，`eduy`は教育年数，`pres`は職業威信スコア，`income`は所得，`class`は階層帰属意識である。
+階層帰属意識とは，自分がどこの階級に属するかを答えさせたものである。
+
+
+## 教育年数と職業威信スコア
+
+まず，教育年数`eduy`と職業威信スコア`pres`の散布図を書く。
+
+```{r fig.width = 5, fig.height = 5}
+plot(df$pres ~ df$eduy)
+```
+
+:::{.aside}
+`plot()`はplot(縦軸 ~ 横軸)の順番で書く。
+:::
+
+この散布図より，教育年数が長いほど職業威信スコアが高い，という傾向にあることがわかる。
+
+次に，相関係数を計算し，検定も同時に行うために，`cor.test()`を用いる。
+
+```{r}
+cor.test(df$pres,df$eduy, alternative = "two.side")
+```
+
+:::{.aside}
+`cor.test()`は，相関係数と$t$検定を同時に表示してくれる基本関数である。相関係数だけなら`cor()`で出せる。
+:::
+
+となる。
+
+相関係数は，`r round(cor.test(df$pres,df$eduy)$estimate,digits=2)`となり，比較的強い正の相関があることがわかる。
+また，$t$検定の結果，p値は`r round(cor.test(df$pres,df$eduy)$p.value, digits = 4)` であり，5％水準で有意である。
+
+### 愚直に計算してみる。
+
+定義通りに相関係数やt値を計算し，上記の結果が正しいかどうか確認する。
+まず，相関係数を計算する。
+
+```{r}
+dpres <- df$pres - mean(df$pres)
+deduy <- df$eduy - mean(df$eduy)
+cov <- sum( dpres*deduy) / (nrow(df)-1)
+
+sy <- sqrt ( sum( dpres^2) / (nrow(df)-1) )
+sx <- sqrt ( sum( deduy^2) / (nrow(df)-1) )
+
+ryx <- cov/(sy*sx)
+ryx
+```
+
+相関係数が`r round(ryx,digits=2)`と計算でき，上記結果と一致した。
+次に，$t$値を計算する。
+
+```{r}
+tval <- abs(ryx) * sqrt( nrow(df) - 2 )  / sqrt( 1-ryx^2 )
+round(dt(tval, nrow(df)-2) ,digits=4)
+```
+
+t値は`r round(tval, digits = 4)`となり，上記結果と一致している。
+自由度`r nrow(df) -2`，$t$値が`r round(tval, digits = 4)`のもとで$p$値は，`r round(dt(tval, nrow(df)-2) ,digits=4)`となる。あれ，結果がちょっと違う。。。
+
+
+## 教育年数と所得
+
+課題として，教育年数と所得のデータを用いて再分析する。
+最後には，ID以外の変数間の相関係数を計算し，相関行列を作成する。
+相関行列を出力するためのパッケージが複数存在するので，それを見つけて使ってみよう。
+
+まずは教育年数と所得の散布図を作成する。
+
+```{r, fig.width = 5, fig.height = 5}
+plot(df$income ~ df$eduy)
+```
+
+この散布図から，**教育年数が長いほど所得が高い**傾向にあることがわかる。
+次に，相関係数とその$t$検定を行う。
+
+```{r}
+cor.test(df$income,df$eduy)
+```
+
+相関係数は，`r round(cor.test(df$income,df$eduy)$estimate,digits=2)`となり，比較的強い正の相関があることがわかる。
+また，$t$検定の結果，p値は`r round(cor.test(df$income,df$eduy)$p.value, digits = 4)` であり，1％水準で有意である。
+したがって，教育年数と所得との間に相関関係は無い，という帰無仮説は棄却され，統計的に有意な正の相関が確認された。
+
+## 相関係数表
+
+最後に，全変数の相関係数を計算し，相関係数表を作成する。
+相関係数の視覚化に用いられるパッケージとして，`psych`と`corrr`を用いてみる。
+
+まず基本関数である`cor()`を用いて，相関係数行列を作成する。
+
+```{r}
+round(cor(df[,c("eduy","pres","income","class")]),digits = 2)
+```
+
+シンプルです。
+次に，心理学で用いられるパッケージ`psych`を用いて，作図する。
+
+```{r}
+library(psych)                # psychパッケージ
+par(family="HiraKakuPro-W3")  # Macで日本語表示する
+pairs.panels(df[,c("eduy","pres","income","class")])
+```
+
+:::{.aside}
+`psych`パッケージは，心理学研究で用いられる分析道具や作図ができる便利なもの。
+ここでは`pairs.panels()`で相関係数行列を作成してみた。
+:::
+
+グラフィカルです。
+
+最後に，もっとも有力かつ見た目に美しい図表が作成可能な`corrr`パッケージを紹介する。
+
+```{r}
+# install.packages("corrr")
+library(tidyverse)
+library(corrr)
+```
+
+`correlate()`関数で作表する。
+
+```{r}
+cortab <- correlate(df[,c("eduy","pres","income","class")])
+cortab %>% shave %>% fashion(decimals = 3)
+```
+
+作図もできる。
+
+```{r}
+rplot(cortab)
+```
+
+
+もう少し工夫してみる。
+
+```{r}
+g2 <- rearrange(cortab, absolute = FALSE) %>% 
+  shave() %>% 
+  rplot(print_cor = TRUE)
+g2
+```
+
+こんなのも作れる。
+
+```{r}
+network_plot(cortab)
+```
+
+## シミュレーション
+
+まず母集団が無相関の2変数を作成する。
+
+```{r}
+n <- 10000
+x <- rnorm(n ,mean = 0, sd = 1)
+y <- rnorm(n, mean = 0, sd = 10)
+```
+
+`rnorm()`で正規分布からデータを10,000個ずつ取り出して，`x`と`y`の2変数を作成する。
+もちろん，この2変数間の相関係数は`r round(cor(x,y),digits=2)`である。
+
+次に，この2変数から100個のサンプルを取り出し，相関係数を計算する。
+
+```{r}
+set.seed(121)
+sx <- sample(x,100,rep=T)
+sy <- sample(y,100,rep=T)
+plot(sx,sy)
+cor(sx,sy)
+```
+
+相関係数は，`r cor(sx,sy)`となった。
+次に，この試行を10,000回繰り返し，相関係数10,000個のヒストグラムを作成する。
+
+```{r}
+set.seed(121)
+trial = 10000
+res <- numeric(trial)
+for (i in 1:trial) {
+  sx <- sample(x, 100, rep=T)
+  sy <- sample(y, 100, rep=T)
+  res[i] <- cor(sx,sy)
+}
+hist(res)
+```
+
+この相関係数の分布は，平均が`r round(mean(res),digits=4)`，標準偏差が`r round(sd(res),digits=4)`の$t$分布に従っている。
+

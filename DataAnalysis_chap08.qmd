@@ -1,0 +1,162 @@
+# 8日目 : 回帰分析 {.unnumbered}
+
+2種類の$n個$のデータ$Y_i$と$X_i$，$i=1,\dots ,n$が手元にあり，この2変数の線形関係を分析したいと考える。
+回帰分析では，次のような関係を考える。
+
+$$
+Y_i = a + b X_i + \varepsilon _i
+$$
+
+データの関係をもっとも良く説明できる直線を推定する。つまり，パラメータ$a$と$b$を決めたい，ということである。
+そこで何らかのパラメータ$a$と$b$の下で推定されたものを$\hat Y$(わいはっと)で表す。
+
+$$
+\hat Y_i = a + b X_i
+$$
+
+しかし，実際のデータはモデルの直線上にすべて乗っているわけではなく，誤差がある。
+
+$$
+Y_i - \hat Y_i = \varepsilon _i 
+$$
+
+誤差の自乗和を考える。
+
+$$
+Q = \sum _{i=1}^n \varepsilon ^2 = \sum _{i=1}^n (Y_i - a - bX_i)^2
+$$
+
+この誤差の二乗和$Q$を最小にするようなパラメータ$a$と$b$の求める方法が最小自乗法(Ordinaly Least Square Method)である。
+
+$$
+\min_{a,b} Q %= \varepsilon^2 = \min_{a,b} (Y_i - (a + bX_i))^2
+$$
+
+
+上記の問題をといた$\hat a$と$\hat b$が最小二乗推定値となる。
+
+## 回帰分析の準備
+
+職業威信スコアがどのような要因に影響を受けているのかを考える。
+
+```{r readcsv}
+pacman::p_load(tidyverse)
+chap11 <- read_csv("data/chap11.csv")
+```
+
+データの記述統計量を確認する。
+
+```{r descriptive}
+summary(chap11)
+```
+
+- 被験者の年齢は21歳から70歳
+- 教育年数は9年(中卒)から16年(大卒)
+
+教育年数(`eduy`)と職業威信スコア(`job_sc`)の散布図を確認する。
+
+```{r scatter, fig.height=6, fig.width=6}
+plot(chap11$eduy,chap11$job_sc)
+```
+
+異常値の存在が懸念されるが，おおよそ右肩上がりの関係があるように見える。
+散布図に直線を引くとこんな感じになる。
+
+```{r}
+par(family="HiraKakuProN-W3")
+plot( # 散布図
+  chap11$eduy, chap11$job_sc, 
+  xlab="教育年数", 
+  ylab="職業威信スコア"
+  )
+res <- lm(chap11$job_sc ~ chap11$eduy) # 推定
+abline(res,color="red") #回帰直線を追加
+```
+
+## 回帰分析の実践
+
+### 単回帰分析
+
+次に，最小自乗法による回帰分析を行う。ここでは従属変数を職業威信スコア，独立変数を教育年数とする。つまり，
+$$
+\text{職業威信スコア}  = \alpha + \beta \times \text{教育年数} + \varepsilon
+$$
+
+の回帰モデルを推定する。回帰モデルの推定は，`lm()`関数を用いる。
+
+:::{.aside}
+`lm(従属変数 ~ 独立変数)`のように書く。
+:::
+
+```{r reg01}
+res01 <- lm(job_sc ~ eduy, data = chap11)
+summary(res01)
+```
+
+単回帰分析の結果，教育年数の回帰係数は，`r round(res01$coefficients[2],digits=3)`となり，$p$値が`r round(summary(res01)$coefficients[,"Pr(>|t|)"][2],digits=3)`であり統計的に有意な正の関係があることがわかった。
+つまり，教育年数が1年上昇すると職業威信スコアが$2.14$上がる。
+
+
+### 重回帰分析
+
+次に，独立変数に年齢を加えた重回帰分析を行う。
+$$
+\text{職業威信スコア}  = \alpha + \beta_1 \text{教育年数} + \beta_2 \text{年齢} + \varepsilon
+$$
+
+```{r multireg}
+res02 <- lm(job_sc ~ eduy + age, data = chap11)
+summary(res02)
+```
+
+重回帰分析の結果，年齢(`age`)の回帰係数は`r round(res02$coefficients[3],digits=3)`，p値は`r round(summary(res02)$coefficients[,"Pr(>|t|)"][3],digits=3)`となり，統計的に有意ではなく，回帰係数が0であるという帰無仮説を棄却できなかった。そのため，年齢が職業威信スコアに影響を与えているかどうかは分からない。
+次に，教育年数の回帰係数は，`r round(res02$coefficients[2],digits=3)`，p値は`r round(summary(res02)$coefficients[,"Pr(>|t|)"][2],digits=3)`となり，統計的に有意である。したがって，教育年数が1年上昇すると，職業威信スコアが`r round(res02$coefficients[2],digits=3)`上がることが分かった。
+
+さらに，父親の職業威信スコア(`f_job_sc`)を独立変数として加えた重回帰分析を行う。
+$$
+\text{職業威信スコア}  = \alpha + \beta_1 \text{教育年数} + \beta_2 \text{年齢} + \beta_3 \text{父親職業威信スコア} + \varepsilon
+$$
+3変数以上の独立変数をもつ重回帰分析を行う場合は，まず変数間の相関係数を確認することから始める。
+
+```{r}
+cor(chap11[2:5])
+```
+
+すると，職業威信スコア(`job_sc`)と父親の職業威信スコア(`f_job_sc`)の相関係数が`r round(cor(chap11$job_sc, chap11$f_job_sc),digits=3)`と相当高いため，両変数を独立変数に組み込んだ重回帰分析では，多重共線性(multi-colinearity)の影響を受ける可能性があるため，注意して分析を進める。
+次に偏相関係数を確認する。
+
+```{r}
+pacman::p_load(ppcor)
+pcor.test(chap11$job_sc, chap11$eduy, chap11$f_job_sc)
+```
+
+このように，父親の職業威信スコアをコントロールした場合の職業威信スコアと教育年数の偏相関係数が$0.217$となり，相関係数$0.457$から大きく減少している。
+これは教育年数と職業威信スコアの関係に，父親の職業威信スコアが影響を与えていることを表している。
+
+これを踏まえて，重回帰分析を行う。
+
+```{r}
+res03 <- lm(job_sc ~ eduy + age + f_job_sc, data=chap11)
+summary(res03)
+```
+
+3つのモデルの結果を並べた表を作表する。
+ここでは，`stargazer()`を用いる。
+
+```{r results="asis",echo=FALSE}
+pacman::p_load(stargazer)
+stargazer(res01, res02, res03,
+          digits = 2, digits.extra = 0, align = TRUE,
+          #star.cutoffs = NA,
+          omit.table.layout = 'n', # IMPORTANT!!!
+          keep.stat = c('n', 'adj.rsq', 'f'), df = FALSE,
+          title = 'Results of Linear Regressions',
+          type = 'html',
+          style='qje')
+```
+
+先ほどの結果と大きく異なり，父親の職業威信スコアの回帰係数が`r round(res03$coefficients[4],digits=3)`，
+p値は`r round(summary(res03)$coefficients[,"Pr(>|t|)"][4],digits=3)`と，職業威信スコアと統計的に有意に正の関係にあることが分かる。
+また，教育年数(`eduy`)が統計的に有意でなくなっている。
+このことから，父親の職業威信スコアが，子供の教育年数に正の影響を与えており，その結果，子供の職業威信スコアが高くなっている，という因果関係が予想される。
+
