@@ -346,10 +346,10 @@ window.Quarto = {
 <p><span class="markp">Wooldridge “Introductory Econometrics: A Modern Approach”</span>のデータセットを利用して、分析の練習をします。 RでWooldridgeテキストのデータセットが利用できるようになるパッケージ<code>wooldridge</code>を用います。 今回は，この<code>wooldridge</code>パッケージに収録されている<code>wage2</code>を用いるので、以下のように必要なパッケージを<code>pacman</code>パッケージの<code>p_load()</code>関数で読み出して、<code><a href="https://rdrr.io/r/utils/data.html">data()</a></code>関数で<code>wage2</code>を読み込みます。</p>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span></span>
-<span>  <span class="va">tidyverse</span>, </span>
-<span>  <span class="va">wooldridge</span>, </span>
-<span>  <span class="va">stargazer</span>, </span>
-<span>  <span class="va">rockchalk</span>, </span>
+<span>  <span class="va">tidyverse</span>,  <span class="co"># データ操作</span></span>
+<span>  <span class="va">wooldridge</span>, <span class="co"># wooldridgeのデータ</span></span>
+<span>  <span class="va">stargazer</span>, <span class="co"># 回帰分析の表</span></span>
+<span>  <span class="va">rockchalk</span>, <span class="co"># 回帰分析の表</span></span>
 <span>  <span class="va">corrr</span>,</span>
 <span>  <span class="va">corrplot</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"wage2"</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -522,59 +522,446 @@ wage_i &amp;= \beta_0 + \beta_1 educ_i + \beta_2 exper_i + \beta_3 IQ_i + \beta_
 \end{aligned}
 </span></p>
 <div class="cell">
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">reg02</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">wage</span> <span class="op">~</span> <span class="va">m_educ</span> <span class="op">+</span> <span class="va">m_exper</span> <span class="op">+</span> <span class="va">m_IQ</span> <span class="op">+</span> <span class="va">black</span> <span class="op">+</span> <span class="va">d_edu</span>, data <span class="op">=</span> <span class="va">wage2</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">reg02</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">wage</span> <span class="op">~</span> <span class="va">m_educ</span> <span class="op">+</span> <span class="va">m_exper</span> <span class="op">+</span> <span class="va">m_IQ</span> <span class="op">+</span> <span class="va">black</span> <span class="op">+</span> <span class="va">d_edu</span>, data <span class="op">=</span> <span class="va">wage2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">reg02</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = wage ~ m_educ + m_exper + m_IQ + black + d_edu, 
+    data = wage2)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-913.56 -243.75  -40.85  191.04 2117.19 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  976.567     14.179  68.874  &lt; 2e-16 ***
+m_educ        60.157      8.682   6.929 7.93e-12 ***
+m_exper       17.221      3.110   5.537 4.00e-08 ***
+m_IQ           3.871      1.004   3.856 0.000123 ***
+black       -130.750     39.177  -3.337 0.000879 ***
+d_edu        -17.746     51.773  -0.343 0.731859    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 368.9 on 929 degrees of freedom
+Multiple R-squared:  0.172, Adjusted R-squared:  0.1675 
+F-statistic: 38.59 on 5 and 929 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
 </div>
 <p>上記の重回帰モデルに，経験年数<code>exper</code>と結婚<code>married</code>の交差項を組み込み，交互作用の検証を行います。 交差項を組み込むには、<code>m_educ:m_exper</code>のように<code>:</code>を用いて交差項を指定します。</p>
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">reg03</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">wage</span> <span class="op">~</span> <span class="va">m_educ</span> <span class="op">+</span> <span class="va">m_exper</span> <span class="op">+</span> <span class="va">m_IQ</span> <span class="op">+</span> <span class="va">black</span> <span class="op">+</span> <span class="va">m_educ</span><span class="op">:</span><span class="va">m_exper</span>, data <span class="op">=</span> <span class="va">wage2</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>分析結果を表にしてみます。 ここでは、<code>stargazer</code>パッケージを用いて、回帰分析の結果を表にまとめます。</p>
-<div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">stargazer</span><span class="op">(</span><span class="va">reg01</span>, <span class="va">reg02</span>, <span class="va">reg03</span>,</span>
-<span>  digits <span class="op">=</span> <span class="fl">2</span>, digits.extra <span class="op">=</span> <span class="fl">0</span>, align <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  omit.table.layout <span class="op">=</span> <span class="st">'n'</span>, <span class="co"># IMPORTANT!!!</span></span>
-<span>  keep.stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'n'</span>, <span class="st">'adj.rsq'</span>, <span class="st">'f'</span><span class="op">)</span>, df <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  type <span class="op">=</span> <span class="st">'html'</span></span>
-<span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">reg03</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">wage</span> <span class="op">~</span> <span class="va">m_educ</span> <span class="op">+</span> <span class="va">m_exper</span> <span class="op">+</span> <span class="va">m_IQ</span> <span class="op">+</span> <span class="va">black</span> <span class="op">+</span> <span class="va">m_educ</span><span class="op">:</span><span class="va">m_exper</span>, data <span class="op">=</span> <span class="va">wage2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">reg03</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-&lt;table style="text-align:center"&gt;&lt;tr&gt;&lt;td colspan="4" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td colspan="3"&gt;&lt;em&gt;Dependent variable:&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td colspan="3" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td colspan="3"&gt;wage&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(1)&lt;/td&gt;&lt;td&gt;(2)&lt;/td&gt;&lt;td&gt;(3)&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td colspan="4" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;educ&lt;/td&gt;&lt;td&gt;60.21&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(5.69)&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;m_educ&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;60.16&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;62.35&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;(8.68)&lt;/td&gt;&lt;td&gt;(7.20)&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;m_exper&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;17.22&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;19.10&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;(3.11)&lt;/td&gt;&lt;td&gt;(3.20)&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;m_IQ&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;3.87&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;3.78&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;(1.00)&lt;/td&gt;&lt;td&gt;(1.00)&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;black&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;-130.75&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;-128.90&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;(39.18)&lt;/td&gt;&lt;td&gt;(39.06)&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;d_edu&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;-17.75&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;(51.77)&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;m_educ:m_exper&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;3.34&lt;sup&gt;**&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;(1.44)&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;Constant&lt;/td&gt;&lt;td&gt;146.95&lt;sup&gt;*&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;976.57&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;989.10&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(77.71)&lt;/td&gt;&lt;td&gt;(14.18)&lt;/td&gt;&lt;td&gt;(14.43)&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td colspan="4" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Observations&lt;/td&gt;&lt;td&gt;935&lt;/td&gt;&lt;td&gt;935&lt;/td&gt;&lt;td&gt;935&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;Adjusted R&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;0.11&lt;/td&gt;&lt;td&gt;0.17&lt;/td&gt;&lt;td&gt;0.17&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="text-align:left"&gt;F Statistic&lt;/td&gt;&lt;td&gt;111.79&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;38.59&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;39.87&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td colspan="4" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</code></pre>
+Call:
+lm(formula = wage ~ m_educ + m_exper + m_IQ + black + m_educ:m_exper, 
+    data = wage2)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-942.72 -244.63  -36.63  184.96 2106.38 
+
+Coefficients:
+               Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)     989.104     14.434  68.528  &lt; 2e-16 ***
+m_educ           62.348      7.204   8.654  &lt; 2e-16 ***
+m_exper          19.098      3.205   5.959  3.6e-09 ***
+m_IQ              3.778      0.998   3.786 0.000163 ***
+black          -128.900     39.059  -3.300 0.001003 ** 
+m_educ:m_exper    3.342      1.437   2.326 0.020255 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 367.9 on 929 degrees of freedom
+Multiple R-squared:  0.1767,    Adjusted R-squared:  0.1722 
+F-statistic: 39.87 on 5 and 929 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
-<p>交互効果を図にするとこうなります。</p>
+<p><code>stargazer</code>パッケージを用いて、3つの分析結果をまとめた表を作成します。</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">stargazer</span><span class="op">(</span><span class="va">reg01</span>, <span class="va">reg02</span>, <span class="va">reg03</span>, <span class="co"># 回帰分析の結果</span></span>
+<span>  digits <span class="op">=</span> <span class="fl">2</span>, </span>
+<span>  digits.extra <span class="op">=</span> <span class="fl">0</span>, </span>
+<span>  align <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  omit.table.layout <span class="op">=</span> <span class="st">'n'</span>, <span class="co"># IMPORTANT!!!</span></span>
+<span>  keep.stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'n'</span>, <span class="st">'adj.rsq'</span>, <span class="st">'f'</span><span class="op">)</span>, </span>
+<span>  df <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">'html'</span></span>
+<span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<table style="text-align:center">
+<tbody><tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="3">
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="3">
+wage
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+<td>
+(3)
+</td>
+</tr>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+educ
+</td>
+<td>
+60.21<sup>***</sup>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(5.69)
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+m_educ
+</td>
+<td>
+</td>
+<td>
+60.16<sup>***</sup>
+</td>
+<td>
+62.35<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+(8.68)
+</td>
+<td>
+(7.20)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+m_exper
+</td>
+<td>
+</td>
+<td>
+17.22<sup>***</sup>
+</td>
+<td>
+19.10<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+(3.11)
+</td>
+<td>
+(3.20)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+m_IQ
+</td>
+<td>
+</td>
+<td>
+3.87<sup>***</sup>
+</td>
+<td>
+3.78<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+(1.00)
+</td>
+<td>
+(1.00)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+black
+</td>
+<td>
+</td>
+<td>
+-130.75<sup>***</sup>
+</td>
+<td>
+-128.90<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+(39.18)
+</td>
+<td>
+(39.06)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+d_edu
+</td>
+<td>
+</td>
+<td>
+-17.75
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+(51.77)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+m_educ:m_exper
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+3.34<sup>**</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(1.44)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+146.95<sup>*</sup>
+</td>
+<td>
+976.57<sup>***</sup>
+</td>
+<td>
+989.10<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(77.71)
+</td>
+<td>
+(14.18)
+</td>
+<td>
+(14.43)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+935
+</td>
+<td>
+935
+</td>
+<td>
+935
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.11
+</td>
+<td>
+0.17
+</td>
+<td>
+0.17
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+111.79<sup>***</sup>
+</td>
+<td>
+38.59<sup>***</sup>
+</td>
+<td>
+39.87<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+</tbody></table>
+<p><code>rockchalk</code>パッケージの<code>plotSlopes()</code>関数を使って交互効果を図にすると次のようになります。</p>
 <div class="cell">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotSlopes</span><span class="op">(</span><span class="va">reg03</span>, modx <span class="op">=</span> <span class="st">"m_educ"</span>, plotx <span class="op">=</span> <span class="st">"m_exper"</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotSlopes</span><span class="op">(</span><span class="va">reg03</span>, modx <span class="op">=</span> <span class="st">"m_educ"</span>, plotx <span class="op">=</span> <span class="st">"m_exper"</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="DataAnalysis_chap09_files/figure-html/plotslopes-1.png" class="img-fluid figure-img" width="768"></p>
