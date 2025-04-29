@@ -68,10 +68,6 @@ $$
 \text{素直}  = \beta _{81} \times f_8 + \beta _{82} \times f_2 + \varepsilon_8\\
 $$
 
-KbjuPNJZyqaF
-
-
-
 一般的に，$p$個の観測変数(アンケート項目)に対して，$m$この共通因子によって説明されるとする因子モデルは，
 
 $$
