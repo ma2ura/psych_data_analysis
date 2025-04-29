@@ -33,13 +33,13 @@ pacman::p_load(tidyverse, lavaan)
 ```
 
 ここでは，Rで構造方程式モデル推定を勉強のためのバイブルである**豊田 (2014)「共分散構造分析 R編」東京図書**のデータを用いる。
-データはこのテキストの[資料配付サイト](http://www.tokyo-tosho.co.jp/books/978-4-489-02180-0/)から入手できる。
+データはこのテキストの[資料配付サイト](http://www.tokyo-tosho.co.jp/books/978-4-489-02180-0/)から入手できます。
 
 ```{r}
 df <- read_csv("data/seminar.csv")
 ```
 
-```{r rename, echo=FALSE}
+```{r rename}
 df <- df |>
   dplyr::rename(
     text = テキスト,
@@ -88,10 +88,11 @@ model1 <- ' # 因子分析
 fit <- cfa(
   model = model1, 
   data = df,
-  estimator = "ML")
+  estimator = "ML"
+  )
 ```
 
-推定結果を結果を`summary()` で表示する。
+推定結果を結果を`summary()`で表示する。
 
 ```{r}
 summary(object = fit, standardize = TRUE)
