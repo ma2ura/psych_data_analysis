@@ -209,7 +209,7 @@ window.Quarto = {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./DataAnalysis_chap12.html"> 
-<span class="menu-text">構造方程式モデル</span></a>
+<span class="menu-text">SEM</span></a>
   </li>  
 </ul>
 </div> <!-- /navcollapse -->
@@ -407,7 +407,6 @@ window.Quarto = {
 
 
 
-
 ::: {.cell}
 
 ```{.r .cell-code}
@@ -459,7 +458,6 @@ cortab |> shave() |> fashion(decimals = 3)
 
 
 
-
 --->
 <div class="cell">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">wage2</span> <span class="op">|&gt;</span></span>
@@ -481,21 +479,13 @@ wage_i = \beta_0 + \beta_1 educ_i + \varepsilon_i
 <p>回帰モデルを推定するためには、<code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code>関数を用います。 <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code>関数は引数として、 - <code>formula</code>：回帰モデルの数式 - <code>data</code>：データフレーム</p>
 <p>を指定します。</p>
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">wage2</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">mutate</span><span class="op">(</span></span>
-<span>    d_edu <span class="op">=</span> <span class="fu">if_else</span><span class="op">(</span><span class="va">educ</span> <span class="op">&gt;</span> <span class="fl">16</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>,</span>
-<span>    m_educ <span class="op">=</span> <span class="va">educ</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">educ</span><span class="op">)</span>,</span>
-<span>    m_exper <span class="op">=</span> <span class="va">exper</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">exper</span><span class="op">)</span>,</span>
-<span>    m_IQ <span class="op">=</span> <span class="va">IQ</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">IQ</span><span class="op">)</span>,</span>
-<span>  <span class="op">)</span></span>
-<span></span>
-<span><span class="co"># 回帰モデルの推定</span></span>
-<span><span class="va">reg01</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">wage</span> <span class="op">~</span> <span class="va">educ</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 回帰モデルの推定</span></span>
+<span><span class="va">reg01</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">wage</span> <span class="op">~</span> <span class="va">educ</span>, data <span class="op">=</span> <span class="va">wage2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">reg01</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-lm(formula = wage ~ educ, data = df)
+lm(formula = wage ~ educ, data = wage2)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
@@ -513,9 +503,18 @@ Multiple R-squared:  0.107, Adjusted R-squared:  0.106
 F-statistic: 111.8 on 1 and 933 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
-<p>賃金を教育年数で回帰した結果、教育年数<code>educ</code>の回帰係数は <span class="math inline">60.214</span> となっており、教育年数が1年増えるごとに、賃金が<span class="math inline">60.214</span>ドル増加することが分かります。</p>
+<p>賃金を教育年数で回帰した結果、教育年数<code>educ</code>の回帰係数は <span class="math inline">60.214</span> となっており、教育年数が1年増えるごとに、賃金が<span class="math inline">60.214</span>ドル増加することが分かりました。</p>
 </section><section id="重回帰分析" class="level2"><h2 class="anchored" data-anchor-id="重回帰分析">重回帰分析</h2>
-<p>次に，賃金<code>wage</code>を従属変数，教育年数<code>educ</code>，経験年数<code>exper</code>，IQ<code>IQ</code>，黒人ダミー<code>black</code>を独立変数とした重回帰分析を行う。 交互作用項として使用する教育年数，経験年数，IQは，中心化する。</p>
+<p>次に，賃金<code>wage</code>を従属変数，教育年数<code>educ</code>，経験年数<code>exper</code>，IQ<code>IQ</code>，黒人ダミー<code>black</code>を独立変数とした重回帰分析を行います。 交互作用項として使用する教育年数，経験年数，IQは，各変数から平均値を引いた中心化を行います。 これにより、交互作用項の解釈が容易になります。</p>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">wage2</span> <span class="op">&lt;-</span> <span class="va">wage2</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>    d_edu <span class="op">=</span> <span class="fu">if_else</span><span class="op">(</span><span class="va">educ</span> <span class="op">&gt;</span> <span class="fl">16</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>,</span>
+<span>    m_educ <span class="op">=</span> <span class="va">educ</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">educ</span><span class="op">)</span>,</span>
+<span>    m_exper <span class="op">=</span> <span class="va">exper</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">exper</span><span class="op">)</span>,</span>
+<span>    m_IQ <span class="op">=</span> <span class="va">IQ</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">IQ</span><span class="op">)</span>,</span>
+<span>  <span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p><span class="math display">
 \begin{aligned}
 wage_i &amp;= \beta_0 + \beta_1 educ_i + \beta_2 exper_i + \beta_3 IQ_i + \beta_4 black_i + \varepsilon_i\\
@@ -523,15 +522,15 @@ wage_i &amp;= \beta_0 + \beta_1 educ_i + \beta_2 exper_i + \beta_3 IQ_i + \beta_
 \end{aligned}
 </span></p>
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">reg02</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">wage</span> <span class="op">~</span> <span class="va">m_educ</span> <span class="op">+</span> <span class="va">m_exper</span> <span class="op">+</span> <span class="va">m_IQ</span> <span class="op">+</span> <span class="va">black</span> <span class="op">+</span> <span class="va">d_edu</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">reg02</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">wage</span> <span class="op">~</span> <span class="va">m_educ</span> <span class="op">+</span> <span class="va">m_exper</span> <span class="op">+</span> <span class="va">m_IQ</span> <span class="op">+</span> <span class="va">black</span> <span class="op">+</span> <span class="va">d_edu</span>, data <span class="op">=</span> <span class="va">wage2</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>上記の重回帰モデルに，経験年数<code>exper</code>と結婚<code>married</code>の交差項を組み込み，交互作用の検証を行う。</p>
+<p>上記の重回帰モデルに，経験年数<code>exper</code>と結婚<code>married</code>の交差項を組み込み，交互作用の検証を行います。 交差項を組み込むには、<code>m_educ:m_exper</code>のように<code>:</code>を用いて交差項を指定します。</p>
 <div class="cell">
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">reg03</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">wage</span> <span class="op">~</span> <span class="va">m_educ</span> <span class="op">+</span> <span class="va">m_exper</span> <span class="op">+</span> <span class="va">m_IQ</span> <span class="op">+</span> <span class="va">black</span> <span class="op">+</span> <span class="va">m_educ</span><span class="op">:</span><span class="va">m_exper</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">reg03</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">wage</span> <span class="op">~</span> <span class="va">m_educ</span> <span class="op">+</span> <span class="va">m_exper</span> <span class="op">+</span> <span class="va">m_IQ</span> <span class="op">+</span> <span class="va">black</span> <span class="op">+</span> <span class="va">m_educ</span><span class="op">:</span><span class="va">m_exper</span>, data <span class="op">=</span> <span class="va">wage2</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>分析結果を表にする。</p>
+<p>分析結果を表にしてみます。 ここでは、<code>stargazer</code>パッケージを用いて、回帰分析の結果を表にまとめます。</p>
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">stargazer</span><span class="op">(</span><span class="va">reg01</span>, <span class="va">reg02</span>, <span class="va">reg03</span>,</span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">stargazer</span><span class="op">(</span><span class="va">reg01</span>, <span class="va">reg02</span>, <span class="va">reg03</span>,</span>
 <span>  digits <span class="op">=</span> <span class="fl">2</span>, digits.extra <span class="op">=</span> <span class="fl">0</span>, align <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  omit.table.layout <span class="op">=</span> <span class="st">'n'</span>, <span class="co"># IMPORTANT!!!</span></span>
 <span>  keep.stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'n'</span>, <span class="st">'adj.rsq'</span>, <span class="st">'f'</span><span class="op">)</span>, df <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -573,9 +572,9 @@ wage_i &amp;= \beta_0 + \beta_1 educ_i + \beta_2 exper_i + \beta_3 IQ_i + \beta_
 &lt;tr&gt;&lt;td colspan="4" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</code></pre>
 </div>
 </div>
-<p>交互効果を図にする。</p>
+<p>交互効果を図にするとこうなります。</p>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotSlopes</span><span class="op">(</span><span class="va">reg03</span>, modx <span class="op">=</span> <span class="st">"m_educ"</span>, plotx <span class="op">=</span> <span class="st">"m_exper"</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotSlopes</span><span class="op">(</span><span class="va">reg03</span>, modx <span class="op">=</span> <span class="st">"m_educ"</span>, plotx <span class="op">=</span> <span class="st">"m_exper"</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="DataAnalysis_chap09_files/figure-html/plotslopes-1.png" class="img-fluid figure-img" width="768"></p>

@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.6.43">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
-
 <title>心理学データ解析法</title>
 <style>
 code{white-space: pre-wrap;}
@@ -20,8 +17,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
-
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
@@ -40,8 +70,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-6752a065e7716ac41838f31b38b352fb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-6752a065e7716ac41838f31b38b352fb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -67,21 +96,15 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "検索",
     "search-label": "サーチ"
   }
-}</script>
-
-
-<link rel="stylesheet" href="mystyle.css">
+}</script><link rel="stylesheet" href="mystyle.css">
 <meta name="twitter:title" content="心理学データ解析法">
 <meta name="twitter:image" content="https://so-ichi.com/img/koudou_kagaku.jpg">
 <meta name="twitter:card" content="summary_large_image">
 </head>
-
 <body class="nav-sidebar floating nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">心理学データ解析法</span>
@@ -93,7 +116,7 @@ ul.task-list li input[type="checkbox"] {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
+<li class="nav-item">
     <a class="nav-link active" href="./index.html" aria-current="page"> 
 <span class="menu-text">データ解析法</span></a>
   </li>  
@@ -146,7 +169,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">構造方程式モデル</span></a>
   </li>  
 </ul>
-          </div> <!-- /navcollapse -->
+</div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
     <a href="https://github.com/ma2ura/psych_data_analysis" title="ソースコード" class="quarto-navigation-tool px-1" aria-label="ソースコード"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="リーダーモードの切り替え">
@@ -156,9 +179,7 @@ ul.task-list li input[type="checkbox"] {
 </a>
 </div>
       </div> <!-- /container-fluid -->
-    </nav>
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
+    </nav><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="サイドバーを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
@@ -166,15 +187,11 @@ ul.task-list li input[type="checkbox"] {
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="サイドバーを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="sidebar-menu-container"> 
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">はじめに</span></a>
@@ -253,29 +270,25 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
     </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
-    <h2 id="toc-title">目次</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2"><h2 id="toc-title">目次</h2>
    
   <ul>
-  <li><a href="#はじめに" id="toc-はじめに" class="nav-link active" data-scroll-target="#はじめに">はじめに</a>
+<li>
+<a href="#%E3%81%AF%E3%81%98%E3%82%81%E3%81%AB" id="toc-はじめに" class="nav-link active" data-scroll-target="#%E3%81%AF%E3%81%98%E3%82%81%E3%81%AB">はじめに</a>
   <ul class="collapse">
-  <li><a href="#資料の紹介" id="toc-資料の紹介" class="nav-link" data-scroll-target="#資料の紹介">資料の紹介</a></li>
-  <li><a href="#本資料のねらい" id="toc-本資料のねらい" class="nav-link" data-scroll-target="#本資料のねらい">本資料のねらい</a></li>
-  <li><a href="#本資料の作成環境" id="toc-本資料の作成環境" class="nav-link" data-scroll-target="#本資料の作成環境">本資料の作成環境</a></li>
-  </ul></li>
+<li><a href="#%E8%B3%87%E6%96%99%E3%81%AE%E7%B4%B9%E4%BB%8B" id="toc-資料の紹介" class="nav-link" data-scroll-target="#%E8%B3%87%E6%96%99%E3%81%AE%E7%B4%B9%E4%BB%8B">資料の紹介</a></li>
+  <li><a href="#%E6%9C%AC%E8%B3%87%E6%96%99%E3%81%AE%E3%81%AD%E3%82%89%E3%81%84" id="toc-本資料のねらい" class="nav-link" data-scroll-target="#%E6%9C%AC%E8%B3%87%E6%96%99%E3%81%AE%E3%81%AD%E3%82%89%E3%81%84">本資料のねらい</a></li>
+  <li><a href="#%E6%9C%AC%E8%B3%87%E6%96%99%E3%81%AE%E4%BD%9C%E6%88%90%E7%92%B0%E5%A2%83" id="toc-本資料の作成環境" class="nav-link" data-scroll-target="#%E6%9C%AC%E8%B3%87%E6%96%99%E3%81%AE%E4%BD%9C%E6%88%90%E7%92%B0%E5%A2%83">本資料の作成環境</a></li>
   </ul>
-</nav>
+</li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">心理学データ解析法</h1>
 </div>
 
@@ -297,32 +310,55 @@ ul.task-list li input[type="checkbox"] {
 
 
 </header>
-
-
-
-<section id="はじめに" class="level1 unnumbered">
-<h1 class="unnumbered">はじめに</h1><p><img src="img/koudou_kagaku.jpg" title="心理学データ解析法" class="quarto-cover-image img-fluid"></p>
-<section id="資料の紹介" class="level2">
-<h2 class="anchored" data-anchor-id="資料の紹介">資料の紹介</h2>
+<section id="はじめに" class="level1 unnumbered"><h1 class="unnumbered">はじめに</h1><p><img src="img/koudou_kagaku.jpg" title="心理学データ解析法" class="quarto-cover-image img-fluid"></p>
+<section id="資料の紹介" class="level2"><h2 class="anchored" data-anchor-id="資料の紹介">資料の紹介</h2>
 <p>この講義ノートは，<span class="markp">総合心理学部の授業に潜入してRによる統計分析について学んだことについての個人的な学習備忘録</span>です。 このノートを作成・公開する目的は、自身の理解度を確認することと、いずれ経営学部で開講するであろうデータ分析実習を伴う大規模講義のための資料を作成することです。</p>
 <p>この資料は，<span class="marky"><a href="https://amzn.to/3YRAWzk">吉永希久子 (2016) 「行動科学の統計学：社会調査のデータ分析」</a></span>と<span class="marky"><a href="https://amzn.to/4ixivXO">南風原著 (2002) 「心理統計学の基礎」</a></span>の内容に基づいています。</p>
 <!-- [![心理統計学の基礎(有斐閣アルマ)](img/sinri_toukei.jpg){width=30%}](https://amzn.to/4ixivXO) -->
-</section>
-<section id="本資料のねらい" class="level2">
-<h2 class="anchored" data-anchor-id="本資料のねらい">本資料のねらい</h2>
-<p>立命館大学では、学生が利用できるデータベースとして<span class="rmarker-s">日経NEEDS 社会科学情報検索システム</span>を契約しており、そこで提供されるデータの1つに<span class="rmarker-s">財務データ</span>があります。 このようなデータを用いて、自分の関心についての仮説を立て、データを用いて検証することができるようになることを目指します。</p>
-</section>
-<section id="本資料の作成環境" class="level2">
-<h2 class="anchored" data-anchor-id="本資料の作成環境">本資料の作成環境</h2>
-<p>この資料はすべて<code>Quarto</code>で作成されています。 Rstudioを開発しているPosit社が作った<code>Quarto</code>は、Markdownをベースにしたドキュメント作成ツールで、RやPythonのコードを埋め込むことができるため、データ分析やレポート作成に非常に便利です。</p>
+</section><section id="本資料のねらい" class="level2"><h2 class="anchored" data-anchor-id="本資料のねらい">本資料のねらい</h2>
+<p>立命館大学では、学生が利用できるデータベースとして<span class="rmarker-s">日経NEEDS 社会科学情報検索システム</span>を契約しており、そこで提供されるデータには、<span class="markp">企業データ</span>や<span class="markp">日経POSデータ</span>があります。 このようなデータベースからデータを取得し、自分の関心についての仮説を検証するために、大規模データを用いた統計分析を実行できるようになることが、この資料のねらいです。</p>
+</section><section id="本資料の作成環境" class="level2"><h2 class="anchored" data-anchor-id="本資料の作成環境">本資料の作成環境</h2>
+<p>この資料の作成環境は以下の通りです。</p>
+<ul>
+<li>機材 : Mac mini M4</li>
+<li>OS : macOS Sequoia 15.4.1</li>
+<li>エディタ : Visual Studio Code 1.99.3</li>
+</ul>
+<p>R環境は以下の通りです。</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>R version 4.5.0 (2025-04-11)
+Platform: aarch64-apple-darwin20
+Running under: macOS Sequoia 15.4.1
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] ja_JP.UTF-8/ja_JP.UTF-8/ja_JP.UTF-8/C/ja_JP.UTF-8/ja_JP.UTF-8
+
+time zone: Asia/Tokyo
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+loaded via a namespace (and not attached):
+ [1] htmlwidgets_1.6.4 compiler_4.5.0    fastmap_1.2.0     cli_3.6.4        
+ [5] tools_4.5.0       htmltools_0.5.8.1 rmarkdown_2.29    knitr_1.50       
+ [9] jsonlite_2.0.0    xfun_0.52         digest_0.6.37     rlang_1.1.6      
+[13] evaluate_1.0.3   </code></pre>
+</div>
+</div>
+<p>この資料はすべて<code>Quarto 1.6.43</code>で作成されています。</p>
+<p><a href="https://quarto.org/">Quarto</a></p>
+<p>Rstudioを開発しているPosit社が作った<code>Quarto</code>は、Markdownをベースにしたドキュメント作成ツールで、RやPython、Juliaのコードを埋め込むことができるため、データ分析やレポート作成に非常に便利です。</p>
 <p>また松浦が主として利用しているのはMacであるため，<code>R</code>ファイルや<code>qmd</code>ファイル，<code>csv</code>ファイルの文字コードはすべて<code>UTF-8</code>です。</p>
 
 
-</section>
-</section>
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -740,9 +776,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
       <a href="./DataAnalysis_chap01.html" class="pagination-link" aria-label="1日目：R入門とデータの読み込み">
@@ -751,8 +785,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
+<footer class="footer"><div class="nav-footer">
     <div class="nav-footer-left">
 <p>Copyright 2025, Soichi Matsuura</p>
 </div>   
@@ -761,7 +794,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
-    <li class="nav-item compact">
+<li class="nav-item compact">
     <a class="nav-link" href="https://github.com/ma2ura/psych_data_analysis">
       <i class="bi bi-github" role="img">
 </i> 
@@ -774,11 +807,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </a>
   </li>  
 </ul>
-    </div>
+</div>
   </div>
 </footer>
-
-
 
 
 </body></html>
