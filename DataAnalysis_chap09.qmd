@@ -86,25 +86,28 @@ $$
 を指定します。
 
 ```{r mutate}
-df <- wage2 |> 
+# 回帰モデルの推定
+reg01 <- lm(wage ~ educ, data = wage2)
+summary(reg01)
+```
+
+賃金を教育年数で回帰した結果、教育年数`educ`の回帰係数は $60.214$ となっており、教育年数が1年増えるごとに、賃金が$60.214$ドル増加することが分かりました。
+
+## 重回帰分析
+
+次に，賃金`wage`を従属変数，教育年数`educ`，経験年数`exper`，IQ`IQ`，黒人ダミー`black`を独立変数とした重回帰分析を行います。
+交互作用項として使用する教育年数，経験年数，IQは，各変数から平均値を引いた中心化を行います。
+これにより、交互作用項の解釈が容易になります。
+
+```{r}
+wage2 <- wage2 |> 
   mutate(
     d_edu = if_else(educ > 16, 1, 0),
     m_educ = educ - mean(educ),
     m_exper = exper - mean(exper),
     m_IQ = IQ - mean(IQ),
   )
-
-# 回帰モデルの推定
-reg01 <- lm(wage ~ educ, data = df)
-summary(reg01)
 ```
-
-賃金を教育年数で回帰した結果、教育年数`educ`の回帰係数は $60.214$ となっており、教育年数が1年増えるごとに、賃金が$60.214$ドル増加することが分かります。
-
-## 重回帰分析
-
-次に，賃金`wage`を従属変数，教育年数`educ`，経験年数`exper`，IQ`IQ`，黒人ダミー`black`を独立変数とした重回帰分析を行う。
-交互作用項として使用する教育年数，経験年数，IQは，中心化する。
 
 $$
 \begin{aligned}
@@ -113,16 +116,18 @@ wage_i &= \beta_0 + \beta_1 educ_i + \beta_2 exper_i + \beta_3 IQ_i + \beta_4 bl
 \end{aligned}
 $$
 ```{r reg_model_02}
-reg02 <- lm(wage ~ m_educ + m_exper + m_IQ + black + d_edu, data = df)
+reg02 <- lm(wage ~ m_educ + m_exper + m_IQ + black + d_edu, data = wage2)
 ```
 
-上記の重回帰モデルに，経験年数`exper`と結婚`married`の交差項を組み込み，交互作用の検証を行う。
+上記の重回帰モデルに，経験年数`exper`と結婚`married`の交差項を組み込み，交互作用の検証を行います。
+交差項を組み込むには、`m_educ:m_exper`のように`:`を用いて交差項を指定します。
 
 ```{r reg_model_03}
-reg03 <- lm(wage ~ m_educ + m_exper + m_IQ + black + m_educ:m_exper, data = df)
+reg03 <- lm(wage ~ m_educ + m_exper + m_IQ + black + m_educ:m_exper, data = wage2)
 ```
 
-分析結果を表にする。
+分析結果を表にしてみます。
+ここでは、`stargazer`パッケージを用いて、回帰分析の結果を表にまとめます。
 
 ```{r reg_tab}
 stargazer(reg01, reg02, reg03,
@@ -133,7 +138,7 @@ stargazer(reg01, reg02, reg03,
 )
 ```
 
-交互効果を図にする。
+交互効果を図にするとこうなります。
 
 ```{r plotslopes}
 plotSlopes(reg03, modx = "m_educ", plotx = "m_exper")
