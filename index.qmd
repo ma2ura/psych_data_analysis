@@ -19,9 +19,10 @@
 
 この資料の作成環境は以下の通りです。
 
-- 機材 : Mac mini M4
-- OS : macOS Sequoia 15.4.1
+- 機材 : Mac mini 2024 M4 Pro
+- OS : macOS Sequoia 15.4.1 
 - エディタ : Visual Studio Code 1.99.3
+- Quarto : 1.6.43
 
 R環境は以下の通りです。
 
@@ -29,7 +30,7 @@ R環境は以下の通りです。
 sessionInfo()
 ```
 
-この資料はすべて`Quarto 1.6.43`で作成されています。
+この資料はすべて`Quarto`で作成されています。
 
 [Quarto](https://quarto.org/)
 
@@ -37,3 +38,4 @@ sessionInfo()
 Rstudioを開発しているPosit社が作った`Quarto`は、Markdownをベースにしたドキュメント作成ツールで、RやPython、Juliaのコードを埋め込むことができるため、データ分析やレポート作成に非常に便利です。
 
 また松浦が主として利用しているのはMacであるため，`R`ファイルや`qmd`ファイル，`csv`ファイルの文字コードはすべて`UTF-8`です。
+

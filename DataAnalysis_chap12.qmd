@@ -95,11 +95,13 @@ fit <- cfa(
 推定結果を結果を`summary()`で表示する。
 
 ```{r}
-summary(object = fit, standardize = TRUE)
+summary( 
+  object = fit, standardize = TRUE)
 ```
 
 
-推定結果から，パス図を作成するために，`semPlot`パッケージを用いる。
+推定結果から，パス図を作成する
+ために，`semPlot`パッケージを用いる。
 
 ```{r fig.height=6, fig.width=6}
 pacman::p_load(semPlot)

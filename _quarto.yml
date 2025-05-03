@@ -10,7 +10,7 @@ book:
     - email: matsuura@fc.ritsumei.ac.jp
   date: "Fall 2019"
   favicon: img/favicon.ico
-  reader-mode: true  
+  reader-mode: true
   site-url: https://so-ichi.com
   repo-url: https://github.com/ma2ura/psych_data_analysis
   repo-branch: main
@@ -19,86 +19,107 @@ book:
 
   chapters:
     - index.qmd
-    - DataAnalysis_chap01.qmd
-    - DataAnalysis_chap02.qmd
-    - DataAnalysis_chap03.qmd
-    - DataAnalysis_chap04.qmd
-    - DataAnalysis_chap05.qmd
-    - DataAnalysis_chap06.qmd
-    - DataAnalysis_chap07.qmd
-    - DataAnalysis_chap08.qmd
-    - DataAnalysis_chap09.qmd
-    - DataAnalysis_chap10.qmd
-    - DataAnalysis_chap11.qmd
-    - DataAnalysis_chap12.qmd
+    - part: "基礎"
+      chapters:
+      - DataAnalysis_chap01.qmd
+      - DataAnalysis_chap02.qmd
+    - part: "検定"
+      chapters:
+      - DataAnalysis_chap03.qmd
+      - DataAnalysis_chap04.qmd
+    - part: "多変量の分析"
+      chapters:
+      - DataAnalysis_chap05.qmd
+      - DataAnalysis_chap06.qmd
+      - DataAnalysis_chap07.qmd
+    - part: "回帰分析"
+      chapters:
+      - DataAnalysis_chap08.qmd
+      - DataAnalysis_chap09.qmd
+      - DataAnalysis_chap10.qmd
+    - part: "多変量解析"
+      chapters:
+      - DataAnalysis_chap11.qmd
+      - DataAnalysis_chap12.qmd
 
   page-navigation: true
   back-to-top-navigation: true
   page-footer:
       border: true
-      # background: light
       left: "Copyright 2025, Soichi Matsuura"
       right:
         - icon: github
           href: https://github.com/ma2ura/psych_data_analysis
+          aria-label: GitHub
         - icon: twitter
           href: https://twitter.com/matsuura_rits
           aria-label: Twitter
 
   navbar:
+    background: primary
     search: true
     left:
       - text: "データ解析法"
         href: index.qmd
-      - text: "基礎"
-        href: DataAnalysis_chap01.qmd
-      - text: "記述統計とグラフ"
-        href: DataAnalysis_chap02.qmd
-      - text: "独立性の検定"
-        href: DataAnalysis_chap03.qmd
-      - text: "平均の差の検定"
-        href: DataAnalysis_chap04.qmd
-      - text: "分散分析"
-        href: DataAnalysis_chap05.qmd
-      - text: "相関分析"
-        href: DataAnalysis_chap06.qmd
-      - text: "3変数の関連"
-        href: DataAnalysis_chap07.qmd
-      - text: "回帰分析"
-        href: DataAnalysis_chap08.qmd
-      - text: "レポート"
-        href: DataAnalysis_chap09.qmd
-      - text: "ダミーと交差項"
-        href: DataAnalysis_chap10.qmd
-      - text: "因子分析"
-        href: DataAnalysis_chap11.qmd
-      - text: "SEM"
-        href: DataAnalysis_chap12.qmd
+      - text: 基礎
+        menu:
+        - text: "基礎"
+          href: DataAnalysis_chap01.qmd
+        - text: "記述統計とグラフ"
+          href: DataAnalysis_chap02.qmd
+      - text: 検定
+        menu:
+        - text: "独立性の検定"
+          href: DataAnalysis_chap03.qmd
+        - text: "平均の差の検定"
+          href: DataAnalysis_chap04.qmd
+      - text: 多変量の分析
+        menu:
+        - text: "分散分析"
+          href: DataAnalysis_chap05.qmd
+        - text: "相関分析"
+          href: DataAnalysis_chap06.qmd
+        - text: "3変数の関連"
+          href: DataAnalysis_chap07.qmd
+      - text: 回帰分析
+        menu:
+        - text: "回帰分析"
+          href: DataAnalysis_chap08.qmd
+        - text: "レポート"
+          href: DataAnalysis_chap09.qmd
+        - text: "ダミーと交差項"
+          href: DataAnalysis_chap10.qmd
+      - text: 多変量解析
+        menu:
+        - text: "因子分析"
+          href: DataAnalysis_chap11.qmd
+        - text: "SEM"
+          href: DataAnalysis_chap12.qmd
 
 format:
   html:
     theme: minty
+    fontsize: 1.1em
     toc: true
     toc-expand: 2
+
     fig-width: 8
     fig-height: 6
-    fontsize: 1.1em
+
     linestretch: 1.7
     html-math-method: katex
     code-copy: true
-    code-overflow: wrap
     code-link: true
+    code-overflow: wrap
+
     link-external-icon: true
     df-print: kable
-    
-    # grid:
-    #   sidebar-width: 200px
-    #   body-width: 1200px
     css:
       - "mystyle.css"
-lang: "ja"
-# knitr: 
-#   opts_chunk: 
+
+# lang: "ja"
+# knitr:
+#   opts_chunk:
 #     dev: "ragg_png"
 #     dpi: 600
 
