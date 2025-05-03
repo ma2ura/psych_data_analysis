@@ -37,7 +37,7 @@
     "href": "index.html#本資料の作成環境",
     "title": "心理学データ解析法",
     "section": "本資料の作成環境",
-    "text": "本資料の作成環境\nこの資料の作成環境は以下の通りです。\n\n機材 : Mac mini M4\nOS : macOS Sequoia 15.4.1\nエディタ : Visual Studio Code 1.99.3\n\nR環境は以下の通りです。\n\nsessionInfo()\n\nR version 4.5.0 (2025-04-11)\nPlatform: aarch64-apple-darwin20\nRunning under: macOS Sequoia 15.4.1\n\nMatrix products: default\nBLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib \nLAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1\n\nlocale:\n[1] ja_JP.UTF-8/ja_JP.UTF-8/ja_JP.UTF-8/C/ja_JP.UTF-8/ja_JP.UTF-8\n\ntime zone: Asia/Tokyo\ntzcode source: internal\n\nattached base packages:\n[1] stats     graphics  grDevices utils     datasets  methods   base     \n\nloaded via a namespace (and not attached):\n [1] htmlwidgets_1.6.4 compiler_4.5.0    fastmap_1.2.0     cli_3.6.4        \n [5] tools_4.5.0       htmltools_0.5.8.1 rmarkdown_2.29    knitr_1.50       \n [9] jsonlite_2.0.0    xfun_0.52         digest_0.6.37     rlang_1.1.6      \n[13] evaluate_1.0.3   \n\n\nこの資料はすべてQuarto 1.6.43で作成されています。\nQuarto\nRstudioを開発しているPosit社が作ったQuartoは、Markdownをベースにしたドキュメント作成ツールで、RやPython、Juliaのコードを埋め込むことができるため、データ分析やレポート作成に非常に便利です。\nまた松浦が主として利用しているのはMacであるため，Rファイルやqmdファイル，csvファイルの文字コードはすべてUTF-8です。",
+    "text": "本資料の作成環境\nこの資料の作成環境は以下の通りです。\n\n機材 : Mac mini 2024 M4 Pro\nOS : macOS Sequoia 15.4.1\nエディタ : Visual Studio Code 1.99.3\nQuarto : 1.6.43\n\nR環境は以下の通りです。\n\nsessionInfo()\n\nR version 4.5.0 (2025-04-11)\nPlatform: aarch64-apple-darwin20\nRunning under: macOS Sequoia 15.4.1\n\nMatrix products: default\nBLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib \nLAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1\n\nlocale:\n[1] ja_JP.UTF-8/ja_JP.UTF-8/ja_JP.UTF-8/C/ja_JP.UTF-8/ja_JP.UTF-8\n\ntime zone: Asia/Tokyo\ntzcode source: internal\n\nattached base packages:\n[1] stats     graphics  grDevices utils     datasets  methods   base     \n\nloaded via a namespace (and not attached):\n [1] htmlwidgets_1.6.4 compiler_4.5.0    fastmap_1.2.0     cli_3.6.4        \n [5] tools_4.5.0       htmltools_0.5.8.1 rmarkdown_2.29    knitr_1.50       \n [9] jsonlite_2.0.0    xfun_0.52         digest_0.6.37     rlang_1.1.6      \n[13] evaluate_1.0.3   \n\n\nこの資料はすべてQuartoで作成されています。\nQuarto\nRstudioを開発しているPosit社が作ったQuartoは、Markdownをベースにしたドキュメント作成ツールで、RやPython、Juliaのコードを埋め込むことができるため、データ分析やレポート作成に非常に便利です。\nまた松浦が主として利用しているのはMacであるため，Rファイルやqmdファイル，csvファイルの文字コードはすべてUTF-8です。",
     "crumbs": [
       "データ解析法",
       "はじめに"
@@ -51,6 +51,7 @@
     "text": "R入門\nRとRstudioのインストール，R言語の基本操作については，インターネットで探しとたくさん資料が見付かります。また関連書籍もたくさん出版されているので，自分で調べてみてください。 とりわけ浅野・中村著「はじめてのRstudio: エラーメッセージなんかこわくない」オーム社が最初の1冊としてお勧めです。\nはじめてのRstudio (Amazon.co.jpへのリンク)\nここではまず、基本関数を用いて，用意されたデータを読み込み，データの特徴を確認するために記述統計(descriptive statistics)を出力する方法を学びます。",
     "crumbs": [
       "データ解析法",
+      "基礎",
       "1日目：R入門とデータの読み込み"
     ]
   },
@@ -62,6 +63,7 @@
     "text": "データの読み込み\nここでは、手元にcsvファイルがあることを想定しています。 大学生ならMS Excelの.xlsxファイルがデータが記録されたものとして馴染みがあると思いますが、ここではよりシンプルな構造のcsvファイルとして作成されたデータを読み込むことが多いです。\nRには最初からcsvファイルを読み込むための基本関数read.csv()があります。\n\n\n実際にcsvファイルを読み出すときは、基本関数read.csv()よりも、より高性能なtidyverseのreadrパッケージのread_csv()関数を使うことが多いです。\n\ndf &lt;- read.csv(\"data/d1_2.csv\", header = TRUE)\n\n\n\n基本関数read.csv()では、header = TRUEというオプションを付けて1行目は変数名であることを明示します。",
     "crumbs": [
       "データ解析法",
+      "基礎",
       "1日目：R入門とデータの読み込み"
     ]
   },
@@ -73,6 +75,7 @@
     "text": "記述統計量\nデータが読み込めたら、そのデータの特徴を見るために，記述統計量(descriptive statistics)を確認します。 ここでは基本関数summary()を用いてデータの特徴を確認してみましょう。\n\n\nsummary()\n\nsummary(df)\n\n       ID             age             sex           eduy          house    \n Min.   : 1.00   Min.   :27.00   Min.   :1.0   Min.   : 9.0   Min.   :1.0  \n 1st Qu.: 3.25   1st Qu.:33.50   1st Qu.:1.0   1st Qu.:12.0   1st Qu.:2.0  \n Median : 5.50   Median :41.00   Median :1.0   Median :12.5   Median :2.5  \n Mean   : 5.50   Mean   :41.20   Mean   :1.2   Mean   :13.8   Mean   :2.3  \n 3rd Qu.: 7.75   3rd Qu.:46.75   3rd Qu.:1.0   3rd Qu.:17.0   3rd Qu.:3.0  \n Max.   :10.00   Max.   :56.00   Max.   :2.0   Max.   :18.0   Max.   :3.0  \n\n\n各変数の最小値min、第1四分位1st Qu.、中央値median、平均値mean、第3四分位3rd Qu.、最大値maxが出力されています。 ここで注意しなければならないのは、数値それ自体に意味がなく、数値にカテゴリーが割り当てられているカテゴリー変数である性別のsexや住宅所有状況のhouseの平均を計算しても意味が無いです。\n\n\n男性なら1、女性なら2という数値が割り当てられている変数の平均とは？\nそこで、カテゴリー変数を数値型から因子型factorに変換します。 ファクター型に変換するには基本関数as.factor()を用います。\n\n\nas.factor()\n\ndf$sex &lt;- as.factor(df$sex)\ndf$house &lt;- as.factor(df$house)\n\n再度，記述統計を表示します。\n\nsummary(df)\n\n       ID             age        sex        eduy      house\n Min.   : 1.00   Min.   :27.00   1:8   Min.   : 9.0   1:2  \n 1st Qu.: 3.25   1st Qu.:33.50   2:2   1st Qu.:12.0   2:3  \n Median : 5.50   Median :41.00         Median :12.5   3:5  \n Mean   : 5.50   Mean   :41.20         Mean   :13.8        \n 3rd Qu.: 7.75   3rd Qu.:46.75         3rd Qu.:17.0        \n Max.   :10.00   Max.   :56.00         Max.   :18.0        \n\n\n変数sexとhouseはカテゴリーごとの度数が示されるようになり，適切な記述統計量が計算できていることが分かります。",
     "crumbs": [
       "データ解析法",
+      "基礎",
       "1日目：R入門とデータの読み込み"
     ]
   },
@@ -84,6 +87,7 @@
     "text": "tidyverseで実行\n次に、超便利なパッケージ集であるtidyverseを使って上記の分析を再度実行してみます。 tidyverseは整然データ(tidy data)というコンピューターが扱いやすい形式のデータに対して、統一した記述方法で可読性の高いソースコードを書けるように作られた，データ処理、分析、可視化といったデータサイエンスのためのパッケージ集です。\ntidyverseパッケージとskimrパッケージを使い，情報量の多い記述統計量の表を作成します。 まずはパッケージのインストールと読み出しを行います。\n\npacman::p_load(\n  tidyverse,\n  skimr\n)\n\n準備ができたのでtidyverseのreadr::read_csv()を用いてcsvファイルを読み込みます。 read_csv()関数はオプションのcol_typesを用いて，変数のタイプを指定できます。 iが整数，fファクター型を表します。\n\ndf &lt;- read_csv(\"data/d1_2.csv\", col_types=\"iifif\")\nsummary(df)\n\n       ID             age        sex        eduy      house\n Min.   : 1.00   Min.   :27.00   1:8   Min.   : 9.0   3:5  \n 1st Qu.: 3.25   1st Qu.:33.50   2:2   1st Qu.:12.0   1:2  \n Median : 5.50   Median :41.00         Median :12.5   2:3  \n Mean   : 5.50   Mean   :41.20         Mean   :13.8        \n 3rd Qu.: 7.75   3rd Qu.:46.75         3rd Qu.:17.0        \n Max.   :10.00   Max.   :56.00         Max.   :18.0        \n\n\n\n\nreadrパッケージのread_csv()関数は高速かつ柔軟なオプション設定が可能なため、csvファイルを読み込む際にはread.csv()よりもread_csv() を使うことが多いです。\nデータを読み込めたので、次はskimパッケージの関数skim()を用いてデータの概要を出力し、データの概要を確認します。\n\n\nskim()はキレイな記述統計量の表を作成\n\ndf %&gt;% skim()\n\n\nData summary\n\n\nName\nPiped data\n\n\nNumber of rows\n10\n\n\nNumber of columns\n5\n\n\n_______________________\n\n\n\nColumn type frequency:\n\n\n\nfactor\n2\n\n\nnumeric\n3\n\n\n________________________\n\n\n\nGroup variables\nNone\n\n\n\nVariable type: factor\n\n\n\n\n\n\n\n\n\n\nskim_variable\nn_missing\ncomplete_rate\nordered\nn_unique\ntop_counts\n\n\n\nsex\n0\n1\nFALSE\n2\n1: 8, 2: 2\n\n\nhouse\n0\n1\nFALSE\n3\n3: 5, 2: 3, 1: 2\n\n\n\nVariable type: numeric\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nskim_variable\nn_missing\ncomplete_rate\nmean\nsd\np0\np25\np50\np75\np100\nhist\n\n\n\nID\n0\n1\n5.5\n3.03\n1\n3.25\n5.5\n7.75\n10\n▇▇▇▇▇\n\n\nage\n0\n1\n41.2\n10.15\n27\n33.50\n41.0\n46.75\n56\n▅▇▁▇▅\n\n\neduy\n0\n1\n13.8\n3.16\n9\n12.00\n12.5\n17.00\n18\n▂▇▃▁▆",
     "crumbs": [
       "データ解析法",
+      "基礎",
       "1日目：R入門とデータの読み込み"
     ]
   },
@@ -95,6 +99,7 @@
     "text": "読み込みと記述統計\nデータの山をただ眺めていても，なかなかその中から変数の特徴をつかむことは難しいです。 そこで本章では，データを代表する値(代表値)として，平均や分散，標準偏差，中央値などを計算し，データの特徴をつかむことから始めます。\nまずはcsvファイルを読み込みます。 csvファイルの読み込みは，基本関数read.csv()を用います。\ndf &lt;- read.csv(\"data/chap2.csv\", header = TRUE)\nある条件を満たす行を抽出したい場合は，subset()を用いいます。 subset()関数はsubset(データ, 条件式)のように書くことで，条件を満たす行をデータから抽出できます。 ここでは、基本関数subset()を用いてB国(nationが2)のデータを取り出してみましょう。\ndf_B &lt;- subset(df, nation==2)\nつぎに，as.factor()を使い，カテゴリー変数genderを因子型に変換します。\ndf_B$gender &lt;- as.factor(df_B$gender)\nB国のデータだけを取り出せたので，B国の所得と性別の記述統計量を求めてみましょう。\nsummary(df_B[,c(1,3)]) # 1列目と3列目の変数だけ\n\n     income      gender\n Min.   :487.0   1:4   \n 1st Qu.:494.5   2:6   \n Median :499.5         \n Mean   :500.6         \n 3rd Qu.:502.0         \n Max.   :517.0",
     "crumbs": [
       "データ解析法",
+      "基礎",
       "2日目: 記述統計と基本グラフ"
     ]
   },
@@ -106,6 +111,7 @@
     "text": "グラフ\n次に、B国の収入の分布を知るために，ヒストグラム(histogram)を作成してみます。 基本関数hist()は引数に1次元の数値ベクトルをとり，ヒストグラムを作成します。\n\n\nヒストグラムはhist()\n\npar(family = \"HiraKakuProN-W3\") # mac文字化け対策\nhist(df_B$income, xlab=\"収入\", ylab=\"度数\")\n\n\n\n\n\n\n\n性別の度数分布を表す棒グラフを、基本関数barplot()を用いて作成します。\n\n\nヒストグラムはbarplot()\n\nplot(\n  df_B$gender, # 性別のベクトル \n  xlab=\"性別\", ylab=\"度数\", # x軸とy軸のラベル\n  names.arg = c(\"男性\",\"女性\") # x軸のラベル\n  )\n\n\n\n\n\n\n\n次に、男女別の所得分布を表す箱ひげ図(box plot)を作成します。 箱ひげ図は、データの分布を視覚的に表現するためのグラフで、中央値や四分位数、外れ値などを示します。 箱ひげ図は基本関数boxplot()を用いて作成します。\n\n\n箱ひげ図はboxplot()\n\npar(family = \"HiraKakuProN-W3\") # mac文字化け対策\nboxplot(\n  df_B$income ~ df_B$gender, # 性別ごとの所得の分布\n  xlab=\"性別\", ylab=\"所得\", \n  names.arg = c(\"男性\",\"女性\")\n  )",
     "crumbs": [
       "データ解析法",
+      "基礎",
       "2日目: 記述統計と基本グラフ"
     ]
   },
@@ -117,6 +123,7 @@
     "text": "tidyverseで再実行\nここまで基本関数を用いて、データの読み込みや、データの抽出・加工、グラフの作成をしてきましたが、以下では、よりモダンな記述方法であるtidyverseを用いて同じことを行います。 tidyverseはデータの整形や可視化を行うためのパッケージ群で、データ分析を行う上で非常に便利です。\nまずはtidyverseパッケージをインストールし、読み込みます。 ここでは、パッケージのインストールと読み込みを一度に実行してくれるpacmanパッケージのp_load()関数を用いています。\n\npacman::p_load(tidyverse)\n\ntidyverseパッケージ群の1つであるreadrパッケージのread_csv()関数でcsvファイルを読み込みます。 read_csv()のオプションcol_typesを使うことで、各列の型を指定できます。 1行目は整数i，2と3行目はファクターfを指定して読み込みます。\n\ndf &lt;- read_csv(\n  \"data/chap2.csv\",\n  col_types = \"iff\"\n  )\n\n次にdplyrパッケージのfilter()関数を用いてB国のデータを取り出しつつ，select()関数で必要な変数だけを選び，summary()で記述統計量を計算します。 このように複数の処理を順番に行う場合には、|&gt;演算子を用いて、パイプラインを作成します。 |&gt;演算子は、左側の結果を右側の関数の第1引数に渡すことができます。\n\ndf |&gt; \n  dplyr::filter(nation==2) |&gt; \n  dplyr::select(-nation) |&gt; \n  summary()\n\n     income      gender\n Min.   :487.0   1:4   \n 1st Qu.:494.5   2:6   \n Median :499.5         \n Mean   :500.6         \n 3rd Qu.:502.0         \n Max.   :517.0         \n\n\n\n\nデータ操作パッケージdplyrのfilter()関数でデータを抽出し，filter()関数で変数を選択する。 - 変数はその変数以外という意味\ntidyverseパッケージ群のなかの強力な作図パッケージggplot2を用いてB国の収入のヒストグラムを書いてみましょう。\n\ndf_BB &lt;- df |&gt;\n  filter(nation == 2) |&gt; # B国のデータだけを抽出 \n  select(income,gender) # incomeとgenderの変数\n\nggplot(df_BB) + \n  aes(x = income) + # 所得をx軸に\n  geom_histogram(\n    binwidth = 5, \n    breaks = seq(485, 520, by=5), \n    colour=\"darkgreen\", \n    fill=\"skyblue\"\n  ) + theme_bw()\n\n\n\n\n\n\n\n性別の度数分布の棒グラフ\n\nggplot(data = df_BB) + \n  aes(gender) + \n  geom_bar(\n    colour = \"darkgreen\", \n    fill = \"skyblue\") + \n  theme_bw()\n\n\n\n\n\n\n\n男女別の所得分布を表す箱ひげ図\n\nggplot(df_BB) + \n  aes(y = income, x = gender) + \n  geom_boxplot(aes(fill = gender))\n\n\n\n\n\n\n\n課題補足\n\n絶対値を返す関数abs()\n\n小数点以下を切り捨てる関数floor() かtrunc()\n\n\n\n\n小数点以下を切り捨てるfloor()とtrunc()は引数がマイナスのとき返す結果が異なるので要注意\n\n# 正の値の時は問題ないが，\nfloor(3.14159)\n\n[1] 3\n\ntrunc(3.14159)\n\n[1] 3\n\n# 負の値の時は結果が異なる。\nfloor(-3.14159)\n\n[1] -4\n\ntrunc(-3.14159)\n\n[1] -3",
     "crumbs": [
       "データ解析法",
+      "基礎",
       "2日目: 記述統計と基本グラフ"
     ]
   },
@@ -128,6 +135,7 @@
     "text": "データの読み込みと確認\n2変数の関係を確認する方法として，クロス集計表と独立性の検定である \\chi^2 検定について学習します。 以下では、前回学習したtidyverseのパッケージを用いて、データの読み込みやデータの抽出・加工、グラフの作成を行います。\nchap5 &lt;- read_csv(\"data/chap5.csv\")\n\nRows: 25 Columns: 4\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\ndbl (4): ID, sex, satis, regu\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\ntable()関数を用いてシンプルなクロス表を作成します。 table()関数は引数として2つのベクトルを受け取り、クロス集計表を作成します。 このとき、ベクトルの要素がカテゴリカル変数となっている必要があります。\ntable(chap5$sex, chap5$regu) # クロス表を作成\n\n   \n     0  1\n  0 10  4\n  1  3  8\naddmargins()を用いて，クロス表に合計欄を付け加えます。\nt1 &lt;- table(chap5$sex, chap5$regu)\naddmargins(t1)\n\n     \n       0  1 Sum\n  0   10  4  14\n  1    3  8  11\n  Sum 13 12  25\n列合計と行合計が追加されていることが確認できました。\nprop.table()関数で相対度数にしてみます。 デフォルトでは，全体相対度数となっているが，オプションでmargin = 1を指定すると行相対度数，margin = 2を指定すると列相対度数となります。\nprop.table(t1)\n\n   \n       0    1\n  0 0.40 0.16\n  1 0.12 0.32\nテキストで紹介されているgmodels関数を用いると，キレイな表ができるがコードが長くなるので，各自で学習する。\nパッケージを読み込む。\npacman::p_load(gmodels)\nCrossTable()関数で作表する。\nCrossTable(chap5$sex, chap5$regu, \n           expected = F, prop.r = T, prop.c = F,\n           prop.t = F, prop.chisq = F,\n           chisq = T, asresid = T, format = \"SPSS\")\n\n\n   Cell Contents\n|-------------------------|\n|                   Count |\n|             Row Percent |\n|           Adj Std Resid |\n|-------------------------|\n\nTotal Observations in Table:  25 \n\n             | chap5$regu \n   chap5$sex |        0  |        1  | Row Total | \n-------------|-----------|-----------|-----------|\n           0 |       10  |        4  |       14  | \n             |   71.429% |   28.571% |   56.000% | \n             |    2.194  |   -2.194  |           | \n-------------|-----------|-----------|-----------|\n           1 |        3  |        8  |       11  | \n             |   27.273% |   72.727% |   44.000% | \n             |   -2.194  |    2.194  |           | \n-------------|-----------|-----------|-----------|\nColumn Total |       13  |       12  |       25  | \n-------------|-----------|-----------|-----------|\n\n \nStatistics for All Table Factors\n\n\nPearson's Chi-squared test \n------------------------------------------------------------\nChi^2 =  4.811855     d.f. =  1     p =  0.02826461 \n\nPearson's Chi-squared test with Yates' continuity correction \n------------------------------------------------------------\nChi^2 =  3.205388     d.f. =  1     p =  0.07339608 \n\n \n       Minimum expected frequency: 5.28",
     "crumbs": [
       "データ解析法",
+      "検定",
       "3日目：クロス集計表"
     ]
   },
@@ -139,6 +147,7 @@
     "text": "度数のみのシンプルなクロス表はtable()関数を用いて作成しますが、 連続変数の場合は、cut()関数を用いてカテゴリカル変数に変換する必要があります。\n\n\n\n\n周辺合計を追加するならaddmargins()\n\n\n\n\n\n相対度数のクロス表はprop.table()関数で，margin = 1で行相対度数，margin = 2で列相対度数のクロス表になる\n\n\n\n\n\n\n\ngmodelsパッケージのCrossTable()関数で情報量の多いクロス表が作成できる",
     "crumbs": [
       "データ解析法",
+      "検定",
       "3日目：クロス集計表"
     ]
   },
@@ -150,6 +159,7 @@
     "text": "クラメールのVと \\chi^2 検定\nr 行 \\times c 列のクロス表の行要素と列要素の関係の強さを表す尺度の1つにクラメールのV(Cremer’s V)があります。 クラメールのVの定義は次の通りです。 \nV = \\sqrt{\\frac{\\chi^2}{N \\times \\min (r-1,c-1)}}\n\nr 行 c 列のクロス集計表の i 行 j 列の観測度数を O_{ij}，期待度数を E_{ij}， i 行の合計を n_{i \\cdot}，j 列の合計を n_{\\cdot j}，全データの合計を n とおくと，分子の \\chi ^2 値は次式で計算される。\n\n\\chi ^2 = \\displaystyle \\sum_{i = 1}^r {\\displaystyle \\sum_{j = 1}^c}\n\\frac{(O_{ij} - E_{ij})^2}{E_{ij}}\n\nここで，期待度数E_{ij}は次式で求める。\n\nE_{ij} = \\frac{n_{i\\cdot} \\times n_{\\cdot j}}{n}\n\nクロス表からクラメールのVと\\chi ^2統計量を出力するため，vcdパッケージのassocstats()を用いる。\n\npacman::p_load(vcd)\nassocstats(t1)\n\n                    X^2 df P(&gt; X^2)\nLikelihood Ratio 4.9748  1 0.025719\nPearson          4.8119  1 0.028265\n\nPhi-Coefficient   : 0.439 \nContingency Coeff.: 0.402 \nCramer's V        : 0.439 \n\n\nクラメールのVは 0.439 と比較的強い関連性が確認できた。\nせっかくなので，上記の関数を使わずに，定義通りに計算して\\chi ^2値とクラメールのVを計算してみる。 クロス表は，\n\n\n\nあり\nなし\n\n\n\n男\n10\n4\n\n\n女\n3\n8\n\n\n\nここから，期待度数を計算する。\n\n\\begin{align*}\nE_{\\text{男},\\text{あり}} &= \\frac{14 \\times 13}{25} = 7.28\\\\\nE_{\\text{男},\\text{なし}} &= \\frac{14 \\times 12}{25} = 6.72\\\\\nE_{\\text{女},\\text{あり}} &= \\frac{11 \\times 13}{25} = 5.72\\\\\nE_{\\text{女},\\text{なし}} &= \\frac{11 \\times 12}{25} = 5.28\n\\end{align*}\n\nつまり期待度数のクロス表は次のようになる。\n\n\n\nあり\nなし\n\n\n\n男\n7.28\n6.72\n\n\n女\n5.72\n5.28\n\n\n\nこれをRで計算する。 期待度数を計算して，行列emを作成する。\n\nm &lt;- matrix(t1, nrow = 2, ncol = 2) # 実際の度数\nem &lt;- matrix(nrow=2,ncol=2) # 期待度数\nfor (i in 1:ncol(m)){\n  for (j in 1:nrow(m)) {\n  em[i,j] &lt;- (sum(m[i,]) * sum(m[,j])) / sum(m)  \n  }\n}\nprint(em) # emは期待度数の行列\n\n     [,1] [,2]\n[1,] 7.28 6.72\n[2,] 5.72 5.28\n\n\nここから\\chi^2値を計算し，chisq.test()関数の結果と比較する。\n\n(chi2 &lt;- sum( (m - em)^2 / em ))\n\n[1] 4.811855\n\n(res &lt;- chisq.test(t1))\n\n\n    Pearson's Chi-squared test with Yates' continuity correction\n\ndata:  t1\nX-squared = 3.2054, df = 1, p-value = 0.0734\n\n\nあれ，手計算の4.812と，関数3.205の結果が違う。。",
     "crumbs": [
       "データ解析法",
+      "検定",
       "3日目：クロス集計表"
     ]
   },
@@ -161,6 +171,7 @@
     "text": "2つのグループの平均値に差があるかどうかを検定するために，t 検定を用います。 社会科学では，2グループに対応関係があるケースはほとんど無く，また2グループの分散も通常等しくありません。 そこで，対応関係にない分散の異なる2グループの平均差の検定を行う際に用いるウェルチのt検定(Welch’s t-test)について説明する。\n検定は次のステップで行う。\n\n2群の平均値に差は無いと仮定する(帰無仮説)。\nWelchのt値を計算し，帰無仮説を前提とした下でデータが出現する確率(p値)を計算する。\np値が小さいと，帰無仮説の下でデータが得られることはあり得ない，と考える。\nある有意水準のもとで帰無仮説を棄却(reject)する。\n対立仮説を採択(accept)する。\n\n2グループの平均値に差は無い，という帰無仮説を考える。 ウェルチのt値は次のように定義される。\n\nt = \\frac{\\bar x_1 - \\bar x_2}{\\sqrt{\\frac{s^2_1}{n_1} + \\frac{s^2_2}{n_2}}}\n\n平均の差を図示する。\n平均の差を見るための作図パッケージgplotsを導入する。\n\npacman::p_load(gplots, tidyverse)\n\n\n\ngplotsをインストールするとエラーがでる場合があるようなので注意\nID，性別，結婚満足度尺度からなるデータセットを読み込む。\n\nd6 &lt;- read_csv(\"data/chap6.csv\")\n\nRows: 20 Columns: 3\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\ndbl (3): ID, sex, m_satis\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\nまず，結婚満足度の男女差を図示する。\n\nplotmeans(d6$m_satis ~ d6$sex)\n\n\n\n\n\n\n\nこのままだと縦軸の範囲が狭く，グラフが見づらいので，縦軸などを少し調整する。 plotmeans関数のオプションとして，ylimでY軸の範囲を，connectで平均をつなげる直線を引くかどうかを決める。\n\nplotmeans(d6$m_satis ~ d6$sex, ylim=c(1,5), connect = F)\n\n\n\n\n\n\n\nこれより，平均にはあまり差が無いように見える。 次に等分散を仮定しないウェルチのt検定を行い，統計的に差を評価する。\n\nres &lt;- t.test(d6$m_satis~ d6$sex)\nprint(res)\n\n\n    Welch Two Sample t-test\n\ndata:  d6$m_satis by d6$sex\nt = 0.93704, df = 17.989, p-value = 0.3611\nalternative hypothesis: true difference in means between group 1 and group 2 is not equal to 0\n95 percent confidence interval:\n -0.4968692  1.2968692\nsample estimates:\nmean in group 1 mean in group 2 \n            4.4             4.0 \n\n\n分析の結果から，グループ1の平均は4.4，グループ2の平均は4.0であった。 t値は，0.94となり， このとき帰無仮説の下でこの差が出てくる確率は0.36となる。 よって帰無仮説の下でこの差がでてくることがあり得ないとはいえず，2群の平均値には差があるとはいえない。 したがって，結婚満足度の男性平均と女性平均に差があるかどうか分からない。\n\n\n帰無仮説を棄却できなかったことから，「差が無い」ということを主張できないことに注意しよう。\n問題6.1\n悩みの相談相手の人数が性別により異なるのかを調べる。 まず，ID，性別，相談相手の人数についてのデータセットを読み込む。\n\nd6.hw &lt;- read_csv(\"data/chap6.hw.csv\")\n\nRows: 19 Columns: 3\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\ndbl (3): ID, sex, friend\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\nまずはデータの特徴を掴むためにplotmeans()を用いて図示する。\n\nplotmeans(d6.hw$friend ~ d6.hw$sex, ylim=c(0,5), connect = F)\n\n\n\n\n\n\n\n今度は女子の相談相手人数の平均は男性のを大きく上回っていることが図より明らかである。 さらにウェルチの平均の差の検定を行い，統計的にこの差が有意なものなのかどうか，を検証する。\n\nres &lt;- t.test(d6.hw$friend ~ d6.hw$sex)\nprint(res)\n\n\n    Welch Two Sample t-test\n\ndata:  d6.hw$friend by d6.hw$sex\nt = -2.3062, df = 16.439, p-value = 0.03443\nalternative hypothesis: true difference in means between group 1 and group 2 is not equal to 0\n95 percent confidence interval:\n -2.8545203 -0.1232574\nsample estimates:\nmean in group 1 mean in group 2 \n       1.400000        2.888889 \n\n\nt値は，-2.31となり， このとき帰無仮説の下でこの差が出てくる確率は0.03となる。 よって帰無仮説の下でこの差がでてくる確率は極めて低いことから，帰無仮説を棄却し，2群の平均値には差があるといえる。 したがって，悩みの相談相手の人数について，女性は男性よりも悩みを相談する相手が多い，といえる。\n\n\nこの文中にあるt値やp値も数字を入力するのではなく，R関数をインラインに埋め込んで表示させている。 r round(res$statistic,digits=2)でt値などを取り出せる。round()は数値を丸めるための関数です。\nウェルチのt値を手作業で計算\n\nn1 &lt;- length(d6.hw$friend[d6.hw$sex==1])\nn2 &lt;- length(d6.hw$friend[d6.hw$sex==2])\nm1 &lt;- mean(d6.hw$friend[d6.hw$sex==1])\nm2 &lt;- mean(d6.hw$friend[d6.hw$sex==2])\ns1 &lt;- var(d6.hw$friend[d6.hw$sex==1])\ns2 &lt;- var(d6.hw$friend[d6.hw$sex==2])\nwelch_t &lt;- ( m1 - m2 ) / sqrt( (s1/n1) + (s2/n2) )\n\nウェルチのt値を計算すると，-2.31となる。 ウェルチのt検定で用いられる自由度は\n\nv \\sim \\frac{\\left ( \\frac{s_1^2}{n_1} + \\frac{s_2^2}{n_2}  \\right )^2 }{\\frac{s_1^4}{n_1^2 (n_1 - 1)} + \\frac{s_2^4}{n_2^2 ( n_2 -1)}}\n\nで計算される。\n\nv &lt;-     ((s1/n1) + (s2/n2) )^2 /# \n#---------------------------------------------\n  ( (s1^2 / (n1^2*(n1-1))) + ( s2^2 / (n2^2*(n2-1))) ) \n\n自由度は，16.44となる。 t値が-2.31，自由度が16.44であるとき，t分布のもとで差が無いという結果が出る確率を表すp値は， 0.0341となり，有意水準5％のもとで帰無仮説が棄却される。\n以上の計算を関数としてオブジェクトにしておく。\n\nwelch &lt;- function(d1,d2){\n  n1 &lt;- length(d1)\n  n2 &lt;- length(d2)\n  m1 &lt;- mean(d1)\n  m2 &lt;- mean(d2)\n  s1 &lt;- var(d1)\n  s2 &lt;- var(d2)\n  w &lt;- ( m1 - m2 ) / sqrt( (s1/n1) + (s2/n2) )\n  v &lt;- ((s1/n1) + (s2/n2) )^2 / ( (s1^2 / (n1^2*(n1-1))) + ( s2^2 / (n2^2*(n2-1))) ) \n  p &lt;- dt(w,v)\n   if (p &lt; 0.01) {\n   print(\"1％水準で有意!\")\n } else if (p &lt; 0.05) {\n   print(\"5％水準で有意!\")\n } else if (p &lt; 0.10) {\n   print(\"10％水準で有意!\")\n } else \n   print(\"なにもいえない。\")\n}\n\n先ほどの結果を再現してみる。\n\nd1 &lt;- d6.hw$friend[d6.hw$sex==1]\nd2 &lt;- d6.hw$friend[d6.hw$sex==2]\nwelch(d1,d2)\n\n[1] \"5％水準で有意!\"",
     "crumbs": [
       "データ解析法",
+      "検定",
       "4日目：平均の差の検定"
     ]
   },
@@ -172,6 +183,7 @@
     "text": "分散分析の考え方\n4日目で学習した平均の差の分析を複数回行うことで，3つ以上のグループに平均の差があるかどうか，を検証することができるように思うかもしれませんが、それは誤った検証方法です。 そこでまずは複数回のt検定が誤った結果をもたらす可能性を検討します。\n大事なことは，ある事象が生じる確率と複数回思考を行った際に有る事象が少なくとも1回生じる確率は同じでは無い、ということです。 たとえば、サイコロを1つ投げて1の目が出る確率は 1/6 ですが、サイコロを2個同時に振って，少なくとも一方で1の目が出る確率は 1 - (5/6)^2 = 11/36 となり，1つのサイコロで1の目が出る確率 1/6 よりも高くなります。\nこれを一般化すると，次のように表現できます。 ある事象pがn回の試行のうち，1回でも起こる確率は， \n1 - (1-p)^n\n となります。\nつまり，t 検定でいう有意確率5％のもとで，2回の試行のうち，1回でも帰無仮説を誤って棄却してしまう確率は，\n1 - (1-0.05)^2 = 1 - 0.9025 = 0.0975\nとなり，有意確率5％の倍近い確率となっていることが分かります。 これが複数回のt検定を行うことが誤った結果をもたらす理由です。\n3つ以上のグループ間に，グループ間の差があるかどうかを調べる方法が分散分析(Analysis of Variance: ANOVA)です。 以下では分散分析の考え方を説明します。\nデータ全体の散らばり(分散)は，グループ間の分散とグループ内の分散に分けることができます。 数式で表現すると，\n\\sum _{j=1}^k \\sum_{i=1}^{n_i}(x_{ij} - \\bar x)^2 = \\sum _{j=1}^k (\\bar x_{.j} - \\bar x)^2 + \\sum _{j=1}^k \\sum _{i=1}^{n_i} (x_{ij} - \\bar x_{.j})^2",
     "crumbs": [
       "データ解析法",
+      "多変量の分析",
       "5日目：分散分析"
     ]
   },
@@ -183,6 +195,7 @@
     "text": "分析\nまず，各種パッケージを呼び出して，データを読み込む。\n\npacman::p_load(tidyverse, gplots)\nd7 &lt;- read_csv(\"data/chap7.csv\")\n\nRows: 30 Columns: 3\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (1): state\ndbl (2): ID, kaji\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n国別の男性家事時間を表す仮想データを用いて，国ごとに男性の家事を行う時間に差があるかどうかを示す。 第5章で用いた作図関数plotmeans()を用いて，グラフを書く。\n\nplotmeans(kaji ~ state, data=d7, connect = F, ylim=c(50,150))\n\n\n\n\n\n\n\nテキストの図7.1のような箱ひげ図も書いてみる。\n\nboxplot(kaji ~ state, data=d7)\n\n\n\n\n\n\n\n次に，oneway.test()を用いて一元配置分散分析を行う。\n\noneway.test(kaji ~ state, data=d7)\n\n\n    One-way analysis of means (not assuming equal variances)\n\ndata:  kaji and state\nF = 95.559, num df = 2.00, denom df = 13.77, p-value = 8.445e-09\n\n\n多重比較を行うため，Tukey-Kramerの方法をTukeyHSD()を用いる。\n\nTukeyHSD(aov(kaji ~ state, data=d7))\n\n  Tukey multiple comparisons of means\n    95% family-wise confidence level\n\nFit: aov(formula = kaji ~ state, data = d7)\n\n$state\n       diff       lwr       upr     p adj\nJP-FR -69.8 -89.89286 -49.70714 0.0000000\nUK-FR  -9.9 -29.99286  10.19286 0.4510044\nUK-JP  59.9  39.80714  79.99286 0.0000002",
     "crumbs": [
       "データ解析法",
+      "多変量の分析",
       "5日目：分散分析"
     ]
   },
@@ -194,6 +207,7 @@
     "text": "散布図\n2つの連続変数(continuous variables)間の関係をみるための方法を学習する。 たとえば，職の社会的威信の高さ(威信スコア)と収入の関連を調べるとする。 社会学では威信スコアを用いて次のような研究を行っている。\nまず連続変数と連続変数の関係を調べるため，散布図(scatter diagram)を書き，その後に相関係数(correlation coefficient)をみる。\n散布図(scatter diagram)とは，2変数の値の組を点で表した図であり，全体的な傾向をつかむ。 最初からRで用意されているデータセットcarsを用いて散布図を書く。\npar(family=\"HiraKakuPro-W3\")\nplot(\n  cars$dist, cars$speed, \n  xlab=\"距離\", ylab=\"速度\"\n  )",
     "crumbs": [
       "データ解析法",
+      "多変量の分析",
       "6日目 : 相関分析"
     ]
   },
@@ -205,6 +219,7 @@
     "text": "作図はplot()で行う。plot(y軸,x軸)と書く。",
     "crumbs": [
       "データ解析法",
+      "多変量の分析",
       "6日目 : 相関分析"
     ]
   },
@@ -216,6 +231,7 @@
     "text": "ピアソンの積率相関係数\nピアソンの積率相関係数(peason’s correlation coefficient)を求める。 相関係数を計算するために必要な要素として，2変数の共分散(covariance)を計算する。 変数xとyの共分散C_{xy}は，\n\nC_{xy} = \\frac 1n \\sum_{t=1}^n (x_i - \\bar x) (y_i - \\bar y)\n\nと計算できる。 ここで分子がxとyのかけ算となっていることに注目しよう。 各変数から平均値を除いて散布図を書くと，\n\npar(family=\"HiraKakuPro-W3\")\nmdist &lt;- cars$dist - mean(cars$dist)\nmspeed &lt;- cars$speed - mean(cars$speed)\nplot(mdist,mspeed,xlab=\"距離の平均偏差\", ylab=\"速度の平均偏差\")\nabline(h = mean(mspeed))\nabline(v = mean(mdist))\n\n\n\n\n\n\n\nとデータの中心(平均)が0になっていることが分かる。 この2変数のかけ算となるため，右上と左下の組は符号が正となり，左上と右下の組の組は符号が負となる。 このかけ算の結果の平均が共分散であるため，共分散の符号が正ということは，右上や左下のデータが多い，つまり右肩上がりの関係がある，ということである。\n\npar(family=\"HiraKakuPro-W3\")\ngroup &lt;- as.factor(ifelse(mdist &gt;= 0 & mspeed &gt;= 0 | mdist &lt; 0 & mspeed &lt; 0, 1, 0))\nplot(mdist,mspeed,col=c(\"blue\",\"red\")[group],xlab=\"距離の平均偏差\",ylab=\"速度の平均偏差\")\nabline(h = mean(mspeed))\nabline(v = mean(mdist))\n\n\n\n\n\n\n\n共分散は2変数のかけ算となっており，単位に依存してしまうため，各変数の標本標準偏差sで除することで基準化したものが，相関係数(correlation coefficient)である。\n\nr _{xy} = \\frac{C_{xy}}{s_x \\times s_y} = \\frac{\\frac 1n \\sum _{i=1}^n (x_i - \\bar x)(y_i - \\bar y)}{\\sqrt{\\frac 1n \\sum _{i=1}^n (x_i - \\bar x)^2} \\times \\sqrt{\\frac 1n \\sum _{i=1}^n (y_i - \\bar y)^2} }\n\nこれは定義より-1から1の値を取る。",
     "crumbs": [
       "データ解析法",
+      "多変量の分析",
       "6日目 : 相関分析"
     ]
   },
@@ -227,6 +243,7 @@
     "text": "相関係数の統計的検定\nt値を算出して判定する。 母集団における相関係数が0であるという帰無仮説の下でのt値を計算する。\n\nt = |r| \\times \\frac{\\sqrt{n-2}}{\\sqrt{1-r^2}}",
     "crumbs": [
       "データ解析法",
+      "多変量の分析",
       "6日目 : 相関分析"
     ]
   },
@@ -238,6 +255,7 @@
     "text": "相関係数の結果の出し方\n対角線の右上(グレー部分)は書いても書かなくてもOKである。有意かどうかの記号を数値の右に書く。 表の注で，サンプルサイズnや有意性の記号の意味を説明する。\n\n\n\n年齢\n教育年数\n職業威信スコア\n個人所得\n\n\n\n年齢\n1.00\n-\n-\n-\n\n\n教育年数\n-0.19**\n1.00\n-\n-\n\n\n職業威信スコア\n-0.05\n0.37**\n1.00\n-\n\n\n個人所得\n0.11**\n0.27**\n0.39**\n1.00",
     "crumbs": [
       "データ解析法",
+      "多変量の分析",
       "6日目 : 相関分析"
     ]
   },
@@ -249,6 +267,7 @@
     "text": "相関分析の注意\n\n異なる相関関係をもつグループは分けて分析する\n相関係数は外れ値の影響を受けやすい",
     "crumbs": [
       "データ解析法",
+      "多変量の分析",
       "6日目 : 相関分析"
     ]
   },
@@ -260,6 +279,7 @@
     "text": "教育年数と職業威信スコア\nまず，教育年数eduyと職業威信スコアpresの散布図を書く。\n\nplot(df$pres ~ df$eduy)\n\n\n\n\n\n\n\n\n\nplot()はplot(縦軸 ~ 横軸)の順番で書く。\nこの散布図より，教育年数が長いほど職業威信スコアが高い，という傾向にあることがわかる。\n次に，相関係数を計算し，検定も同時に行うために，cor.test()を用いる。\n\ncor.test(df$pres,df$eduy, alternative = \"two.side\")\n\n\n    Pearson's product-moment correlation\n\ndata:  df$pres and df$eduy\nt = 2.8041, df = 18, p-value = 0.01173\nalternative hypothesis: true correlation is not equal to 0\n95 percent confidence interval:\n 0.1440048 0.7989618\nsample estimates:\n      cor \n0.5513883 \n\n\n\n\ncor.test()は，相関係数とt検定を同時に表示してくれる基本関数である。相関係数だけならcor()で出せる。\nとなる。\n相関係数は，0.55となり，比較的強い正の相関があることがわかる。 また，t検定の結果，p値は0.0117 であり，5％水準で有意である。\n愚直に計算してみる。\n定義通りに相関係数やt値を計算し，上記の結果が正しいかどうか確認する。 まず，相関係数を計算する。\n\ndpres &lt;- df$pres - mean(df$pres)\ndeduy &lt;- df$eduy - mean(df$eduy)\ncov &lt;- sum( dpres*deduy) / (nrow(df)-1)\n\nsy &lt;- sqrt ( sum( dpres^2) / (nrow(df)-1) )\nsx &lt;- sqrt ( sum( deduy^2) / (nrow(df)-1) )\n\nryx &lt;- cov/(sy*sx)\nryx\n\n[1] 0.5513883\n\n\n相関係数が0.55と計算でき，上記結果と一致した。 次に，t値を計算する。\n\ntval &lt;- abs(ryx) * sqrt( nrow(df) - 2 )  / sqrt( 1-ryx^2 )\nround(dt(tval, nrow(df)-2) ,digits=4)\n\n[1] 0.0126\n\n\nt値は2.8041となり，上記結果と一致している。 自由度18，t値が2.8041のもとでp値は，0.0126となる。あれ，結果がちょっと違う。。。",
     "crumbs": [
       "データ解析法",
+      "多変量の分析",
       "6日目 : 相関分析"
     ]
   },
@@ -271,6 +291,7 @@
     "text": "教育年数と所得\n課題として，教育年数と所得のデータを用いて再分析する。 最後には，ID以外の変数間の相関係数を計算し，相関行列を作成する。 相関行列を出力するためのパッケージが複数存在するので，それを見つけて使ってみよう。\nまずは教育年数と所得の散布図を作成する。\n\nplot(df$income ~ df$eduy)\n\n\n\n\n\n\n\nこの散布図から，教育年数が長いほど所得が高い傾向にあることがわかる。 次に，相関係数とそのt検定を行う。\n\ncor.test(df$income,df$eduy)\n\n\n    Pearson's product-moment correlation\n\ndata:  df$income and df$eduy\nt = 3.693, df = 18, p-value = 0.001665\nalternative hypothesis: true correlation is not equal to 0\n95 percent confidence interval:\n 0.3016857 0.8516407\nsample estimates:\n     cor \n0.656555 \n\n\n相関係数は，0.66となり，比較的強い正の相関があることがわかる。 また，t検定の結果，p値は0.0017 であり，1％水準で有意である。 したがって，教育年数と所得との間に相関関係は無い，という帰無仮説は棄却され，統計的に有意な正の相関が確認された。",
     "crumbs": [
       "データ解析法",
+      "多変量の分析",
       "6日目 : 相関分析"
     ]
   },
@@ -282,6 +303,7 @@
     "text": "相関係数表\n最後に，全変数の相関係数を計算し，相関係数表を作成する。 相関係数の視覚化に用いられるパッケージとして，psychとcorrrを用いてみる。\nまず基本関数であるcor()を用いて，相関係数行列を作成する。\n\nround(cor(df[,c(\"eduy\",\"pres\",\"income\",\"class\")]),digits = 2)\n\n       eduy pres income class\neduy   1.00 0.55   0.66  0.22\npres   0.55 1.00   0.31  0.16\nincome 0.66 0.31   1.00  0.56\nclass  0.22 0.16   0.56  1.00\n\n\nシンプルです。 次に，心理学で用いられるパッケージpsychを用いて，作図する。\n\nlibrary(psych)                # psychパッケージ\n\n\n次のパッケージを付け加えます: 'psych'\n\n\n以下のオブジェクトは 'package:ggplot2' からマスクされています:\n\n    %+%, alpha\n\npar(family=\"HiraKakuPro-W3\")  # Macで日本語表示する\npairs.panels(df[,c(\"eduy\",\"pres\",\"income\",\"class\")])\n\n\n\n\n\n\n\n\n\npsychパッケージは，心理学研究で用いられる分析道具や作図ができる便利なもの。 ここではpairs.panels()で相関係数行列を作成してみた。\nグラフィカルです。\n最後に，もっとも有力かつ見た目に美しい図表が作成可能なcorrrパッケージを紹介する。\n\n# install.packages(\"corrr\")\nlibrary(tidyverse)\nlibrary(corrr)\n\ncorrelate()関数で作表する。\n\ncortab &lt;- correlate(df[,c(\"eduy\",\"pres\",\"income\",\"class\")])\n\nCorrelation computed with\n• Method: 'pearson'\n• Missing treated using: 'pairwise.complete.obs'\n\ncortab %&gt;% shave %&gt;% fashion(decimals = 3)\n\n\n\n\nterm\neduy\npres\nincome\nclass\n\n\n\neduy\n\n\n\n\n\n\npres\n.551\n\n\n\n\n\nincome\n.657\n.307\n\n\n\n\nclass\n.218\n.164\n.561\n\n\n\n\n\n\n\n作図もできる。\n\nrplot(cortab)\n\n\n\n\n\n\n\nもう少し工夫してみる。\n\ng2 &lt;- rearrange(cortab, absolute = FALSE) %&gt;% \n  shave() %&gt;% \n  rplot(print_cor = TRUE)\ng2\n\n\n\n\n\n\n\nこんなのも作れる。\n\nnetwork_plot(cortab)",
     "crumbs": [
       "データ解析法",
+      "多変量の分析",
       "6日目 : 相関分析"
     ]
   },
@@ -290,9 +312,10 @@
     "href": "DataAnalysis_chap06.html#シミュレーション",
     "title": "6日目 : 相関分析",
     "section": "シミュレーション",
-    "text": "シミュレーション\nまず母集団が無相関の2変数を作成する。\n\nn &lt;- 10000\nx &lt;- rnorm(n ,mean = 0, sd = 1)\ny &lt;- rnorm(n, mean = 0, sd = 10)\n\nrnorm()で正規分布からデータを10,000個ずつ取り出して，xとyの2変数を作成する。 もちろん，この2変数間の相関係数は0.01である。\n次に，この2変数から100個のサンプルを取り出し，相関係数を計算する。\n\nset.seed(121)\nsx &lt;- sample(x,100,rep=T)\nsy &lt;- sample(y,100,rep=T)\nplot(sx,sy)\n\n\n\n\n\n\ncor(sx,sy)\n\n[1] -0.06590982\n\n\n相関係数は，-0.0659098となった。 次に，この試行を10,000回繰り返し，相関係数10,000個のヒストグラムを作成する。\n\nset.seed(121)\ntrial = 10000\nres &lt;- numeric(trial)\nfor (i in 1:trial) {\n  sx &lt;- sample(x, 100, rep=T)\n  sy &lt;- sample(y, 100, rep=T)\n  res[i] &lt;- cor(sx,sy)\n}\nhist(res)\n\n\n\n\n\n\n\nこの相関係数の分布は，平均が-0.0014，標準偏差が0.1019のt分布に従っている。",
+    "text": "シミュレーション\nまず母集団が無相関の2変数を作成する。\n\nn &lt;- 10000\nx &lt;- rnorm(n ,mean = 0, sd = 1)\ny &lt;- rnorm(n, mean = 0, sd = 10)\n\nrnorm()で正規分布からデータを10,000個ずつ取り出して，xとyの2変数を作成する。 もちろん，この2変数間の相関係数は0である。\n次に，この2変数から100個のサンプルを取り出し，相関係数を計算する。\n\nset.seed(121)\nsx &lt;- sample(x,100,rep=T)\nsy &lt;- sample(y,100,rep=T)\nplot(sx,sy)\n\n\n\n\n\n\ncor(sx,sy)\n\n[1] 0.07699288\n\n\n相関係数は，0.0769929となった。 次に，この試行を10,000回繰り返し，相関係数10,000個のヒストグラムを作成する。\n\nset.seed(121)\ntrial = 10000\nres &lt;- numeric(trial)\nfor (i in 1:trial) {\n  sx &lt;- sample(x, 100, rep=T)\n  sy &lt;- sample(y, 100, rep=T)\n  res[i] &lt;- cor(sx,sy)\n}\nhist(res)\n\n\n\n\n\n\n\nこの相関係数の分布は，平均が-5^{-4}，標準偏差が0.101のt分布に従っている。",
     "crumbs": [
       "データ解析法",
+      "多変量の分析",
       "6日目 : 相関分析"
     ]
   },
@@ -304,6 +327,7 @@
     "text": "相関と因果関係\n3変数の関連は統計分析で重要であり，そのうち\nといった重要概念について学習する。\nただの「関係性」から原因と結果の「因果関係」へと議論をシフトすることで，「なぜそのような関連があるのか」という因果関係・原因・メカニズムを探求する。\n因果関係の条件\n媒介関係や疑似相関関係を分析するには，第3変数の影響を取り除くと，2つの関連はどうなるかを確認する。 これをコントロールするや統制するという。\n変数により分析方法の違い",
     "crumbs": [
       "データ解析法",
+      "多変量の分析",
       "7日目 : 3変数の関連"
     ]
   },
@@ -315,6 +339,7 @@
     "text": "2変数間に関連があること\n2変数間に時間的な順序関係がある（原因が先で結果が後）\n2変数間の関係が，時間的に先行する他の変数によって説明されないこと（疑似相関，見せかけの相関でないこと）\n\n\n\n\n3つのカテゴリ変数：3重クロス表\n3つの連続変数：偏相関係数",
     "crumbs": [
       "データ解析法",
+      "多変量の分析",
       "7日目 : 3変数の関連"
     ]
   },
@@ -326,6 +351,7 @@
     "text": "偏相関係数 (partial correlation coefficient)\n変数zをコントロールした上で，変数xとyの偏相関係数は次のように定義される。\n\nr_{xy\\cdot z} = \\frac{r_{xy} - r_{xz}r_{yz}}{\\sqrt{1 - r_{xz}^2} \\sqrt{1 - r_{yz}^2}}",
     "crumbs": [
       "データ解析法",
+      "多変量の分析",
       "7日目 : 3変数の関連"
     ]
   },
@@ -337,6 +363,7 @@
     "text": "分析\n練習用データattitudeを用いて，偏相関係数の計算を行う。\n\nd9 &lt;- data.frame(attitude)\nattach(d9)\n\n上司に対する総合的な評価(rating)は，上司が成果に応じて昇進を認めてくれるかどうかについて評価(raises)で決まる，という仮説を考えてみる。 まず，cor.test()を用いて相関係数の検定を行う。\n\ncor.test(rating,raises)\n\n\n    Pearson's product-moment correlation\n\ndata:  rating and raises\nt = 3.8681, df = 28, p-value = 0.0005978\nalternative hypothesis: true correlation is not equal to 0\n95 percent confidence interval:\n 0.2919385 0.7837714\nsample estimates:\n     cor \n0.590139 \n\n\n分析の結果，0.590139と高い相関があることが分かる。 しかし，他の第3の変数の存在を見落としている可能性もある。 そこで，全変数の相関行列をみてみる。\n\ncor(d9)\n\n              rating complaints privileges  learning    raises  critical\nrating     1.0000000  0.8254176  0.4261169 0.6236782 0.5901390 0.1564392\ncomplaints 0.8254176  1.0000000  0.5582882 0.5967358 0.6691975 0.1877143\nprivileges 0.4261169  0.5582882  1.0000000 0.4933310 0.4454779 0.1472331\nlearning   0.6236782  0.5967358  0.4933310 1.0000000 0.6403144 0.1159652\nraises     0.5901390  0.6691975  0.4454779 0.6403144 1.0000000 0.3768830\ncritical   0.1564392  0.1877143  0.1472331 0.1159652 0.3768830 1.0000000\nadvance    0.1550863  0.2245796  0.3432934 0.5316198 0.5741862 0.2833432\n             advance\nrating     0.1550863\ncomplaints 0.2245796\nprivileges 0.3432934\nlearning   0.5316198\nraises     0.5741862\ncritical   0.2833432\nadvance    1.0000000\n\n\nすると，上司に対する総合的な評価(rating)は他の変数とも高い相関があることが分かる。 そこで，「上司が研修の機会を与えてくれるかどうか(learning)を追加して，分析してみる。\n\ncor.test(raises,learning) # 成果昇進と研修機会\n\n\n    Pearson's product-moment correlation\n\ndata:  raises and learning\nt = 4.4111, df = 28, p-value = 0.0001384\nalternative hypothesis: true correlation is not equal to 0\n95 percent confidence interval:\n 0.3640191 0.8130294\nsample estimates:\n      cor \n0.6403144 \n\ncor.test(rating,learning) # 上司への評価と研修機会\n\n\n    Pearson's product-moment correlation\n\ndata:  rating and learning\nt = 4.2219, df = 28, p-value = 0.0002311\nalternative hypothesis: true correlation is not equal to 0\n95 percent confidence interval:\n 0.3397475 0.8034243\nsample estimates:\n      cor \n0.6236782 \n\n\n偏相関係数を計算する。\n\n#install.packages(\"ppcor\")\nlibrary(ppcor)\n\n要求されたパッケージ MASS をロード中です\n\npcor.test(rating,raises,learning)\n\n\n\n\nestimate\np.value\nstatistic\nn\ngp\nMethod\n\n\n0.3177593\n0.0930017\n1.741379\n30\n1\npearson\n\n\n\n\n\nつまり研修機会をコントロールした後の，成果に応じた昇進と上司の総合的評価との偏相関係数は，0.3177593となり，前に計算した相関係数0.590139と比べて小さな値となり，研修機会の提供が影響を与えていることがわかる。",
     "crumbs": [
       "データ解析法",
+      "多変量の分析",
       "7日目 : 3変数の関連"
     ]
   },
@@ -348,6 +375,7 @@
     "text": "課題\n上記の分析で，learningの代わりにprivilegesを用いて再検証してみる。\nまずは，rating，raisesとprivilegesの相関係数を計算してみる。\n\ncor.test(raises,learning) # 成果昇進と研修機会\n\n\n    Pearson's product-moment correlation\n\ndata:  raises and learning\nt = 4.4111, df = 28, p-value = 0.0001384\nalternative hypothesis: true correlation is not equal to 0\n95 percent confidence interval:\n 0.3640191 0.8130294\nsample estimates:\n      cor \n0.6403144 \n\ncor.test(rating,learning) # 上司への評価と研修機会\n\n\n    Pearson's product-moment correlation\n\ndata:  rating and learning\nt = 4.2219, df = 28, p-value = 0.0002311\nalternative hypothesis: true correlation is not equal to 0\n95 percent confidence interval:\n 0.3397475 0.8034243\nsample estimates:\n      cor \n0.6236782 \n\n\n次に，「部下をえこひいきしないことへの評価」を表すprivilegesをコントロールした場合の，成果昇進と上司に対する総合的評価の偏相関係数を計算する。\n\npcor.test(rating,raises,privileges)\n\n\n\n\nestimate\np.value\nstatistic\nn\ngp\nMethod\n\n\n0.4942488\n0.0064257\n2.954252\n30\n1\npearson\n\n\n\n\n\n偏相関係数は0.494となり，えこひいきしないことも少しは影響しているが，成果昇進と上司に対する総合的評価の関係に強い影響を与えているわけではない。\n\npacman::p_load(lavaan, semPlot)\n\n# 回帰\nres1 &lt;- lm(rating ~ raises*privileges, data = d9)\n#res2 &lt;- lm(rating ~ privileges, data = d9)\nres3 &lt;- lm(privileges ~ raises, data = d9)\n# パス図を描画\nsemPaths(res1 + res3, \"model\", \"est\", intercepts = FALSE)",
     "crumbs": [
       "データ解析法",
+      "多変量の分析",
       "7日目 : 3変数の関連"
     ]
   },
@@ -359,6 +387,7 @@
     "text": "回帰分析の準備\n2種類のn個のデータY_iとX_i，i=1,\\dots ,nが手元にあり，この2変数の線形関係を分析したいと考える。 回帰分析では，次のような関係を考える。\nY_i = a + b X_i + \\varepsilon _i\nデータの関係をもっとも良く説明できる直線を推定する。つまり，パラメータaとbを決めたい，ということである。 そこで何らかのパラメータaとbの下で推定されたものを\\hat Y(わいはっと)で表す。\n\\hat Y_i = a + b X_i\nしかし，実際のデータはモデルの直線上にすべて乗っているわけではなく，誤差がある。\nY_i - \\hat Y_i = \\varepsilon _i\n誤差の自乗和を考える。\nQ = \\sum _{i=1}^n \\varepsilon ^2 = \\sum _{i=1}^n (Y_i - a - bX_i)^2\nこの誤差の二乗和Qを最小にするようなパラメータaとbの求める方法が最小自乗法(Ordinaly Least Square Method)である。\n\\min_{a,b} Q %= \\varepsilon^2 = \\min_{a,b} (Y_i - (a + bX_i))^2\n上記の問題をといた\\hat aと\\hat bが最小二乗推定値となる。\n職業威信スコアがどのような要因に影響を受けているのかを考える。\npacman::p_load(tidyverse)\nchap11 &lt;- read_csv(\"data/chap11.csv\")\n\nRows: 20 Columns: 5\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\ndbl (5): ID, age, eduy, job_sc, f_job_sc\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\nデータの記述統計量を確認する。\nsummary(chap11)\n\n       ID             age             eduy        job_sc         f_job_sc    \n Min.   : 1.00   Min.   :21.00   Min.   : 9   Min.   :38.10   Min.   :42.00  \n 1st Qu.: 5.75   1st Qu.:31.75   1st Qu.:12   1st Qu.:43.83   1st Qu.:45.60  \n Median :10.50   Median :53.50   Median :12   Median :48.55   Median :48.55  \n Mean   :10.50   Mean   :47.40   Mean   :12   Mean   :49.23   Mean   :48.66  \n 3rd Qu.:15.25   3rd Qu.:60.50   3rd Qu.:12   3rd Qu.:52.20   3rd Qu.:51.30  \n Max.   :20.00   Max.   :70.00   Max.   :16   Max.   :84.30   Max.   :63.60\n教育年数(eduy)と職業威信スコア(job_sc)の散布図を確認する。\nplot(chap11$eduy,chap11$job_sc)\n異常値の存在が懸念されるが，おおよそ右肩上がりの関係があるように見える。 散布図に直線を引くとこんな感じになる。\npar(family=\"HiraKakuProN-W3\")\nplot( # 散布図\n  chap11$eduy, chap11$job_sc, \n  xlab=\"教育年数\", \n  ylab=\"職業威信スコア\"\n  )\nres &lt;- lm(chap11$job_sc ~ chap11$eduy) # 推定\nabline(res,color=\"red\") #回帰直線を追加\n\nWarning in int_abline(a = a, b = b, h = h, v = v, untf = untf, ...): \"color\"\nはグラフィックスパラメータではありません",
     "crumbs": [
       "データ解析法",
+      "回帰分析",
       "8日目 : 回帰分析"
     ]
   },
@@ -370,6 +399,7 @@
     "text": "被験者の年齢は21歳から70歳\n教育年数は9年(中卒)から16年(大卒)",
     "crumbs": [
       "データ解析法",
+      "回帰分析",
       "8日目 : 回帰分析"
     ]
   },
@@ -381,6 +411,7 @@
     "text": "回帰分析の実践\n単回帰分析\n次に，最小自乗法による回帰分析を行う。ここでは従属変数を職業威信スコア，独立変数を教育年数とする。つまり， \n\\text{職業威信スコア}  = \\alpha + \\beta \\times \\text{教育年数} + \\varepsilon\n\nの回帰モデルを推定する。回帰モデルの推定は，lm()関数を用いる。\n\n\nlm(従属変数 ~ 独立変数)のように書く。\n\nres01 &lt;- lm(job_sc ~ eduy, data = chap11)\nsummary(res01)\n\n\nCall:\nlm(formula = job_sc ~ eduy, data = chap11)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-11.125  -5.918  -0.675   2.975  26.485 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)  \n(Intercept)  23.4536    11.9975   1.955   0.0663 .\neduy          2.1476     0.9855   2.179   0.0428 *\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 9.032 on 18 degrees of freedom\nMultiple R-squared:  0.2087,    Adjusted R-squared:  0.1648 \nF-statistic: 4.749 on 1 and 18 DF,  p-value: 0.04285\n\n\n単回帰分析の結果，教育年数の回帰係数は，2.148となり，p値が0.043であり統計的に有意な正の関係があることがわかった。 つまり，教育年数が1年上昇すると職業威信スコアが2.14上がる。\n重回帰分析\n次に，独立変数に年齢を加えた重回帰分析を行う。 \n\\text{職業威信スコア}  = \\alpha + \\beta_1 \\text{教育年数} + \\beta_2 \\text{年齢} + \\varepsilon\n\n\nres02 &lt;- lm(job_sc ~ eduy + age, data = chap11)\nsummary(res02)\n\n\nCall:\nlm(formula = job_sc ~ eduy + age, data = chap11)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-12.705  -7.210  -0.310   4.498  23.427 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)  \n(Intercept)  13.7739    14.8724   0.926   0.3673  \neduy          2.3976     1.0068   2.381   0.0292 *\nage           0.1409     0.1292   1.091   0.2906  \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 8.985 on 17 degrees of freedom\nMultiple R-squared:  0.2605,    Adjusted R-squared:  0.1735 \nF-statistic: 2.994 on 2 and 17 DF,  p-value: 0.0769\n\n\n重回帰分析の結果，年齢(age)の回帰係数は0.141，p値は0.291となり，統計的に有意ではなく，回帰係数が0であるという帰無仮説を棄却できなかった。そのため，年齢が職業威信スコアに影響を与えているかどうかは分からない。 次に，教育年数の回帰係数は，2.398，p値は0.029となり，統計的に有意である。したがって，教育年数が1年上昇すると，職業威信スコアが2.398上がることが分かった。\nさらに，父親の職業威信スコア(f_job_sc)を独立変数として加えた重回帰分析を行う。 \n\\text{職業威信スコア}  = \\alpha + \\beta_1 \\text{教育年数} + \\beta_2 \\text{年齢} + \\beta_3 \\text{父親職業威信スコア} + \\varepsilon\n 3変数以上の独立変数をもつ重回帰分析を行う場合は，まず変数間の相関係数を確認することから始める。\n\ncor(chap11[2:5])\n\n                age       eduy    job_sc  f_job_sc\nage       1.0000000 -0.2276289 0.1175236 0.1036075\neduy     -0.2276289  1.0000000 0.4568913 0.4445805\njob_sc    0.1175236  0.4568913 1.0000000 0.7271827\nf_job_sc  0.1036075  0.4445805 0.7271827 1.0000000\n\n\nすると，職業威信スコア(job_sc)と父親の職業威信スコア(f_job_sc)の相関係数が0.727と相当高いため，両変数を独立変数に組み込んだ重回帰分析では，多重共線性(multi-colinearity)の影響を受ける可能性があるため，注意して分析を進める。 次に偏相関係数を確認する。\n\npacman::p_load(ppcor)\npcor.test(chap11$job_sc, chap11$eduy, chap11$f_job_sc)\n\n\n\n\nestimate\np.value\nstatistic\nn\ngp\nMethod\n\n\n0.2172802\n0.3715641\n0.9177958\n20\n1\npearson\n\n\n\n\n\nこのように，父親の職業威信スコアをコントロールした場合の職業威信スコアと教育年数の偏相関係数が0.217となり，相関係数0.457から大きく減少している。 これは教育年数と職業威信スコアの関係に，父親の職業威信スコアが影響を与えていることを表している。\nこれを踏まえて，重回帰分析を行う。\n\nres03 &lt;- lm(job_sc ~ eduy + age + f_job_sc, data=chap11)\nsummary(res03)\n\n\nCall:\nlm(formula = job_sc ~ eduy + age + f_job_sc, data = chap11)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-10.4969  -4.9509  -0.7485   4.5334  11.3160 \n\nCoefficients:\n             Estimate Std. Error t value Pr(&gt;|t|)   \n(Intercept) -28.05699   17.34783  -1.617  0.12535   \neduy          0.93974    0.91482   1.027  0.31959   \nage           0.05908    0.10573   0.559  0.58400   \nf_job_sc      1.29877    0.39395   3.297  0.00455 **\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 7.147 on 16 degrees of freedom\nMultiple R-squared:  0.5596,    Adjusted R-squared:  0.4771 \nF-statistic: 6.778 on 3 and 16 DF,  p-value: 0.003681\n\n\n3つのモデルの結果を並べた表を作表する。 ここでは，stargazer()を用いる。\n\n\nResults of Linear Regressions\n\n\n\n\n\n\n\n\n\njob_sc\n\n\n\n\n\n\n(1)\n\n\n(2)\n\n\n(3)\n\n\n\n\n\n\n\n\neduy\n\n\n2.15**\n\n\n2.40**\n\n\n0.94\n\n\n\n\n\n\n(0.99)\n\n\n(1.01)\n\n\n(0.91)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nage\n\n\n\n\n0.14\n\n\n0.06\n\n\n\n\n\n\n\n\n(0.13)\n\n\n(0.11)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nf_job_sc\n\n\n\n\n\n\n1.30***\n\n\n\n\n\n\n\n\n\n\n(0.39)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nConstant\n\n\n23.45*\n\n\n13.77\n\n\n-28.06\n\n\n\n\n\n\n(12.00)\n\n\n(14.87)\n\n\n(17.35)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nN\n\n\n20\n\n\n20\n\n\n20\n\n\n\n\nAdjusted R2\n\n\n0.16\n\n\n0.17\n\n\n0.48\n\n\n\n\nF Statistic\n\n\n4.75**\n\n\n2.99*\n\n\n6.78***\n\n\n\n\n\n\n\n先ほどの結果と大きく異なり，父親の職業威信スコアの回帰係数が1.299， p値は0.005と，職業威信スコアと統計的に有意に正の関係にあることが分かる。 また，教育年数(eduy)が統計的に有意でなくなっている。 このことから，父親の職業威信スコアが，子供の教育年数に正の影響を与えており，その結果，子供の職業威信スコアが高くなっている，という因果関係が予想される。",
     "crumbs": [
       "データ解析法",
+      "回帰分析",
       "8日目 : 回帰分析"
     ]
   },
@@ -392,6 +423,7 @@
     "text": "データの説明\nWooldridge “Introductory Econometrics: A Modern Approach”のデータセットを利用して、分析の練習をします。 RでWooldridgeテキストのデータセットが利用できるようになるパッケージwooldridgeを用います。 今回は，このwooldridgeパッケージに収録されているwage2を用いるので、以下のように必要なパッケージをpacmanパッケージのp_load()関数で読み出して、data()関数でwage2を読み込みます。\npacman::p_load(\n  tidyverse,  # データ操作\n  wooldridge, # wooldridgeのデータ\n  stargazer, # 回帰分析の表\n  rockchalk, # 回帰分析の表\n  corrr,\n  corrplot)\ndata(\"wage2\")\nデータセットのうち，以下の変数を用いる。\nこのデータセットwage2を用いて，賃金(wage)(月収でドル)を従属変数とした次の分析を行います。",
     "crumbs": [
       "データ解析法",
+      "回帰分析",
       "9日目 : ミニレポート"
     ]
   },
@@ -403,6 +435,7 @@
     "text": "wage : 月収（ドル） 今回の従属変数\n\nhours : 平均週労働時間\n\nIQ : IQスコア\n\neduc : 教育年数\n\nexper : 経験年数\n\ntenure : 勤続変数\n\nage : 年齢\n\nmarried : 結婚ダミー\n\nblack : 黒人ダミー\n\nsouth : 南部在住ダミー\n\nsibs : きょうだいの人数\n\nbrthord : 出生順\n\nmeduc : 母の教育\n\nfeduc : 父の教育\n\n\n\n主たる独立変数を1つ選ぶ（連続変数から選ぶ）\n別の独立変数を4つ以上選ぶ（連続変数とダミー変数を少なくとも1つずつ選ぶ）\n従属変数と独立変数(合計5個以上)の相関行列を作成する。ただし，係数のみ記載すれば良い（有意水準のアスタリスクはいらない）。\n以下の回帰分析を行い，表にまとめる。\n\n\nモデル1：賃金と主たる独立変数の単回帰分析\nモデル2：賃金と独立変数(5個以上)の重回帰分析\nモデル3：独立変数とダミー変数の交互作用項を加えた重回帰分析を行う。中心化は行わなくてもよい。\n\n\n交互作用項を図示する\n結果を文章で説明する。",
     "crumbs": [
       "データ解析法",
+      "回帰分析",
       "9日目 : ミニレポート"
     ]
   },
@@ -414,6 +447,7 @@
     "text": "相関行列\nいきなり回帰分析をするのではなく、まずは変数間の関係を確認するために、wage2に収録されている変数間の相関係数行列を作成します。 基本関数cor()とcorrplotパッケージのcorrplot()関数を用いて相関行列の表を作成します。\n\n\nwage2 |&gt;\n  cor(use = \"pairwise.complete.obs\") |&gt;\n  corrplot::corrplot(method = \"number\")\n\n\n\n\n\n\n\nこの表より，賃金wageと強い線形関係がある変数には，IQ，knowledge of world of work score KWW、教育年数educ，父親の教育年数feduc，母親の教育年数meducがあることが分かりました。",
     "crumbs": [
       "データ解析法",
+      "回帰分析",
       "9日目 : ミニレポート"
     ]
   },
@@ -425,6 +459,7 @@
     "text": "単回帰分析\n1つの変数で1つの変数を説明する単回帰分析をやってみます。 ここでは、賃金wageを従属変数，教育年数educを独立変数とした次の回帰モデルを推定します。\n\nwage_i = \\beta_0 + \\beta_1 educ_i + \\varepsilon_i\n\n回帰モデルを推定するためには、lm()関数を用います。 lm()関数は引数として、 - formula：回帰モデルの数式 - data：データフレーム\nを指定します。\n\n# 回帰モデルの推定\nreg01 &lt;- lm(wage ~ educ, data = wage2)\nsummary(reg01)\n\n\nCall:\nlm(formula = wage ~ educ, data = wage2)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-877.38 -268.63  -38.38  207.05 2148.26 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  146.952     77.715   1.891   0.0589 .  \neduc          60.214      5.695  10.573   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 382.3 on 933 degrees of freedom\nMultiple R-squared:  0.107, Adjusted R-squared:  0.106 \nF-statistic: 111.8 on 1 and 933 DF,  p-value: &lt; 2.2e-16\n\n\n賃金を教育年数で回帰した結果、教育年数educの回帰係数は 60.214 となっており、教育年数が1年増えるごとに、賃金が60.214ドル増加することが分かりました。",
     "crumbs": [
       "データ解析法",
+      "回帰分析",
       "9日目 : ミニレポート"
     ]
   },
@@ -436,6 +471,7 @@
     "text": "重回帰分析\n次に，賃金wageを従属変数，教育年数educ，経験年数exper，IQIQ，黒人ダミーblackを独立変数とした重回帰分析を行います。 交互作用項として使用する教育年数，経験年数，IQは，各変数から平均値を引いた中心化を行います。 これにより、交互作用項の解釈が容易になります。\n\nwage2 &lt;- wage2 |&gt; \n  mutate(\n    d_edu = if_else(educ &gt; 16, 1, 0),\n    m_educ = educ - mean(educ),\n    m_exper = exper - mean(exper),\n    m_IQ = IQ - mean(IQ),\n  )\n\n\n\\begin{aligned}\nwage_i &= \\beta_0 + \\beta_1 educ_i + \\beta_2 exper_i + \\beta_3 IQ_i + \\beta_4 black_i + \\varepsilon_i\\\\\nwage_i &= \\beta_0 + \\beta_1 educ_i + \\beta_2 exper_i + \\beta_3 IQ_i + \\beta_4 black_i + \\beta_5 IQ_i \\times black_i +  \\varepsilon_i\n\\end{aligned}\n\n\nreg02 &lt;- lm(wage ~ m_educ + m_exper + m_IQ + black + d_edu, data = wage2)\nsummary(reg02)\n\n\nCall:\nlm(formula = wage ~ m_educ + m_exper + m_IQ + black + d_edu, \n    data = wage2)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-913.56 -243.75  -40.85  191.04 2117.19 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  976.567     14.179  68.874  &lt; 2e-16 ***\nm_educ        60.157      8.682   6.929 7.93e-12 ***\nm_exper       17.221      3.110   5.537 4.00e-08 ***\nm_IQ           3.871      1.004   3.856 0.000123 ***\nblack       -130.750     39.177  -3.337 0.000879 ***\nd_edu        -17.746     51.773  -0.343 0.731859    \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 368.9 on 929 degrees of freedom\nMultiple R-squared:  0.172, Adjusted R-squared:  0.1675 \nF-statistic: 38.59 on 5 and 929 DF,  p-value: &lt; 2.2e-16\n\n\n上記の重回帰モデルに，経験年数experと結婚marriedの交差項を組み込み，交互作用の検証を行います。 交差項を組み込むには、m_educ:m_experのように:を用いて交差項を指定します。\n\nreg03 &lt;- lm(wage ~ m_educ + m_exper + m_IQ + black + m_educ:m_exper, data = wage2)\nsummary(reg03)\n\n\nCall:\nlm(formula = wage ~ m_educ + m_exper + m_IQ + black + m_educ:m_exper, \n    data = wage2)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-942.72 -244.63  -36.63  184.96 2106.38 \n\nCoefficients:\n               Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)     989.104     14.434  68.528  &lt; 2e-16 ***\nm_educ           62.348      7.204   8.654  &lt; 2e-16 ***\nm_exper          19.098      3.205   5.959  3.6e-09 ***\nm_IQ              3.778      0.998   3.786 0.000163 ***\nblack          -128.900     39.059  -3.300 0.001003 ** \nm_educ:m_exper    3.342      1.437   2.326 0.020255 *  \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 367.9 on 929 degrees of freedom\nMultiple R-squared:  0.1767,    Adjusted R-squared:  0.1722 \nF-statistic: 39.87 on 5 and 929 DF,  p-value: &lt; 2.2e-16\n\n\nstargazerパッケージを用いて、3つの分析結果をまとめた表を作成します。\nstargazer(reg01, reg02, reg03, # 回帰分析の結果\n  digits = 2, \n  digits.extra = 0, \n  align = TRUE,\n  omit.table.layout = 'n', # IMPORTANT!!!\n  keep.stat = c('n', 'adj.rsq', 'f'), \n  df = FALSE,\n  type = 'html'\n)\n\n\n\n\n\n\n\n\n\nDependent variable:\n\n\n\n\n\n\n\n\n\n\n\n\nwage\n\n\n\n\n\n\n(1)\n\n\n(2)\n\n\n(3)\n\n\n\n\n\n\n\n\neduc\n\n\n60.21***\n\n\n\n\n\n\n\n\n\n\n(5.69)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nm_educ\n\n\n\n\n60.16***\n\n\n62.35***\n\n\n\n\n\n\n\n\n(8.68)\n\n\n(7.20)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nm_exper\n\n\n\n\n17.22***\n\n\n19.10***\n\n\n\n\n\n\n\n\n(3.11)\n\n\n(3.20)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nm_IQ\n\n\n\n\n3.87***\n\n\n3.78***\n\n\n\n\n\n\n\n\n(1.00)\n\n\n(1.00)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nblack\n\n\n\n\n-130.75***\n\n\n-128.90***\n\n\n\n\n\n\n\n\n(39.18)\n\n\n(39.06)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nd_edu\n\n\n\n\n-17.75\n\n\n\n\n\n\n\n\n\n\n(51.77)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nm_educ:m_exper\n\n\n\n\n\n\n3.34**\n\n\n\n\n\n\n\n\n\n\n(1.44)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nConstant\n\n\n146.95*\n\n\n976.57***\n\n\n989.10***\n\n\n\n\n\n\n(77.71)\n\n\n(14.18)\n\n\n(14.43)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nObservations\n\n\n935\n\n\n935\n\n\n935\n\n\n\n\nAdjusted R2\n\n\n0.11\n\n\n0.17\n\n\n0.17\n\n\n\n\nF Statistic\n\n\n111.79***\n\n\n38.59***\n\n\n39.87***\n\n\n\n\n\n\n\nrockchalkパッケージのplotSlopes()関数を使って交互効果を図にすると次のようになります。\n\nplotSlopes(reg03, modx = \"m_educ\", plotx = \"m_exper\")",
     "crumbs": [
       "データ解析法",
+      "回帰分析",
       "9日目 : ミニレポート"
     ]
   },
@@ -447,6 +483,7 @@
     "text": "データ分析\nカテゴリー変数を独立変数とした回帰分析を行う場合，カテゴリー変数をダミー変数(dummy variable)に変換して分析を行う。 ダミー変数とは0と1の値を取る変数である。たとえば，男なら1，男じゃないなら0という風にカテゴリーをコード化する。\n職業威信スコアに与える影響の分析に性別の影響を組み込むために，男性ダミー変数をモデルに組み込む。\ny_i = \\alpha + \\beta _1 \\text{年齢}_i + \\beta _2 \\text{教育年数}_i + \\beta _3 \\text{男性ダミー}_i + \\varepsilon_i\n 男性ダミー変数は，男性なら1，そうでないなら0という値とるため，次のように場合分けできる。\n\\text{男性 : } y_i = \\alpha + \\beta _1 \\text{年齢}_i + \\beta _2 \\text{教育年数}_i + \\beta _3 \\times 1+ \\varepsilon_i\\\\\n\\text{女性 : } y_i = \\alpha + \\beta _1 \\text{年齢}_i + \\beta _2 \\text{教育年数}_i + \\varepsilon_i\nつまり，\\beta_3が性別の違いが職業威信スコアに影響を与えているかどうか，を示している。男性が女性に比べて職業威信スコアが高いなら，\\beta_3は統計的に正に有意になるだろう。\nでは次に，データを用いて分析してみよう。\npacman::p_load(tidyverse, stargazer)\ndf &lt;- read_csv(\"data/chap12.csv\")\n\nRows: 20 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (1): gender\ndbl (5): ID, age, eduyear, tv, like\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n上記の回帰モデルをlm()関数を用いてOLS推定する。\nres1 &lt;- lm(like ~ age + gender + eduyear + tv, data = df)\nsummary(res1)\n\n\nCall:\nlm(formula = like ~ age + gender + eduyear + tv, data = df)\n\nResiduals:\n   Min     1Q Median     3Q    Max \n-9.689 -5.541 -1.133  6.063 12.027 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  76.8260    15.3224   5.014 0.000154 ***\nage          -0.2242     0.1289  -1.739 0.102467    \ngenderMale   33.4208     3.4037   9.819 6.35e-08 ***\neduyear       1.9587     0.7525   2.603 0.019978 *  \ntv          -18.9651     2.8470  -6.661 7.59e-06 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 7.257 on 15 degrees of freedom\nMultiple R-squared:  0.9319,    Adjusted R-squared:  0.9137 \nF-statistic: 51.32 on 4 and 15 DF,  p-value: 1.415e-08",
     "crumbs": [
       "データ解析法",
+      "回帰分析",
       "10日目 : ダミー変数の利用と交互作用項"
     ]
   },
@@ -458,6 +495,7 @@
     "text": "中心化\n次に，交互作用項を組み込んだ分析を行うが，交互作用項を含む変数を回帰モデルに組み込む場合，多重共線性の影響がでる可能性があるため，連続変数を中心化する。 つまり，連続変数からその平均値を差し引くことでデータの平均を0にする。\n\ndf$age_c &lt;- df$age - mean(df$age)\ndf$eduyear_c &lt;- df$eduyear - mean(df$eduyear)\ndf$tv_c &lt;- df$tv - mean(df$tv)\n\n例えば，年齢と教育年数の交互作用項をモデルに組み込むことを考える。 まず，中心化する前のデータを用いて年齢と教育年数の交互作用項と年齢の散布図を書いてみる。\n\ndf$eduyear_age &lt;- df$eduyear * df$age\nplot(df$eduyear_age,df$age)\n\n\n\n\n\n\ncor(df$eduyear_age,df$age)\n\n[1] 0.8628718\n\n\n年齢と年齢\\times教育年数の相関係数は非常に高く，この両方の変数を独立変数として組み込んだ重回帰分析では多重共線性の可能性がでてくる。\n次に，両方の変数を中心化したケースで散布図を書いてみる。\n\ndf$eduyear_age_c &lt;- df$eduyear_c * df$age_c\nplot(df$eduyear_age_c,df$age_c)\n\n\n\n\n\n\ncor(df$eduyear_age_c,df$age_c)\n\n[1] -0.07864727\n\n\n中心化した変数で回帰分析を再度実行してみる。\nres11c &lt;- lm(like ~ age_c + gender + eduyear_c + tv_c, data = df)\nstargazer(res11c,\n          digits = 2, digits.extra = 0, align = TRUE,\n          omit.table.layout = 'n', # IMPORTANT!!!\n          keep.stat = c('n', 'adj.rsq', 'f'), df = FALSE,\n          type = 'html',style='aer'\n          )\n\n\n\n\n\n\n\n\n\nlike\n\n\n\n\n\n\n\n\nage_c\n\n\n-0.22\n\n\n\n\n\n\n(0.13)\n\n\n\n\n\n\n\n\n\n\ngenderMale\n\n\n33.42***\n\n\n\n\n\n\n(3.40)\n\n\n\n\n\n\n\n\n\n\neduyear_c\n\n\n1.96**\n\n\n\n\n\n\n(0.75)\n\n\n\n\n\n\n\n\n\n\ntv_c\n\n\n-18.97***\n\n\n\n\n\n\n(2.85)\n\n\n\n\n\n\n\n\n\n\nConstant\n\n\n46.25***\n\n\n\n\n\n\n(2.61)\n\n\n\n\n\n\n\n\n\n\nObservations\n\n\n20\n\n\n\n\nAdjusted R2\n\n\n0.91\n\n\n\n\nF Statistic\n\n\n51.32***\n\n\n\n\n\n\n\n2つの結果を比較してみる。 結果が異なっているのは，切片の項だけですね。",
     "crumbs": [
       "データ解析法",
+      "回帰分析",
       "10日目 : ダミー変数の利用と交互作用項"
     ]
   },
@@ -469,6 +507,7 @@
     "text": "交互効果\n交互効果とは，2変数以上の変数を組み合わせた効果をいう。\n\nlike = \\beta _0 + \\beta _1 age + \\beta _2 gender + \\beta _3 eduyear + \\beta _4 tv + \\beta_5 gender \\times age + \\varepsilon\n\nさらに交互作用項を追加したモデル\n\nlike = \\beta _0 + \\beta _1 age + \\beta _2 gender + \\beta _3 eduyear + \\beta _4 tv + \\beta_5 gender \\times age + \\beta_6 gender \\times eduyear  + \\varepsilon\n と\nres12 &lt;- lm(like ~ age_c + gender + eduyear_c + tv_c + gender:age_c, data = df)\nres13 &lt;- lm(like ~ age_c + gender + eduyear_c + tv_c + gender:age_c + gender:eduyear_c, data = df)\nstargazer(res11c,res12,res13,\n          digits = 2, digits.extra = 0, align = TRUE,\n          omit.table.layout = 'n', # IMPORTANT!!!\n          keep.stat = c('n', 'adj.rsq', 'f'), df = FALSE,\n          type = 'html',style='aer'\n          )\n\n\n\n\n\n\n\n\n\nlike\n\n\n\n\n\n\n(1)\n\n\n(2)\n\n\n(3)\n\n\n\n\n\n\n\n\nage_c\n\n\n-0.22\n\n\n-0.43***\n\n\n-0.45***\n\n\n\n\n\n\n(0.13)\n\n\n(0.12)\n\n\n(0.12)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ngenderMale\n\n\n33.42***\n\n\n32.50***\n\n\n32.53***\n\n\n\n\n\n\n(3.40)\n\n\n(2.65)\n\n\n(2.72)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\neduyear_c\n\n\n1.96**\n\n\n1.87***\n\n\n2.20**\n\n\n\n\n\n\n(0.75)\n\n\n(0.58)\n\n\n(0.85)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ntv_c\n\n\n-18.97***\n\n\n-21.21***\n\n\n-20.92***\n\n\n\n\n\n\n(2.85)\n\n\n(2.30)\n\n\n(2.42)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nage_c:genderMale\n\n\n\n\n0.76***\n\n\n0.78***\n\n\n\n\n\n\n\n\n(0.23)\n\n\n(0.24)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ngenderMale:eduyear_c\n\n\n\n\n\n\n-0.61\n\n\n\n\n\n\n\n\n\n\n(1.11)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nConstant\n\n\n46.25***\n\n\n45.68***\n\n\n45.74***\n\n\n\n\n\n\n(2.61)\n\n\n(2.03)\n\n\n(2.08)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nObservations\n\n\n20\n\n\n20\n\n\n20\n\n\n\n\nAdjusted R2\n\n\n0.91\n\n\n0.95\n\n\n0.95\n\n\n\n\nF Statistic\n\n\n51.32***\n\n\n70.79***\n\n\n56.10***",
     "crumbs": [
       "データ解析法",
+      "回帰分析",
       "10日目 : ダミー変数の利用と交互作用項"
     ]
   },
@@ -477,9 +516,10 @@
     "href": "DataAnalysis_chap11.html",
     "title": "11日目 : 因子分析",
     "section": "",
-    "text": "因子分析の考え方\n因子分析(factor analysis)は，心理尺度などを用いる質問紙を用いた研究・調査を行う場合は必須の分析手法です。 今回に限り，テキスト「行動科学の統計学」ではなく，因子分析についての記述が丁寧な南風原 (2002)『心理統計学の基礎』有斐閣を中心に進める。\n8つの性格特性を200名の大学生について7件法で尋ねる。\nすべてポジティブな用語であり，似ているものも多い。そこでより少数の変数で特性を測れないか，を考える。\nRQ : 1つの特性にあてはまる人は，他のすべてにもあてはまる傾向があるのでは？あるいは，いくつかの特性群に分類することができるのでは？\nこの8つの特性を分類することで，個人の特性をより少数の変数で把握することができる。 情報量を減らさずに分析で利用する変数の数を減らすことができれば，分析が容易になる。 たとえば，回帰分析で回帰式に8個の特性をすべて入れ込むと，多重共線性もあり，好ましくない可能性がある。 因子分析では，複数の変数の共通因子を特定するこで，次元を落とすことを目的としている。\nテキストに記載されている性格特性の相関係数を見てみると，外交的と社交的，積極的と外交的，積極的と社交的は高く正の相関がある。 これら8つの観測変数を，\nに分類することを考える。 ここでは，因子分析により，複数(3項目以上)の連続変数の観測変数の共通する部分を抽出する。",
+    "text": "因子分析の考え方\n因子分析(factor analysis)は，心理尺度などを用いる質問紙を用いた研究・調査を行う場合は必須の分析手法です。 今回に限り，テキスト「行動科学の統計学」ではなく，因子分析についての記述が丁寧な南風原 (2002)『心理統計学の基礎』有斐閣を参考にしています。\n200名の大学生に対して、8つの性格特性を7件法で尋ねています。\nすべてポジティブな用語で、意味が似ているものもあるようにみえます。 そこでより少数の変数で特性を測れないか，について考えてみます。\nRQ : 1つの特性にあてはまる人は，他のすべてにもあてはまる傾向があるのでは？あるいは，いくつかの特性群に分類することができるのでは？\nこの8つの特性を分類することで，個人の特性をより少数の変数で把握することができるのではないかと考えます。 情報量を減らさずに分析で利用する変数の数を減らすことができれば，分析が容易になります。 たとえば，回帰分析で回帰式に8個の特性をすべて入れ込むと，多重共線性もあり，好ましくない可能性があります。 そこで因子分析では，複数の変数の共通因子を特定するこで，次元を落とすことを目的としている。\nテキストに記載されている性格特性の相関係数を見てみると，外交的と社交的，積極的と外交的，積極的と社交的は高く正の相関があることがわかります。 そこで、これら8つの観測変数を，\nに分類することを考えます。 ここでは，因子分析により複数(3項目以上)の連続変数の観測変数の共通する部分を抽出してみます。",
     "crumbs": [
       "データ解析法",
+      "多変量解析",
       "11日目 : 因子分析"
     ]
   },
@@ -488,9 +528,10 @@
     "href": "DataAnalysis_chap11.html#因子分析の考え方",
     "title": "11日目 : 因子分析",
     "section": "",
-    "text": "温和\n陽気\n外交的\n親切\n社交的\n協力的\n積極的\n素直\n\n\n\n\n\n例えば，パーソナル心理学で有名なBIG5では，個人の性格を5つで代表できる，と主張している。\n\n\n8つの観測変数に共通する部分\n8つの観測変数に共通しない部分",
+    "text": "温和\n陽気\n外交的\n親切\n社交的\n協力的\n積極的\n素直\n\n\n\n\n\n\n例えば，パーソナル心理学で有名なBIG5では，個人の性格を5つで代表できる，と主張している。\n\n\n8つの観測変数に共通する部分\n8つの観測変数に共通しない部分",
     "crumbs": [
       "データ解析法",
+      "多変量解析",
       "11日目 : 因子分析"
     ]
   },
@@ -499,9 +540,10 @@
     "href": "DataAnalysis_chap11.html#因子分析モデル",
     "title": "11日目 : 因子分析",
     "section": "因子分析モデル",
-    "text": "因子分析モデル\n因子分析の1因子モデルを数式で表すと，\n\n\\text{温和}  = \\beta _1 \\times f + \\varepsilon_1\\\\\n\\text{陽気}  = \\beta _2 \\times f + \\varepsilon_2\\\\\n\\vdots\\\\\n\\text{素直}  = \\beta _8 \\times f + \\varepsilon_8\\\\\n\nとなる。 ここで\\betaは因子負荷(factor loading，あるいは因子スコア)であり，fは共通因子(common factor)，\\varepsilonは独自因子(unique factor)を表す。\nm因子モデル\n8個の個人特性の背後に2つの共通因子f_1とf_2があると考える場合，因子モデルは次のように表すことができる。\n\n\\text{温和}  = \\beta _{11} \\times f_1 + \\beta _{12} \\times f_2 + \\varepsilon_1\\\\\n\\text{陽気}  = \\beta _{21} \\times f_2 + \\beta _{22} \\times f_2 + \\varepsilon_2\\\\\n\\vdots\\\\\n\\text{素直}  = \\beta _{81} \\times f_8 + \\beta _{82} \\times f_2 + \\varepsilon_8\\\\\n\n一般的に，p個の観測変数(アンケート項目)に対して，mこの共通因子によって説明されるとする因子モデルは，\n\n\\begin{align}\ny_j &= \\beta_{j1} f_1 + \\beta_{j2} f_2 + \\cdots + \\beta _{jm} f_m + \\varepsilon_j\\\\\n    &=\\sum _{g=1}^m \\beta_{jg} f_g + \\varepsilon_j, \\quad (j=1,2, \\dots, p)\n\\end{align}\n\nとなる。",
+    "text": "因子分析モデル\n因子分析の1因子モデル(one-factor model)は，観測変数が1つの共通因子によって説明されると考えるモデルです。 1因子モデルを数式で表すと，\n\n\\text{温和}  = \\beta _1 \\times f + \\varepsilon_1\\\\\n\\text{陽気}  = \\beta _2 \\times f + \\varepsilon_2\\\\\n\\vdots\\\\\n\\text{素直}  = \\beta _8 \\times f + \\varepsilon_8\\\\\n\nとなります。 ここで \\beta は因子負荷(factor loading，あるいは因子スコア)，f は共通因子(common factor)，\\varepsilon は独自因子(unique factor)を表しています。 共通因子は，観測変数に共通する部分を表し，独自因子は観測変数に特有の部分を表します。因子負荷は，観測変数と共通因子の関係を表す係数です。\nm因子モデル\n8個の個人特性の背後に2つの共通因子f_1とf_2があると考える場合，因子モデルは次のように表すことができます。\n\n\\text{温和}  = \\beta _{11} \\times f_1 + \\beta _{12} \\times f_2 + \\varepsilon_1\\\\\n\\text{陽気}  = \\beta _{21} \\times f_2 + \\beta _{22} \\times f_2 + \\varepsilon_2\\\\\n\\vdots\\\\\n\\text{素直}  = \\beta _{81} \\times f_8 + \\beta _{82} \\times f_2 + \\varepsilon_8\\\\\n\n一般的に，p 個の観測変数(アンケート項目)に対して，m 個の共通因子によって説明されるとする因子モデルは，\n\n\\begin{align}\ny_j &= \\beta_{j1} f_1 + \\beta_{j2} f_2 + \\cdots + \\beta _{jm} f_m + \\varepsilon_j\\\\\n    &=\\sum _{g=1}^m \\beta_{jg} f_g + \\varepsilon_j, \\quad (j=1,2, \\dots, p)\n\\end{align}\n\nとなります。 「掛けて足す，掛けて足す」があるときは，行列を用いて表すことができます。\n\n\\begin{aligned}\n\\begin{pmatrix}\ny_1\\\\\ny_2\\\\\n\\vdots\\\\\ny_p\n\\end{pmatrix}\n&=\n\\begin{pmatrix}\n\\beta_{11} & \\beta_{12} & \\cdots & \\beta_{1m}\\\\\n\\beta_{21} & \\beta_{22} & \\cdots & \\beta_{2m}\\\\\n\\vdots & \\vdots & \\ddots & \\vdots\\\\\n\\beta_{p1} & \\beta_{p2} & \\cdots & \\beta_{pm}\n\\end{pmatrix}\n\\begin{pmatrix}\nf_1\\\\\nf_2\\\\\n\\vdots\\\\\nf_m\n\\end{pmatrix}\n+\n\\begin{pmatrix}\n\\varepsilon_1\\\\\n\\varepsilon_2\\\\\n\\vdots\\\\\n\\varepsilon_p\n\\end{pmatrix}\n\\end{aligned}\n\nまとめて書くと，\n\n\\underbrace{\\boldsymbol{y}}_{p \\times 1} = \\underbrace{\\boldsymbol{\\beta}}_{p \\times m} \\underbrace{\\boldsymbol{f}}_{m \\times 1} + \\underbrace{\\boldsymbol{\\varepsilon}}_{p \\times 1}",
     "crumbs": [
       "データ解析法",
+      "多変量解析",
       "11日目 : 因子分析"
     ]
   },
@@ -510,9 +552,22 @@
     "href": "DataAnalysis_chap11.html#因子得点",
     "title": "11日目 : 因子分析",
     "section": "因子得点",
-    "text": "因子得点\n抽出した因子における個人の位置を因子得点(factor score)として保存し，分析に用いることがある。 この因子得点がアンケートなどで集められた複数の質問項目から抽出された因子に基づく合成尺度として利用される。",
+    "text": "因子得点\n抽出した因子における個人の位置を因子得点(factor score)として保存し，分析に用いることがあります。 この因子得点がアンケートなどで集められた複数の質問項目から抽出された因子に基づく合成尺度として利用されます。",
     "crumbs": [
       "データ解析法",
+      "多変量解析",
+      "11日目 : 因子分析"
+    ]
+  },
+  {
+    "objectID": "DataAnalysis_chap11.html#分析",
+    "href": "DataAnalysis_chap11.html#分析",
+    "title": "11日目 : 因子分析",
+    "section": "分析",
+    "text": "分析\nいつものテキスト302頁のデータを用います。 飲み物の好みの仮想データであり，\n\nコーヒー(cafe)，\n紅茶(tea)，\nミルク(milk)，\n水(water)，\n緑茶(g_tea)，\nウーロン茶(w_tea)，\n性別(sex)\n\nという項目から構成されています。 各項目に対する好みは，5点尺度で測定されています。 まずはデータを読み込む。\n\npacman::p_load(tidyverse, stargazer, corrplot)\ndf &lt;- read_csv(\"data/chap14.csv\")\n\nRows: 20 Columns: 8\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\ndbl (8): ID, café, tea, milk, water, g_tea, w_tea, sex\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\nまずは記述統計と相関行列を確認します。\n\nsummary(df)\n\n       ID            café           tea            milk         water    \n Min.   : 1.00   Min.   :0.00   Min.   :1.00   Min.   :2.0   Min.   :0.0  \n 1st Qu.: 5.75   1st Qu.:2.00   1st Qu.:2.75   1st Qu.:3.0   1st Qu.:0.0  \n Median :10.50   Median :2.00   Median :3.00   Median :3.5   Median :1.5  \n Mean   :10.50   Mean   :2.45   Mean   :3.10   Mean   :3.5   Mean   :1.3  \n 3rd Qu.:15.25   3rd Qu.:3.00   3rd Qu.:4.00   3rd Qu.:4.0   3rd Qu.:2.0  \n Max.   :20.00   Max.   :4.00   Max.   :5.00   Max.   :5.0   Max.   :3.0  \n     g_tea          w_tea           sex     \n Min.   :0.00   Min.   :1.00   Min.   :1.0  \n 1st Qu.:1.00   1st Qu.:2.00   1st Qu.:1.0  \n Median :2.00   Median :2.50   Median :1.0  \n Mean   :1.70   Mean   :2.75   Mean   :1.4  \n 3rd Qu.:2.25   3rd Qu.:4.00   3rd Qu.:2.0  \n Max.   :3.00   Max.   :4.00   Max.   :2.0  \n\ndf |&gt;\n  select(-ID) |&gt;\n  cor() |&gt;\n  corrplot::corrplot(method = \"number\")\n\n\n\n\n\n\n\n相関係数行列より，コーヒーと紅茶とミルクの間の相関係数と、水と緑茶と烏龍茶の間の相関係数が高いことが分かります。\n次に因子分析(factor analysis)を行います。 因子分析は，基本関数factanal()か、心理学で用いられる分析手法のパッケージpsychのfa()関数を用います。 まずはfactanal()を用いて因子分析を行います。\nfactanal()関数の第1引数はデータ・フレーム，第2引数で因子数を指定，第3引数で軸の回転を指定，第4因数で因子得点の計算方法を指定します。\n\n\n基本関数factanal()は引数factorsを指定しないとエラーになるため，因子数を指定しなくても動くように改良されたfactanal2()を利用することもあります。\n軸の回転をしないときはnone，プロマックス回転ならpromax，バリマックス回転ならvarimaxとします。 因子得点の計算方法は，デフォルトはnone，あとはregressionやBartlettがあります。詳しくはfacanal()のヘルプを参照してください。\n\nf1 &lt;- factanal( # 因子分析\n  df[,2:7], # データ\n  factors = 2, # 因子数\n  rotation = \"promax\", # 回転方法\n  scores = \"regression\" # 因子得点の計算方法\n  )\nprint(f1, cutoff = 0)\n\n\nCall:\nfactanal(x = df[, 2:7], factors = 2, scores = \"regression\", rotation = \"promax\")\n\nUniquenesses:\ncafé   tea  milk water g_tea w_tea \n0.247 0.015 0.192 0.163 0.356 0.063 \n\nLoadings:\n      Factor1 Factor2\ncafé  0.855   0.069 \ntea    0.999  -0.056 \nmilk   0.899  -0.001 \nwater -0.064   0.922 \ng_tea  0.012   0.801 \nw_tea  0.026   0.964 \n\n               Factor1 Factor2\nSS loadings      2.544   2.429\nProportion Var   0.424   0.405\nCumulative Var   0.424   0.829\n\nFactor Correlations:\n        Factor1 Factor2\nFactor1   1.000   0.147\nFactor2   0.147   1.000\n\nTest of the hypothesis that 2 factors are sufficient.\nThe chi square statistic is 1.73 on 4 degrees of freedom.\nThe p-value is 0.786 \n\n\n\n\ncutoff = 0のオプションをつけることで，すべての因子負荷を出力します。\nLoadings:で因子負荷量をみると，\n\n因子1はコーヒー・紅茶・ミルク，\n因子2は水・緑茶・麦茶\n\nの負荷量が高いことがわかります。 そこで第1因子に「味の濃い飲み物」，第2因子に「味の薄い飲み物」という名前をつけてみます。 この因子負荷量を第1因子と第2因子の軸をもつ平面にプロットしてみます。\n\nplot(f1$loadings, type = \"n\")\ntext(f1$loadings, colnames(df[,2:7])) # 散布図の点を項目名にする\n\n\n\n\n\n\n\nすると見た目にも、水、緑茶、烏龍茶のグループと、コーヒー、紅茶、ミルクのグループが分かれていることがわかります。",
+    "crumbs": [
+      "データ解析法",
+      "多変量解析",
       "11日目 : 因子分析"
     ]
   },
@@ -521,9 +576,10 @@
     "href": "DataAnalysis_chap11.html#因子得点の保存",
     "title": "11日目 : 因子分析",
     "section": "因子得点の保存",
-    "text": "因子得点の保存\nfactanal()で因子分析を行うと，オブジェクトとして因子得点が計算される。 因子得点は，scoresというオブジェクト(行列形式)で保存されているため，確認してみる。\n\nf1$scores\n\n           Factor1    Factor2\n [1,] -0.178523355  0.3690318\n [2,]  1.015440684 -1.6155025\n [3,]  0.877004772 -1.0030949\n [4,] -1.131833963  1.1416150\n [5,]  1.886141136 -1.1270865\n [6,] -0.236835287  1.0050679\n [7,]  0.807421122  1.2269626\n [8,]  0.012360586 -0.7529136\n [9,] -0.148168863  0.4826660\n[10,] -1.101479472  1.2552492\n[11,]  0.002527429 -0.7132283\n[12,] -1.905266829 -0.3279822\n[13,] -0.002238124 -0.9454804\n[14,]  0.762593579  0.9828963\n[15,] -0.081255768 -0.6121495\n[16,]  0.702990932  1.1125873\n[17,]  0.887818606 -0.7479554\n[18,] -1.033460041  0.5173932\n[19,]  0.722531589  0.9710820\n[20,] -1.857768732 -1.2191579\n\n\nこの因子得点をもとのデータ・フレームに追加する。\n\ndf$fac1 &lt;- f1$score[,1]  # 行列の1列目が第1因子\ndf$fac2 &lt;- f1$score[,2]  # 行列の2列目が第2因子\nattach(df)\n\n因子得点を追加したデータ・フレームを用いて分析を進める。 因子に男女差があるかどうかを調べてみる。\n\nt.test(fac1 ~ sex)\n\n\n    Welch Two Sample t-test\n\ndata:  fac1 by sex\nt = -0.057752, df = 17.892, p-value = 0.9546\nalternative hypothesis: true difference in means between group 1 and group 2 is not equal to 0\n95 percent confidence interval:\n -0.9471975  0.8965368\nsample estimates:\nmean in group 1 mean in group 2 \n    -0.01013213      0.01519819 \n\nt.test(fac2 ~ sex)\n\n\n    Welch Two Sample t-test\n\ndata:  fac2 by sex\nt = -1.0334, df = 14.195, p-value = 0.3187\nalternative hypothesis: true difference in means between group 1 and group 2 is not equal to 0\n95 percent confidence interval:\n -1.4552064  0.5080329\nsample estimates:\nmean in group 1 mean in group 2 \n     -0.1894347       0.2841520 \n\n\n男女差は統計的に有意ではないため，両因子において男女差があるとは言えない。",
+    "text": "因子得点の保存\nfactanal()で因子分析を行うと，オブジェクトとして因子得点が計算されます。 この因子得点は，scoresというオブジェクト(行列形式)で保存されてます。 確認してみましょう。\n\nf1$scores\n\n           Factor1    Factor2\n [1,] -0.178523355  0.3690318\n [2,]  1.015440684 -1.6155025\n [3,]  0.877004772 -1.0030949\n [4,] -1.131833963  1.1416150\n [5,]  1.886141136 -1.1270865\n [6,] -0.236835287  1.0050679\n [7,]  0.807421122  1.2269626\n [8,]  0.012360586 -0.7529136\n [9,] -0.148168863  0.4826660\n[10,] -1.101479472  1.2552492\n[11,]  0.002527429 -0.7132283\n[12,] -1.905266829 -0.3279822\n[13,] -0.002238124 -0.9454804\n[14,]  0.762593579  0.9828963\n[15,] -0.081255768 -0.6121495\n[16,]  0.702990932  1.1125873\n[17,]  0.887818606 -0.7479554\n[18,] -1.033460041  0.5173932\n[19,]  0.722531589  0.9710820\n[20,] -1.857768732 -1.2191579\n\n\nこの因子得点をもとのデータ・フレームに追加します。\n\ndf$fac1 &lt;- f1$score[,1]  # 行列の1列目が第1因子\ndf$fac2 &lt;- f1$score[,2]  # 行列の2列目が第2因子df\n\n因子得点を追加したデータ・フレームを用いて分析を進める。 因子に男女差があるかどうかを調べてみる。\n\nt.test(df$fac1 ~ df$sex)\n\n\n    Welch Two Sample t-test\n\ndata:  df$fac1 by df$sex\nt = -0.057752, df = 17.892, p-value = 0.9546\nalternative hypothesis: true difference in means between group 1 and group 2 is not equal to 0\n95 percent confidence interval:\n -0.9471975  0.8965368\nsample estimates:\nmean in group 1 mean in group 2 \n    -0.01013213      0.01519819 \n\nt.test(df$fac2 ~ df$sex)\n\n\n    Welch Two Sample t-test\n\ndata:  df$fac2 by df$sex\nt = -1.0334, df = 14.195, p-value = 0.3187\nalternative hypothesis: true difference in means between group 1 and group 2 is not equal to 0\n95 percent confidence interval:\n -1.4552064  0.5080329\nsample estimates:\nmean in group 1 mean in group 2 \n     -0.1894347       0.2841520 \n\n\n男女差は統計的に有意ではないため，両因子において男女差があるかどうかについて、何も言うことはできません。",
     "crumbs": [
       "データ解析法",
+      "多変量解析",
       "11日目 : 因子分析"
     ]
   },
@@ -532,9 +588,10 @@
     "href": "DataAnalysis_chap11.html#宿題",
     "title": "11日目 : 因子分析",
     "section": "宿題",
-    "text": "宿題\n5教科の成績データ50名分を読み込む。\n\ndf2 &lt;- read_csv(\"data/seiseki.csv\")[2:6]\n\nRows: 50 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\ndbl (6): ID, 国語, 英語, 数学, 物理, 化学\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\nまずは変数間の相関係数を確認する。\n\ncor(df2)\n\n          国語      英語      数学      物理      化学\n国語 1.0000000 0.6851226 0.3009210 0.1851784 0.3686794\n英語 0.6851226 1.0000000 0.4991927 0.3878504 0.4400419\n数学 0.3009210 0.4991927 1.0000000 0.8084774 0.7666267\n物理 0.1851784 0.3878504 0.8084774 1.0000000 0.7499504\n化学 0.3686794 0.4400419 0.7666267 0.7499504 1.0000000\n\n\nつぎに，因子分析を行う。「文系」と「理系」という2因子が表れることを予想して，因子数は2とする。\n\nf2 &lt;- factanal(df2,factors = 2, rotation = \"promax\", scores = \"regression\")\nprint(f2,cutoff=0)\n\n\nCall:\nfactanal(x = df2, factors = 2, scores = \"regression\", rotation = \"promax\")\n\nUniquenesses:\n 国語  英語  数学  物理  化学 \n0.005 0.436 0.171 0.191 0.279 \n\nLoadings:\n     Factor1 Factor2\n国語 -0.149   1.060 \n英語  0.239   0.607 \n数学  0.923  -0.026 \n物理  0.964  -0.158 \n化学  0.806   0.084 \n\n               Factor1 Factor2\nSS loadings      2.509   1.524\nProportion Var   0.502   0.305\nCumulative Var   0.502   0.807\n\nFactor Correlations:\n        Factor1 Factor2\nFactor1   1.000   0.475\nFactor2   0.475   1.000\n\nTest of the hypothesis that 2 factors are sufficient.\nThe chi square statistic is 1.47 on 1 degree of freedom.\nThe p-value is 0.225 \n\n\nこれを因子を軸とする平面に描写する。\n\npar(family=\"HiraKakuProN-W3\")\nplot(f2$loadings, type = \"n\")\ntext(f2$loadings, colnames(df2))\n\n\n\n\n\n\n\nこの結果より，第1因子は数学，物理，化学を代表しており，第2因子は国語と英語を代表していると考えられる。 そこで第1因子を「理系」，第2因子を「文系」と名付ける。",
+    "text": "宿題\n5教科の成績情報50名分が入っているseiseki.csvファイルを読み込みます。 個人を示すID列は不要なので，削除しておきます。\n\ndf2 &lt;- read_csv(\"data/seiseki.csv\") |&gt;\n  select(-ID) # ID列を削除\n\nRows: 50 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\ndbl (6): ID, 国語, 英語, 数学, 物理, 化学\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\nまずは変数間の相関係数を確認してみましょう。\n\ncor(df2)\n\n          国語      英語      数学      物理      化学\n国語 1.0000000 0.6851226 0.3009210 0.1851784 0.3686794\n英語 0.6851226 1.0000000 0.4991927 0.3878504 0.4400419\n数学 0.3009210 0.4991927 1.0000000 0.8084774 0.7666267\n物理 0.1851784 0.3878504 0.8084774 1.0000000 0.7499504\n化学 0.3686794 0.4400419 0.7666267 0.7499504 1.0000000\n\n\nつぎに，因子分析を行う。「文系」と「理系」という2因子が表れることを予想して，因子数は2とする。\n\nf2 &lt;- factanal(df2,factors = 2, rotation = \"promax\", scores = \"regression\")\nprint(f2,cutoff=0)\n\n\nCall:\nfactanal(x = df2, factors = 2, scores = \"regression\", rotation = \"promax\")\n\nUniquenesses:\n 国語  英語  数学  物理  化学 \n0.005 0.436 0.171 0.191 0.279 \n\nLoadings:\n     Factor1 Factor2\n国語 -0.149   1.060 \n英語  0.239   0.607 \n数学  0.923  -0.026 \n物理  0.964  -0.158 \n化学  0.806   0.084 \n\n               Factor1 Factor2\nSS loadings      2.509   1.524\nProportion Var   0.502   0.305\nCumulative Var   0.502   0.807\n\nFactor Correlations:\n        Factor1 Factor2\nFactor1   1.000   0.475\nFactor2   0.475   1.000\n\nTest of the hypothesis that 2 factors are sufficient.\nThe chi square statistic is 1.47 on 1 degree of freedom.\nThe p-value is 0.225 \n\n\nこれを因子を軸とする平面に描写する。\n\npar(family=\"HiraKakuProN-W3\")\nplot(f2$loadings, type = \"n\")\ntext(f2$loadings, colnames(df2))\n\n\n\n\n\n\n\nこの結果より，第1因子は数学，物理，化学を代表しており，第2因子は国語と英語を代表していると考えられる。 そこで第1因子を「理系」，第2因子を「文系」と名付ける。",
     "crumbs": [
       "データ解析法",
+      "多変量解析",
       "11日目 : 因子分析"
     ]
   },
@@ -543,9 +600,10 @@
     "href": "DataAnalysis_chap11.html#psychパッケージ",
     "title": "11日目 : 因子分析",
     "section": "\npsychパッケージ",
-    "text": "psychパッケージ\npsychパッケージは心理学で用いる分析手法が用意されたパッケージで，因子分析にはfa.parallel()がある。\n\n# install.packages(\"psych\") # first time only\nlibrary(psych) # 心理学研究用\n\n\n次のパッケージを付け加えます: 'psych'\n\n\n以下のオブジェクトは 'package:ggplot2' からマスクされています:\n\n    %+%, alpha\n\n\n次に，上記のデータを用いて分析を再実行する。\n\nfa.parallel(df2, fm = \"minres\", fa = \"fa\", cor = \"cor\")\n\n\n\n\n\n\n\nParallel analysis suggests that the number of factors =  2  and the number of components =  NA",
+    "text": "psychパッケージ\npsychパッケージは心理学で用いる分析手法が用意されたパッケージで，因子分析にはfa.parallel()がある。\n\npacman::p_load(psych)\n\n次に，上記のデータを用いて分析を再実行する。\n\nfa.parallel(df2, fm = \"minres\", fa = \"fa\", cor = \"cor\")\n\n\n\n\n\n\n\nParallel analysis suggests that the number of factors =  2  and the number of components =  NA",
     "crumbs": [
       "データ解析法",
+      "多変量解析",
       "11日目 : 因子分析"
     ]
   },
@@ -557,6 +615,7 @@
     "text": "SEMについて\n構造方程式モデル(Structural Equation Modeling: SEM)とは，線形回帰や因子分析といった分析手法を一般化して体系化したものです。 以前は共分散構造分析と呼ばれていましたが，共分散や分散を中心に扱う手法ではないため、最近は構造方程式モデルやSEMと呼ばれることが多いです。 またSEMの世界では，\nというらしいです。",
     "crumbs": [
       "データ解析法",
+      "多変量解析",
       "12日目 : 構造方程式モデル"
     ]
   },
@@ -568,6 +627,7 @@
     "text": "回帰分析を構造方程式\n\n因子分析を測定方程式",
     "crumbs": [
       "データ解析法",
+      "多変量解析",
       "12日目 : 構造方程式モデル"
     ]
   },
@@ -579,6 +639,7 @@
     "text": "パス図\n変数の因果関係や相互関係を図で表したものであり，基本的に研究者が仮説や設定として事前に用意しておくものです。 つまり探索的な因子分析とは異なり，潜在変数(共通因子)から影響を受ける要素を事前に想定したモデルとなります。 パス図の表現するルールとして，\n\n\n四角形：観測変数　データにあるもの\n\n楕円：潜在変数(因子)　データにないもの\n\n小さい円：誤差\n\n一方向の矢印：影響の方向（因果関係?）\n\n両方向の矢印：共分散や相関",
     "crumbs": [
       "データ解析法",
+      "多変量解析",
       "12日目 : 構造方程式モデル"
     ]
   },
@@ -587,9 +648,10 @@
     "href": "DataAnalysis_chap12.html#分析",
     "title": "12日目 : 構造方程式モデル",
     "section": "分析",
-    "text": "分析\nRでSEMを行う場合に事実上の標準となっているパッケージがlavaanです。 まずいつものtidyverseと今回利用するlavaanを読み込みます。\n\npacman::p_load(tidyverse, lavaan)\n\nここでは，Rで構造方程式モデル推定を勉強のためのバイブルである豊田 (2014)「共分散構造分析 R編」東京図書のデータを用いる。 データはこのテキストの資料配付サイトから入手できる。\n\ndf &lt;- read_csv(\"data/seminar.csv\")\n\nNew names:\nRows: 118 Columns: 8\n── Column specification\n────────────────────────────────────────────────────────\nDelimiter: \",\" chr (1): ...1 dbl (7): テキスト, プレゼン, ペース, 講師対処,\n満足度, 理解度, 目的一致\nℹ Use `spec()` to retrieve the full column specification for this data. ℹ\nSpecify the column types or set `show_col_types = FALSE` to quiet this message.\n• `` -&gt; `...1`\n\n\nこのデータは，セミナーにおける「充実感」と「講師の質」を調査するためのデータであり，\n\nテキストの良さ text\n\nプレゼンの良さ pre\n\nペースの適切さ pace\n\n講師の対処の良さ sup\n\nセミナーへの満足度 satis\n\n理解度 comp\n\n目的一致 mat\n\n\nから構成されている。上の4つは「講師の質」を表し，下の3つは「本人の充実度」を表しそうである。\n最初に，変数を定義する。 lavaanでモデルを設定するための記法は\n\n\n=~ ：右辺の要素から左辺の共通因子を推定する因子分析モデル\n\n~ ：右辺を左辺で回帰する回帰モデル\n\n~~ ：左辺と右辺の相関関係\n\nとなっている。これを'で囲むことでモデルの指定ができる。\n\nmodel1 &lt;- ' # 因子分析\n  f1 =~ text + pre + pace + sup\n  f2 =~ satis + comp + mat\n  #f2 ~~ f1\n  '\n\n上記で構築したmodel1をlavaanのsem()関数で推定する。\n\nfit &lt;- cfa(\n  model = model1, \n  data = df,\n  estimator = \"ML\")\n\n推定結果を結果をsummary() で表示する。\n\nsummary(object = fit, standardize = TRUE)\n\nlavaan 0.6-19 ended normally after 44 iterations\n\n  Estimator                                         ML\n  Optimization method                           NLMINB\n  Number of model parameters                        15\n\n  Number of observations                           118\n\nModel Test User Model:\n                                                      \n  Test statistic                                14.992\n  Degrees of freedom                                13\n  P-value (Chi-square)                           0.308\n\nParameter Estimates:\n\n  Standard errors                             Standard\n  Information                                 Expected\n  Information saturated (h1) model          Structured\n\nLatent Variables:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  f1 =~                                                                 \n    text              1.000                               0.327    0.320\n    pre               2.247    0.837    2.685    0.007    0.736    0.814\n    pace              1.550    0.615    2.522    0.012    0.508    0.426\n    sup               1.855    0.680    2.727    0.006    0.607    0.538\n  f2 =~                                                                 \n    satis             1.000                               0.931    0.659\n    comp              0.570    0.250    2.282    0.022    0.530    0.402\n    mat               0.385    0.170    2.261    0.024    0.358    0.390\n\nCovariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  f1 ~~                                                                 \n    f2                0.138    0.068    2.025    0.043    0.453    0.453\n\nVariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n   .text              0.942    0.128    7.335    0.000    0.942    0.898\n   .pre               0.275    0.131    2.099    0.036    0.275    0.337\n   .pace              1.160    0.167    6.929    0.000    1.160    0.818\n   .sup               0.905    0.149    6.060    0.000    0.905    0.711\n   .satis             1.127    0.381    2.955    0.003    1.127    0.565\n   .comp              1.463    0.230    6.364    0.000    1.463    0.839\n   .mat               0.716    0.111    6.465    0.000    0.716    0.848\n    f1                0.107    0.071    1.505    0.132    1.000    1.000\n    f2                0.866    0.412    2.103    0.035    1.000    1.000\n\n\n推定結果から，パス図を作成するために，semPlotパッケージを用いる。\n\npacman::p_load(semPlot)\nsemPaths(\n  fit, \n  what = \"paths\", \n  whatLabels = \"std\", \n  edge.label.cex = 1.2, \n  residuals = FALSE, \n  intercepts = FALSE)",
+    "text": "分析\nRでSEMを行う場合に事実上の標準となっているパッケージがlavaanです。 まずいつものtidyverseと今回利用するlavaanを読み込みます。\n\npacman::p_load(tidyverse, lavaan)\n\nここでは，Rで構造方程式モデル推定を勉強のためのバイブルである豊田 (2014)「共分散構造分析 R編」東京図書のデータを用いる。 データはこのテキストの資料配付サイトから入手できます。\n\ndf &lt;- read_csv(\"data/seminar.csv\")\n\nNew names:\nRows: 118 Columns: 8\n── Column specification\n────────────────────────────────────────────────────────\nDelimiter: \",\" chr (1): ...1 dbl (7): テキスト, プレゼン, ペース, 講師対処,\n満足度, 理解度, 目的一致\nℹ Use `spec()` to retrieve the full column specification for this data. ℹ\nSpecify the column types or set `show_col_types = FALSE` to quiet this message.\n• `` -&gt; `...1`\n\n\n\ndf &lt;- df |&gt;\n  dplyr::rename(\n    text = テキスト,\n    pre = プレゼン,\n    pace = ペース,\n    sup = 講師対処,\n    satis = 満足度,\n    comp = 理解度,\n    mat = 目的一致\n  ) |&gt;\n  select(-1)\n\nこのデータは，セミナーにおける「充実感」と「講師の質」を調査するためのデータであり，\n\nテキストの良さ text\n\nプレゼンの良さ pre\n\nペースの適切さ pace\n\n講師の対処の良さ sup\n\nセミナーへの満足度 satis\n\n理解度 comp\n\n目的一致 mat\n\n\nから構成されている。上の4つは「講師の質」を表し，下の3つは「本人の充実度」を表しそうである。\n最初に，変数を定義する。 lavaanでモデルを設定するための記法は\n\n\n=~ ：右辺の要素から左辺の共通因子を推定する因子分析モデル\n\n~ ：右辺を左辺で回帰する回帰モデル\n\n~~ ：左辺と右辺の相関関係\n\nとなっている。これを'で囲むことでモデルの指定ができる。\n\nmodel1 &lt;- ' # 因子分析\n  f1 =~ text + pre + pace + sup\n  f2 =~ satis + comp + mat\n  #f2 ~~ f1\n  '\n\n上記で構築したmodel1をlavaanのsem()関数で推定する。\n\nfit &lt;- cfa(\n  model = model1, \n  data = df,\n  estimator = \"ML\"\n  )\n\n推定結果を結果をsummary()で表示する。\n\nsummary( \n  object = fit, standardize = TRUE)\n\nlavaan 0.6-19 ended normally after 44 iterations\n\n  Estimator                                         ML\n  Optimization method                           NLMINB\n  Number of model parameters                        15\n\n  Number of observations                           118\n\nModel Test User Model:\n                                                      \n  Test statistic                                14.992\n  Degrees of freedom                                13\n  P-value (Chi-square)                           0.308\n\nParameter Estimates:\n\n  Standard errors                             Standard\n  Information                                 Expected\n  Information saturated (h1) model          Structured\n\nLatent Variables:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  f1 =~                                                                 \n    text              1.000                               0.327    0.320\n    pre               2.247    0.837    2.685    0.007    0.736    0.814\n    pace              1.550    0.615    2.522    0.012    0.508    0.426\n    sup               1.855    0.680    2.727    0.006    0.607    0.538\n  f2 =~                                                                 \n    satis             1.000                               0.931    0.659\n    comp              0.570    0.250    2.282    0.022    0.530    0.402\n    mat               0.385    0.170    2.261    0.024    0.358    0.390\n\nCovariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  f1 ~~                                                                 \n    f2                0.138    0.068    2.025    0.043    0.453    0.453\n\nVariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n   .text              0.942    0.128    7.335    0.000    0.942    0.898\n   .pre               0.275    0.131    2.099    0.036    0.275    0.337\n   .pace              1.160    0.167    6.929    0.000    1.160    0.818\n   .sup               0.905    0.149    6.060    0.000    0.905    0.711\n   .satis             1.127    0.381    2.955    0.003    1.127    0.565\n   .comp              1.463    0.230    6.364    0.000    1.463    0.839\n   .mat               0.716    0.111    6.465    0.000    0.716    0.848\n    f1                0.107    0.071    1.505    0.132    1.000    1.000\n    f2                0.866    0.412    2.103    0.035    1.000    1.000\n\n\n推定結果から，パス図を作成する ために，semPlotパッケージを用いる。\n\npacman::p_load(semPlot)\nsemPaths(\n  fit, \n  what = \"paths\", \n  whatLabels = \"std\", \n  edge.label.cex = 1.2, \n  residuals = FALSE, \n  intercepts = FALSE)",
     "crumbs": [
       "データ解析法",
+      "多変量解析",
       "12日目 : 構造方程式モデル"
     ]
   },
@@ -601,6 +663,7 @@
     "text": "課題\n以前利用した，飲み物の好みについてのアンケート調査データを用いて，構造方程式を構築し，推定する。\n\ndf2 &lt;- read_csv(\"data/chap14.csv\") # 飲み物のデータ\n\nRows: 20 Columns: 8\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\ndbl (8): ID, café, tea, milk, water, g_tea, w_tea, sex\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nnames(df2)[names(df2) == \"café\"] &lt;- \"cafe\"\n\n資料に示されたパス図をもとに，モデルを構築し，推定する。\n\n# モデルの指定\nmodel2 &lt;- \"\nf3 =~ cafe + tea + milk\nf3 ~ sex\n\"\n\n# 構造方程式モデル\nfit2 &lt;- sem(\n  model2, # モデル\n  data = df2, # データ\n  auto.var = TRUE # 自動的に共分散を推定\n  )\n\nsummary(fit2, standardized = TRUE) # 結果表示\n\nlavaan 0.6-19 ended normally after 33 iterations\n\n  Estimator                                         ML\n  Optimization method                           NLMINB\n  Number of model parameters                         7\n\n  Number of observations                            20\n\nModel Test User Model:\n                                                      \n  Test statistic                                18.780\n  Degrees of freedom                                 2\n  P-value (Chi-square)                           0.000\n\nParameter Estimates:\n\n  Standard errors                             Standard\n  Information                                 Expected\n  Information saturated (h1) model          Structured\n\nLatent Variables:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  f3 =~                                                                 \n    cafe              1.000                               0.929    0.868\n    tea               1.106    0.164    6.739    0.000    1.028    0.984\n    milk              0.785    0.132    5.934    0.000    0.729    0.905\n\nRegressions:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  f3 ~                                                                  \n    sex               0.102    0.429    0.238    0.812    0.110    0.054\n\nVariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n   .cafe              0.284    0.107    2.655    0.008    0.284    0.247\n   .tea               0.034    0.072    0.470    0.639    0.034    0.031\n   .milk              0.118    0.052    2.283    0.022    0.118    0.182\n   .f3                0.861    0.355    2.424    0.015    0.997    0.997\n\n\n推定結果からパス図を作成する。\n\nsemPaths(\n  fit2, # 推定結果\n  what = \"paths\", # パス図\n  whatLabels = \"std\", # 標準化係数\n  edge.label.cex = 1.2, # ラベルのサイズ\n  residuals = FALSE, # 残差を表示しない\n  intercepts = FALSE # 切片を表示しない\n  )\n\n\n\n\n\n\n\nさらに，複雑なパス図に基づいて次のようにモデルを構築する。\n\n# モデルの指定\nmodel3 &lt;- ' # sem\n  f3 =~ cafe + tea + milk\n  f4 =~ water + g_tea + w_tea\n  f3 ~ sex\n  f4 ~ sex\n  '\n\n上記のモデルを推定し，作図する。\n\n# モデル推定\nfit3 &lt;- sem(\n  model3, # モデル\n  data = df2,  # データ\n  auto.var = TRUE # 自動的に共分散を推定\n  )\n\n# 結果表示\nsummary(\n  fit3, # 推定結果\n  standardized = TRUE # 標準化係数を表示\n  )\n\nlavaan 0.6-19 ended normally after 33 iterations\n\n  Estimator                                         ML\n  Optimization method                           NLMINB\n  Number of model parameters                        15\n\n  Number of observations                            20\n\nModel Test User Model:\n                                                      \n  Test statistic                                23.059\n  Degrees of freedom                                12\n  P-value (Chi-square)                           0.027\n\nParameter Estimates:\n\n  Standard errors                             Standard\n  Information                                 Expected\n  Information saturated (h1) model          Structured\n\nLatent Variables:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  f3 =~                                                                 \n    cafe              1.000                               0.930    0.868\n    tea               1.104    0.164    6.749    0.000    1.027    0.983\n    milk              0.785    0.132    5.954    0.000    0.730    0.906\n  f4 =~                                                                 \n    water             1.000                               0.914    0.909\n    g_tea             0.838    0.169    4.972    0.000    0.766    0.803\n    w_tea             1.106    0.160    6.917    0.000    1.011    0.969\n\nRegressions:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  f3 ~                                                                  \n    sex               0.106    0.430    0.247    0.805    0.114    0.056\n  f4 ~                                                                  \n    sex               0.450    0.417    1.079    0.280    0.493    0.241\n\nCovariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n .f3 ~~                                                                 \n   .f4                0.086    0.193    0.448    0.654    0.105    0.105\n\nVariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n   .cafe              0.282    0.106    2.652    0.008    0.282    0.246\n   .tea               0.036    0.071    0.505    0.613    0.036    0.033\n   .milk              0.117    0.051    2.274    0.023    0.117    0.180\n   .water             0.175    0.093    1.891    0.059    0.175    0.173\n   .g_tea             0.323    0.115    2.811    0.005    0.323    0.355\n   .w_tea             0.065    0.093    0.704    0.482    0.065    0.060\n   .f3                0.863    0.355    2.427    0.015    0.997    0.997\n   .f4                0.786    0.305    2.581    0.010    0.942    0.942\n\n# パス図\nsemPaths(\n  fit3, # 推定結果\n  what = \"paths\", # パス図\n  whatLabels = \"std\", # 標準化係数\n  fit.measures = TRUE, # 適合度指標\n  edge.label.cex = 1.2, # ラベルのサイズ\n  residuals = FALSE, # 残差を表示しない\n  intercepts = FALSE # 切片を表示しない\n  ) \n\nWarning in qgraph::qgraph(Edgelist, labels = nLab, bidirectional = Bidir, : The\nfollowing arguments are not documented and likely not arguments of qgraph and\nthus ignored: fit.measures",
     "crumbs": [
       "データ解析法",
+      "多変量解析",
       "12日目 : 構造方程式モデル"
     ]
   }
