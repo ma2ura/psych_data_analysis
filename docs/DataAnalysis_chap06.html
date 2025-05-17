@@ -449,19 +449,20 @@ window.Quarto = {
   
 
 
-</header><p>2つの連続変数(continuous variables)間の関係をみるための方法を学習する。 たとえば，職の社会的威信の高さ(威信スコア)と収入の関連を調べるとする。 社会学では威信スコアを用いて次のような研究を行っている。</p>
+</header><p>2つの連続変数(continuous variables)間の関係をみるための方法を学習します。 たとえば，職の社会的威信の高さ(威信スコア)と収入の関連を調べたい、としましょう。 社会学では威信スコアを用いて次のような研究を行っています。</p>
 <ul>
 <li>社会階層論「地位の一貫性」</li>
 <li>時代におって地位の一貫性は異なる。</li>
 </ul>
-<p>まず連続変数と連続変数の関係を調べるため，散布図(scatter diagram)を書き，その後に相関係数(correlation coefficient)をみる。</p>
+<p>まず連続変数と連続変数の関係を調べるため，<strong>散布図</strong>(scatter diagram)を書き，その後に<strong>相関係数</strong>(correlation coefficient)をみます。</p>
 <section id="散布図" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="散布図">散布図</h2>
-<p>散布図(scatter diagram)とは，2変数の値の組を点で表した図であり，全体的な傾向をつかむ。 最初からRで用意されているデータセット<code>cars</code>を用いて散布図を書く。</p>
+<p>散布図(scatter diagram)とは、２つの連続変数の関係を視覚化するための図です。 散布図は，横軸に1つの変数をとり，縦軸にもう1つの変数をとることで，2つの変数の関係を視覚化します。 練習として最初からRに用意されているデータセット<code>cars</code>を用いて散布図を書いてみましょう。</p>
+<p>グラフを作成するために、基本関数である<code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code>を用います。 ここでは横軸に<code>speed</code>(速度)、縦軸に<code>dist</code>(制動距離)をとる散布図を書いてみましょう。</p>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>family<span class="op">=</span><span class="st">"HiraKakuPro-W3"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span></span>
-<span>  <span class="va">cars</span><span class="op">$</span><span class="va">dist</span>, <span class="va">cars</span><span class="op">$</span><span class="va">speed</span>, </span>
-<span>  xlab<span class="op">=</span><span class="st">"距離"</span>, ylab<span class="op">=</span><span class="st">"速度"</span></span>
+<span>  <span class="va">cars</span><span class="op">$</span><span class="va">speed</span>, <span class="va">cars</span><span class="op">$</span><span class="va">dist</span>, </span>
+<span>  xlab<span class="op">=</span><span class="st">"速度"</span>, ylab<span class="op">=</span><span class="st">"距離"</span></span>
 <span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -470,15 +471,20 @@ window.Quarto = {
 </div>
 </div>
 </div>
+<p>散布図からは、速度が上がるほど、制動距離が長くなる傾向があることがわかります。 このように、散布図は2つの連続変数の関係を視覚化するための便利な方法です。</p>
 
 <div class="no-row-height column-margin column-container"><div class="margin-aside">
-<p>作図は<code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code>で行う。plot(y軸,x軸)と書く。</p>
-</div></div></section><section id="ピアソンの積率相関係数" class="level2"><h2 class="anchored" data-anchor-id="ピアソンの積率相関係数">ピアソンの積率相関係数</h2>
-<p>ピアソンの積率相関係数(peason’s correlation coefficient)を求める。 相関係数を計算するために必要な要素として，2変数の共分散(covariance)を計算する。 変数<span class="math inline">x</span>と<span class="math inline">y</span>の共分散<span class="math inline">C_{xy}</span>は，</p>
+<p><code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code>は散布図を作成するための基本関数です。 引数が数ベクトル1つだけのときは、横軸はデータのインデックス順に並び、縦軸はその値をとります。 2つの数ベクトルを引数にとると、散布図を作成します。</p>
+</div><div class="margin-aside">
+<p><code>par(family = "hoge")</code>は、フォントを指定するための関数です。 MacOSだと<code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code>関数で作図しても日本語が文字化けしてしまうので、ここでは<code>HiraKakuPro-W3</code>を指定しています。</p>
+</div></div>
+</section><section id="ピアソンの積率相関係数" class="level2"><h2 class="anchored" data-anchor-id="ピアソンの積率相関係数">ピアソンの積率相関係数</h2>
+<p>散布図からは、2つの連続変数の関係を視覚化することができました。 次に、2つの連続変数の関係を数値化するために、<strong>相関係数</strong>(correlation coefficient)を計算します。 よく利用されるピアソンの積率相関係数(peason’s correlation coefficient)を計算します。 ピアソンの積率相関係数(以下、特に断らずに相関係数というときはこれ)は、2つの連続変数の間の線形関係を測定するための指標です。</p>
+<p>相関係数を計算するために必要な要素として，まずは2変数の<strong>共分散</strong>(covariance)を計算します。 確率変数 <span class="math inline">x</span> と <span class="math inline">y</span> の共分散を <span class="math inline">Cov_{xy}</span> とすると、次のように定義されます。</p>
 <p><span class="math display">
-C_{xy} = \frac 1n \sum_{t=1}^n (x_i - \bar x) (y_i - \bar y)
+Cov_{xy} = \frac 1n \sum_{t=1}^n (x_i - \bar x) (y_i - \bar y)
 </span></p>
-<p>と計算できる。 ここで分子が<span class="math inline">x</span>と<span class="math inline">y</span>のかけ算となっていることに注目しよう。 各変数から平均値を除いて散布図を書くと，</p>
+<p>と計算できる。 ここで分子が <span class="math inline">x</span> と <span class="math inline">y</span> のかけ算となっていることに注目しましょう。 各変数から平均値を除いた <span class="math inline">\{x - \bar x, y - \bar y \}</span> の散布図を書くと，</p>
 <div class="cell">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>family<span class="op">=</span><span class="st">"HiraKakuPro-W3"</span><span class="op">)</span></span>
 <span><span class="va">mdist</span> <span class="op">&lt;-</span> <span class="va">cars</span><span class="op">$</span><span class="va">dist</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">cars</span><span class="op">$</span><span class="va">dist</span><span class="op">)</span></span>
@@ -493,7 +499,8 @@ C_{xy} = \frac 1n \sum_{t=1}^n (x_i - \bar x) (y_i - \bar y)
 </div>
 </div>
 </div>
-<p>とデータの中心(平均)が0になっていることが分かる。 この2変数のかけ算となるため，右上と左下の組は符号が正となり，左上と右下の組の組は符号が負となる。 このかけ算の結果の平均が共分散であるため，共分散の符号が正ということは，右上や左下のデータが多い，つまり右肩上がりの関係がある，ということである。</p>
+<p>と、データの中心(平均)が0になっていることが分かります(定義より自明です)。</p>
+<p>共分散の分子が <span class="math inline">(x_i - \bar x) \times (y_i - \bar y)</span> となっているため、データの組 <span class="math inline">\{x_i, y_i\}</span> のうち、グラフの右上と左下の組は、<span class="math inline">x_i - \bar x</span> と <span class="math inline">y_i - \bar y</span> の符号が同じ(正)となり、共分散の分子は正となります。 一方、グラフの左上と右下の領域に位置するデータの組はかけ算の符号が負となります。 このかけ算の結果の平均が共分散であるため，共分散の符号が正ということは，右上や左下のデータが多い，つまり右肩上がりの関係がある，ということを示しています。</p>
 <div class="cell">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>family<span class="op">=</span><span class="st">"HiraKakuPro-W3"</span><span class="op">)</span></span>
 <span><span class="va">group</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">mdist</span> <span class="op">&gt;=</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="va">mspeed</span> <span class="op">&gt;=</span> <span class="fl">0</span> <span class="op">|</span> <span class="va">mdist</span> <span class="op">&lt;</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="va">mspeed</span> <span class="op">&lt;</span> <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
@@ -806,7 +813,7 @@ class  0.22 0.16   0.56  1.00</code></pre>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span> ,mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><code><a href="https://rdrr.io/r/stats/Normal.html">rnorm()</a></code>で正規分布からデータを10,000個ずつ取り出して，<code>x</code>と<code>y</code>の2変数を作成する。 もちろん，この2変数間の相関係数は0である。</p>
+<p><code><a href="https://rdrr.io/r/stats/Normal.html">rnorm()</a></code>で正規分布からデータを10,000個ずつ取り出して，<code>x</code>と<code>y</code>の2変数を作成する。 もちろん，この2変数間の相関係数は-0.02である。</p>
 <p>次に，この2変数から100個のサンプルを取り出し，相関係数を計算する。</p>
 <div class="cell">
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">121</span><span class="op">)</span></span>
@@ -821,10 +828,10 @@ class  0.22 0.16   0.56  1.00</code></pre>
 </div>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">sx</span>,<span class="va">sy</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.07699288</code></pre>
+<pre><code>[1] 0.008115284</code></pre>
 </div>
 </div>
-<p>相関係数は，0.0769929となった。 次に，この試行を10,000回繰り返し，相関係数10,000個のヒストグラムを作成する。</p>
+<p>相関係数は，0.0081153となった。 次に，この試行を10,000回繰り返し，相関係数10,000個のヒストグラムを作成する。</p>
 <div class="cell">
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">121</span><span class="op">)</span></span>
 <span><span class="va">trial</span> <span class="op">=</span> <span class="fl">10000</span></span>
@@ -842,7 +849,7 @@ class  0.22 0.16   0.56  1.00</code></pre>
 </div>
 </div>
 </div>
-<p>この相関係数の分布は，平均が-5^{-4}，標準偏差が0.101の<span class="math inline">t</span>分布に従っている。</p>
+<p>この相関係数の分布は，平均が-8^{-4}，標準偏差が0.1011の<span class="math inline">t</span>分布に従っている。</p>
 
 
 </section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">

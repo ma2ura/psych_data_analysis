@@ -1,36 +1,83 @@
 # 10日目 : ダミー変数の利用と交互作用項 {.unnumbered}
 
-カテゴリー変数を独立変数とした回帰分析を行う場合，カテゴリー変数を**ダミー変数**(dummy variable)に変換して分析を行う。
-ダミー変数とは**0と1の値を取る変数**である。たとえば，男なら1，男じゃないなら0という風にカテゴリーをコード化する。
+<span class="markp">カテゴリー変数を独立変数とした回帰分析を行う場合，カテゴリー変数を**ダミー変数**(dummy variable)に変換して分析を行います</span>。
+ダミー変数は，カテゴリー変数を0と1の値を取る変数に変換したものです。
+たとえば，性別を男性と女性の2つのカテゴリーに分ける場合，男性を1，女性を0とすることでダミー変数を作成します。
 
-職業威信スコアに与える影響の分析に性別の影響を組み込むために，男性ダミー変数をモデルに組み込む。
+$$
+\begin{aligned}
+D_i = \begin{cases}
+1 & \text{iが男性} \\
+0 & \text{iが女性}
+\end{cases}
+\end{aligned}
+$$
+
+<!-- ダミー変数とは**0と1の値を取る変数**である。たとえば，男なら1，男じゃないなら0という風にカテゴリーをコード化する。 -->
+
+テキストを参考に，職業威信スコアに与える影響の分析に性別の影響を組み込むために，**男性ダミー変数**をモデルに組み込みます。
 
 $$
 y_i = \alpha + \beta _1 \text{年齢}_i + \beta _2 \text{教育年数}_i + \beta _3 \text{男性ダミー}_i + \varepsilon_i
 $$
-男性ダミー変数は，男性なら1，そうでないなら0という値とるため，次のように場合分けできる。
+ここで，男性ダミー変数は，男性なら1，そうでないなら0という値とる変数です。
+ある観測値 $i$ の性別が男性か女性かにより次のように場合分けできます。
 
 $$
-\text{男性 : } y_i = \alpha + \beta _1 \text{年齢}_i + \beta _2 \text{教育年数}_i + \beta _3 \times 1+ \varepsilon_i\\
-\text{女性 : } y_i = \alpha + \beta _1 \text{年齢}_i + \beta _2 \text{教育年数}_i + \varepsilon_i
+\begin{aligned}
+\text{男性 : } y_i &= \alpha + \beta _1 \text{年齢}_i + \beta _2 \text{教育年数}_i + \beta _3 \times 1+ \varepsilon_i\\
+                   &= (\alpha + \beta _3) + \beta _1 \text{年齢}_i + \beta _2 \text{教育年数}_i + \varepsilon_i\\
+\text{女性 : } y_i &= \alpha + \beta _1 \text{年齢}_i + \beta _2 \text{教育年数}_i + \varepsilon_i
+\end{aligned}
 $$
 
-つまり，$\beta_3$が性別の違いが職業威信スコアに影響を与えているかどうか，を示している。男性が女性に比べて職業威信スコアが高いなら，$\beta_3$は統計的に正に有意になるだろう。
+つまり，男性ダミーの回帰係数 $\beta_3$ がゼロであるという帰無仮説が統計的検定によって棄却されるのであれば、回帰直線の切片は $\alpha + \beta_3$ となり， 女性の回帰直線の切片 $\alpha$ とは $\beta_3$ だけ差があることになります。
+つまり性別の違いを $\beta_3$ が示しているといえます。
+<!-- もし男性が女性に比べて職業威信スコアが高いなら，$\beta_3$は統計的に正に有意になるでしょう。 -->
 
 
 ## データ分析
 
-では次に，データを用いて分析してみよう。
+では実際にデータを用いて分析してみましょう。
+ここでは，教科書のデータ`chap12.csv`を用います。
+まずは`pacman::p_load()`関数で必要なパッケージを導入します。
+
+:::{.aside}
+`stargazer`は回帰分析の結果をいい感じの表にしてくれる便利なパッケージです。
+:::
+
+次に，csvファイルを読み込むために，`tidyverse`の`readr`パッケージの`read_csv()`関数を用います。
 
 ```{r read_csv}
-pacman::p_load(tidyverse, stargazer)
-df <- read_csv("data/chap12.csv")
+pacman::p_load(
+    tidyverse,  # 強力なデータ操作パッケージ
+    stargazer   # 分析結果の作表
+    )
+df <- read_csv("data/chap12.csv", show_col_types = FALSE)
 ```
 
-上記の回帰モデルを`lm()`関数を用いてOLS推定する。
+`chap12.csv`を格納したオブジェクト`df`の中身を確認してみましょう。
 
 ```{r}
-res1 <- lm(like ~ age + gender + eduyear + tv, data = df)
+glimpse(df)
+```
+
+`ID`，`age`，`gender`，`eduyear`，`tv`，`like`という6つの変数からなるデータが読み込まれました。
+このうち`gender`は`<chr>`となっていることから文字列となっており，残りの変数は`<dbl>`なので実数値が入っていることが分かります。
+このデータを用いて，上記の回帰モデルを最小二乗法(OLS)で推定します。
+
+OLS推定を行うには基本関数である`lm()`関数を用います。
+`lm()`関数は主要な引数として、
+
+- `formula` : 回帰式を指定します。`y ~ x1 + x2 + ...`のように指定します。
+- `data` : データフレームを指定します。
+
+よって回帰式をOLS推定するには次のように記述します。
+
+```{r}
+res1 <- lm(
+    formula = like ~ age + gender + eduyear + tv, 
+    data = df)
 summary(res1)
 ```
 
@@ -123,7 +170,7 @@ $$
 さらに交互作用項を追加したモデル
 
 $$
-like = \beta _0 + \beta _1 age + \beta _2 gender + \beta _3 eduyear + \beta _4 tv + \beta_5 gender \times age + \beta_6 gender \times eduyear  + \varepsilon 
+like = \beta _0 + \beta _1 age + \beta _2 gender + \beta _3 eduyear + \beta _4 tv + \beta_5 gender \times age + \beta_6 gender \times eduyear  + \varepsilon
 $$
 と
 

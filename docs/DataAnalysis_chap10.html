@@ -141,12 +141,12 @@ window.Quarto = {
 </script><link rel="stylesheet" href="mystyle.css">
 <meta name="twitter:title" content="10日目 : ダミー変数の利用と交互作用項 – 心理学データ解析法">
 <meta name="twitter:description" content="">
-<meta name="twitter:image" content="https://so-ichi.com/DataAnalysis_chap10_files/figure-html/unnamed-chunk-3-1.png">
+<meta name="twitter:image" content="https://so-ichi.com/DataAnalysis_chap10_files/figure-html/unnamed-chunk-4-1.png">
 <meta name="twitter:image-height" content="1152">
 <meta name="twitter:image-width" content="1152">
 <meta name="twitter:card" content="summary_large_image">
 </head>
-<body class="nav-sidebar floating nav-fixed quarto-light">
+<body class="nav-sidebar floating nav-fixed slimcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
@@ -423,7 +423,7 @@ window.Quarto = {
   </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./DataAnalysis_chap08.html">回帰分析</a></li><li class="breadcrumb-item"><a href="./DataAnalysis_chap10.html">10日目 : ダミー変数の利用と交互作用項</a></li></ol></nav><div class="quarto-title">
+<main class="content page-columns page-full" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./DataAnalysis_chap08.html">回帰分析</a></li><li class="breadcrumb-item"><a href="./DataAnalysis_chap10.html">10日目 : ダミー変数の利用と交互作用項</a></li></ol></nav><div class="quarto-title">
 <h1 class="title">10日目 : ダミー変数の利用と交互作用項</h1>
 </div>
 
@@ -438,35 +438,68 @@ window.Quarto = {
   
 
 
-</header><p>カテゴリー変数を独立変数とした回帰分析を行う場合，カテゴリー変数を<strong>ダミー変数</strong>(dummy variable)に変換して分析を行う。 ダミー変数とは<strong>0と1の値を取る変数</strong>である。たとえば，男なら1，男じゃないなら0という風にカテゴリーをコード化する。</p>
-<p>職業威信スコアに与える影響の分析に性別の影響を組み込むために，男性ダミー変数をモデルに組み込む。</p>
+</header><p><span class="markp">カテゴリー変数を独立変数とした回帰分析を行う場合，カテゴリー変数を<strong>ダミー変数</strong>(dummy variable)に変換して分析を行います</span>。 ダミー変数は，カテゴリー変数を0と1の値を取る変数に変換したものです。 たとえば，性別を男性と女性の2つのカテゴリーに分ける場合，男性を1，女性を0とすることでダミー変数を作成します。</p>
+<p><span class="math display">
+\begin{aligned}
+D_i = \begin{cases}
+1 &amp; \text{iが男性} \\
+0 &amp; \text{iが女性}
+\end{cases}
+\end{aligned}
+</span></p>
+<!-- ダミー変数とは**0と1の値を取る変数**である。たとえば，男なら1，男じゃないなら0という風にカテゴリーをコード化する。 -->
+<p>テキストを参考に，職業威信スコアに与える影響の分析に性別の影響を組み込むために，<strong>男性ダミー変数</strong>をモデルに組み込みます。</p>
 <p><span class="math display">
 y_i = \alpha + \beta _1 \text{年齢}_i + \beta _2 \text{教育年数}_i + \beta _3 \text{男性ダミー}_i + \varepsilon_i
-</span> 男性ダミー変数は，男性なら1，そうでないなら0という値とるため，次のように場合分けできる。</p>
+</span> ここで，男性ダミー変数は，男性なら1，そうでないなら0という値とる変数です。 ある観測値 <span class="math inline">i</span> の性別が男性か女性かにより次のように場合分けできます。</p>
 <p><span class="math display">
-\text{男性 : } y_i = \alpha + \beta _1 \text{年齢}_i + \beta _2 \text{教育年数}_i + \beta _3 \times 1+ \varepsilon_i\\
-\text{女性 : } y_i = \alpha + \beta _1 \text{年齢}_i + \beta _2 \text{教育年数}_i + \varepsilon_i
+\begin{aligned}
+\text{男性 : } y_i &amp;= \alpha + \beta _1 \text{年齢}_i + \beta _2 \text{教育年数}_i + \beta _3 \times 1+ \varepsilon_i\\
+                   &amp;= (\alpha + \beta _3) + \beta _1 \text{年齢}_i + \beta _2 \text{教育年数}_i + \varepsilon_i\\
+\text{女性 : } y_i &amp;= \alpha + \beta _1 \text{年齢}_i + \beta _2 \text{教育年数}_i + \varepsilon_i
+\end{aligned}
 </span></p>
-<p>つまり，<span class="math inline">\beta_3</span>が性別の違いが職業威信スコアに影響を与えているかどうか，を示している。男性が女性に比べて職業威信スコアが高いなら，<span class="math inline">\beta_3</span>は統計的に正に有意になるだろう。</p>
-<section id="データ分析" class="level2"><h2 class="anchored" data-anchor-id="データ分析">データ分析</h2>
-<p>では次に，データを用いて分析してみよう。</p>
-<div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">tidyverse</span>, <span class="va">stargazer</span><span class="op">)</span></span>
-<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"data/chap12.csv"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 20 Columns: 6
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (1): gender
-dbl (5): ID, age, eduyear, tv, like
+<p>つまり，男性ダミーの回帰係数 <span class="math inline">\beta_3</span> がゼロであるという帰無仮説が統計的検定によって棄却されるのであれば、回帰直線の切片は <span class="math inline">\alpha + \beta_3</span> となり， 女性の回帰直線の切片 <span class="math inline">\alpha</span> とは <span class="math inline">\beta_3</span> だけ差があることになります。 つまり性別の違いを <span class="math inline">\beta_3</span> が示しているといえます。 <!-- もし男性が女性に比べて職業威信スコアが高いなら，$\beta_3$は統計的に正に有意になるでしょう。 --></p>
+<section id="データ分析" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="データ分析">データ分析</h2>
+<p>では実際にデータを用いて分析してみましょう。 ここでは，教科書のデータ<code>chap12.csv</code>を用います。 まずは<code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">pacman::p_load()</a></code>関数で必要なパッケージを導入します。</p>
 
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-</div>
-<p>上記の回帰モデルを<code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code>関数を用いてOLS推定する。</p>
+<div class="no-row-height column-margin column-container"><div class="margin-aside">
+<p><code>stargazer</code>は回帰分析の結果をいい感じの表にしてくれる便利なパッケージです。</p>
+</div></div><p>次に，csvファイルを読み込むために，<code>tidyverse</code>の<code>readr</code>パッケージの<code>read_csv()</code>関数を用います。</p>
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">res1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">like</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">eduyear</span> <span class="op">+</span> <span class="va">tv</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span></span>
+<span>    <span class="va">tidyverse</span>,  <span class="co"># 強力なデータ操作パッケージ</span></span>
+<span>    <span class="va">stargazer</span>   <span class="co"># 分析結果の作表</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"data/chap12.csv"</span>, show_col_types <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>chap12.csv</code>を格納したオブジェクト<code>df</code>の中身を確認してみましょう。</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">glimpse</span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 20
+Columns: 6
+$ ID      &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,…
+$ age     &lt;dbl&gt; 57, 49, 50, 74, 48, 63, 66, 32, 18, 41, 34, 64, 75, 48, 41, 51…
+$ gender  &lt;chr&gt; "Male", "Female", "Male", "Female", "Female", "Male", "Male", …
+$ eduyear &lt;dbl&gt; 14, 12, 12, 15, 16, 14, 16, 14, 12, 12, 9, 16, 18, 16, 12, 14,…
+$ tv      &lt;dbl&gt; 2, 2, 2, 2, 3, 3, 2, 3, 2, 2, 4, 2, 1, 3, 2, 3, 2, 2, 3, 3
+$ like    &lt;dbl&gt; 93, 47, 83, 42, 35, 66, 95, 43, 63, 80, 23, 97, 85, 67, 81, 66…</code></pre>
+</div>
+</div>
+<p><code>ID</code>，<code>age</code>，<code>gender</code>，<code>eduyear</code>，<code>tv</code>，<code>like</code>という6つの変数からなるデータが読み込まれました。 このうち<code>gender</code>は<code>&lt;chr&gt;</code>となっていることから文字列となっており，残りの変数は<code>&lt;dbl&gt;</code>なので実数値が入っていることが分かります。 このデータを用いて，上記の回帰モデルを最小二乗法(OLS)で推定します。</p>
+<p>OLS推定を行うには基本関数である<code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code>関数を用います。 <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code>関数は主要な引数として、</p>
+<ul>
+<li>
+<code>formula</code> : 回帰式を指定します。<code>y ~ x1 + x2 + ...</code>のように指定します。</li>
+<li>
+<code>data</code> : データフレームを指定します。</li>
+</ul>
+<p>よって回帰式をOLS推定するには次のように記述します。</p>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">res1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span></span>
+<span>    formula <span class="op">=</span> <span class="va">like</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">eduyear</span> <span class="op">+</span> <span class="va">tv</span>, </span>
+<span>    data <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">res1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -495,7 +528,7 @@ F-statistic: 51.32 on 4 and 15 DF,  p-value: 1.415e-08</code></pre>
 </section><section id="交互作用を含んだ回帰分析" class="level1"><h1>交互作用を含んだ回帰分析</h1>
 <p>変数の内容と記述統計量を確認する。 その前に，変数<code>gender</code>はカテゴリー変数なので，factor型に変換しておく。</p>
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">$</span><span class="va">gender</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">gender</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">$</span><span class="va">gender</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">gender</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       ID             age           gender      eduyear           tv     
@@ -518,7 +551,7 @@ F-statistic: 51.32 on 4 and 15 DF,  p-value: 1.415e-08</code></pre>
 <p><span class="math display">
 like = \beta _0 + \beta _1 age + \beta _2 gender + \beta _3 eduyear + \beta _4 tv + \varepsilon
 </span></p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">res11</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">like</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">eduyear</span> <span class="op">+</span> <span class="va">tv</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">res11</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">like</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">eduyear</span> <span class="op">+</span> <span class="va">tv</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span>
 <span><span class="fu">stargazer</span><span class="op">(</span><span class="va">res11</span>,</span>
 <span>          digits <span class="op">=</span> <span class="fl">2</span>, digits.extra <span class="op">=</span> <span class="fl">0</span>, align <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>          omit.table.layout <span class="op">=</span> <span class="st">'n'</span>, <span class="co"># IMPORTANT!!!</span></span>
@@ -696,21 +729,21 @@ F Statistic
 <section id="中心化" class="level2"><h2 class="anchored" data-anchor-id="中心化">中心化</h2>
 <p>次に，交互作用項を組み込んだ分析を行うが，交互作用項を含む変数を回帰モデルに組み込む場合，多重共線性の影響がでる可能性があるため，連続変数を中心化する。 つまり，連続変数からその平均値を差し引くことでデータの平均を0にする。</p>
 <div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">$</span><span class="va">age_c</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">$</span><span class="va">age</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">age</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">$</span><span class="va">age_c</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">$</span><span class="va">age</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">age</span><span class="op">)</span></span>
 <span><span class="va">df</span><span class="op">$</span><span class="va">eduyear_c</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">$</span><span class="va">eduyear</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">eduyear</span><span class="op">)</span></span>
 <span><span class="va">df</span><span class="op">$</span><span class="va">tv_c</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">$</span><span class="va">tv</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">tv</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>例えば，年齢と教育年数の交互作用項をモデルに組み込むことを考える。 まず，中心化する前のデータを用いて年齢と教育年数の交互作用項と年齢の散布図を書いてみる。</p>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">$</span><span class="va">eduyear_age</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">$</span><span class="va">eduyear</span> <span class="op">*</span> <span class="va">df</span><span class="op">$</span><span class="va">age</span></span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">$</span><span class="va">eduyear_age</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">$</span><span class="va">eduyear</span> <span class="op">*</span> <span class="va">df</span><span class="op">$</span><span class="va">age</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">eduyear_age</span>,<span class="va">df</span><span class="op">$</span><span class="va">age</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="DataAnalysis_chap10_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="576"></p>
+<figure class="figure"><p><img src="DataAnalysis_chap10_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="576"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">eduyear_age</span>,<span class="va">df</span><span class="op">$</span><span class="va">age</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">eduyear_age</span>,<span class="va">df</span><span class="op">$</span><span class="va">age</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.8628718</code></pre>
 </div>
@@ -718,21 +751,21 @@ F Statistic
 <p>年齢と年齢<span class="math inline">\times</span>教育年数の相関係数は非常に高く，この両方の変数を独立変数として組み込んだ重回帰分析では多重共線性の可能性がでてくる。</p>
 <p>次に，両方の変数を中心化したケースで散布図を書いてみる。</p>
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">$</span><span class="va">eduyear_age_c</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">$</span><span class="va">eduyear_c</span> <span class="op">*</span> <span class="va">df</span><span class="op">$</span><span class="va">age_c</span></span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">$</span><span class="va">eduyear_age_c</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">$</span><span class="va">eduyear_c</span> <span class="op">*</span> <span class="va">df</span><span class="op">$</span><span class="va">age_c</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">eduyear_age_c</span>,<span class="va">df</span><span class="op">$</span><span class="va">age_c</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="DataAnalysis_chap10_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="576"></p>
+<figure class="figure"><p><img src="DataAnalysis_chap10_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="576"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">eduyear_age_c</span>,<span class="va">df</span><span class="op">$</span><span class="va">age_c</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">eduyear_age_c</span>,<span class="va">df</span><span class="op">$</span><span class="va">age_c</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -0.07864727</code></pre>
 </div>
 </div>
 <p>中心化した変数で回帰分析を再度実行してみる。</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">res11c</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">like</span> <span class="op">~</span> <span class="va">age_c</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">eduyear_c</span> <span class="op">+</span> <span class="va">tv_c</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">res11c</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">like</span> <span class="op">~</span> <span class="va">age_c</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">eduyear_c</span> <span class="op">+</span> <span class="va">tv_c</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span>
 <span><span class="fu">stargazer</span><span class="op">(</span><span class="va">res11c</span>,</span>
 <span>          digits <span class="op">=</span> <span class="fl">2</span>, digits.extra <span class="op">=</span> <span class="fl">0</span>, align <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>          omit.table.layout <span class="op">=</span> <span class="st">'n'</span>, <span class="co"># IMPORTANT!!!</span></span>
@@ -899,7 +932,7 @@ like = \beta _0 + \beta _1 age + \beta _2 gender + \beta _3 eduyear + \beta _4 t
 <p><span class="math display">
 like = \beta _0 + \beta _1 age + \beta _2 gender + \beta _3 eduyear + \beta _4 tv + \beta_5 gender \times age + \beta_6 gender \times eduyear  + \varepsilon
 </span> と</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">res12</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">like</span> <span class="op">~</span> <span class="va">age_c</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">eduyear_c</span> <span class="op">+</span> <span class="va">tv_c</span> <span class="op">+</span> <span class="va">gender</span><span class="op">:</span><span class="va">age_c</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">res12</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">like</span> <span class="op">~</span> <span class="va">age_c</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">eduyear_c</span> <span class="op">+</span> <span class="va">tv_c</span> <span class="op">+</span> <span class="va">gender</span><span class="op">:</span><span class="va">age_c</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span>
 <span><span class="va">res13</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">like</span> <span class="op">~</span> <span class="va">age_c</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">eduyear_c</span> <span class="op">+</span> <span class="va">tv_c</span> <span class="op">+</span> <span class="va">gender</span><span class="op">:</span><span class="va">age_c</span> <span class="op">+</span> <span class="va">gender</span><span class="op">:</span><span class="va">eduyear_c</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span>
 <span><span class="fu">stargazer</span><span class="op">(</span><span class="va">res11c</span>,<span class="va">res12</span>,<span class="va">res13</span>,</span>
 <span>          digits <span class="op">=</span> <span class="fl">2</span>, digits.extra <span class="op">=</span> <span class="fl">0</span>, align <span class="op">=</span> <span class="cn">TRUE</span>,</span>

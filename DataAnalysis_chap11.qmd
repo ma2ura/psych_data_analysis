@@ -244,18 +244,25 @@ df2 <- read_csv("data/seiseki.csv") |>
 まずは変数間の相関係数を確認してみましょう。
 
 ```{r}
-cor(df2)
+df2 |>
+  cor() |>
+  corrplot::corrplot(method = "number")
 ```
 
-つぎに，因子分析を行う。「文系」と「理系」という2因子が表れることを予想して，因子数は2とする。
+つぎに，因子分析を行います。
+事前に「文系」と「理系」という2因子が表れることを期待して，因子数は2とします。
 
 ```{r facta2}
-f2 <- factanal(df2,factors = 2, rotation = "promax", scores = "regression")
-print(f2,cutoff=0)
+f2 <- factanal(
+  df2,
+  factors = 2,
+  rotation = "promax",
+  scores = "regression"
+  )
+print(f2, cutoff = 0)
 ```
 
-
-これを因子を軸とする平面に描写する。
+これを因子を軸とする平面に描写します。
 
 ```{r fig02}
 par(family="HiraKakuProN-W3")
@@ -263,8 +270,8 @@ plot(f2$loadings, type = "n")
 text(f2$loadings, colnames(df2))
 ```
 
-この結果より，第1因子は数学，物理，化学を代表しており，第2因子は国語と英語を代表していると考えられる。
-そこで第1因子を「理系」，第2因子を「文系」と名付ける。
+この結果より，第1因子は数学，物理，化学を代表しており，第2因子は国語と英語を代表していると考えられます。
+そこで第1因子を「理系」，第2因子を「文系」と名付けます。
 
 ## `psych`パッケージ
 

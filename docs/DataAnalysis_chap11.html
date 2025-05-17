@@ -736,20 +736,25 @@ dbl (6): ID, 国語, 英語, 数学, 物理, 化学
 </div>
 <p>まずは変数間の相関係数を確認してみましょう。</p>
 <div class="cell">
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>          国語      英語      数学      物理      化学
-国語 1.0000000 0.6851226 0.3009210 0.1851784 0.3686794
-英語 0.6851226 1.0000000 0.4991927 0.3878504 0.4400419
-数学 0.3009210 0.4991927 1.0000000 0.8084774 0.7666267
-物理 0.1851784 0.3878504 0.8084774 1.0000000 0.7499504
-化学 0.3686794 0.4400419 0.7666267 0.7499504 1.0000000</code></pre>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df2</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">corrplot</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/corrplot/man/corrplot.html">corrplot</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"number"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="DataAnalysis_chap11_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
 </div>
 </div>
-<p>つぎに，因子分析を行う。「文系」と「理系」という2因子が表れることを予想して，因子数は2とする。</p>
+</div>
+<p>つぎに，因子分析を行います。 事前に「文系」と「理系」という2因子が表れることを期待して，因子数は2とします。</p>
 <div class="cell">
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">f2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/factanal.html">factanal</a></span><span class="op">(</span><span class="va">df2</span>,factors <span class="op">=</span> <span class="fl">2</span>, rotation <span class="op">=</span> <span class="st">"promax"</span>, scores <span class="op">=</span> <span class="st">"regression"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">f2</span>,cutoff<span class="op">=</span><span class="fl">0</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">f2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/factanal.html">factanal</a></span><span class="op">(</span></span>
+<span>  <span class="va">df2</span>,</span>
+<span>  factors <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  rotation <span class="op">=</span> <span class="st">"promax"</span>,</span>
+<span>  scores <span class="op">=</span> <span class="st">"regression"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">f2</span>, cutoff <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -782,9 +787,9 @@ The chi square statistic is 1.47 on 1 degree of freedom.
 The p-value is 0.225 </code></pre>
 </div>
 </div>
-<p>これを因子を軸とする平面に描写する。</p>
+<p>これを因子を軸とする平面に描写します。</p>
 <div class="cell">
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>family<span class="op">=</span><span class="st">"HiraKakuProN-W3"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>family<span class="op">=</span><span class="st">"HiraKakuProN-W3"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">f2</span><span class="op">$</span><span class="va">loadings</span>, type <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="va">f2</span><span class="op">$</span><span class="va">loadings</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -794,16 +799,16 @@ The p-value is 0.225 </code></pre>
 </div>
 </div>
 </div>
-<p>この結果より，第1因子は数学，物理，化学を代表しており，第2因子は国語と英語を代表していると考えられる。 そこで第1因子を「理系」，第2因子を「文系」と名付ける。</p>
+<p>この結果より，第1因子は数学，物理，化学を代表しており，第2因子は国語と英語を代表していると考えられます。 そこで第1因子を「理系」，第2因子を「文系」と名付けます。</p>
 </section><section id="psychパッケージ" class="level2"><h2 class="anchored" data-anchor-id="psychパッケージ">
 <code>psych</code>パッケージ</h2>
 <p><code>psych</code>パッケージは心理学で用いる分析手法が用意されたパッケージで，因子分析には<code>fa.parallel()</code>がある。</p>
 <div class="cell">
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">psych</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">psych</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>次に，上記のデータを用いて分析を再実行する。</p>
 <div class="cell">
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">fa.parallel</span><span class="op">(</span><span class="va">df2</span>, fm <span class="op">=</span> <span class="st">"minres"</span>, fa <span class="op">=</span> <span class="st">"fa"</span>, cor <span class="op">=</span> <span class="st">"cor"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">fa.parallel</span><span class="op">(</span><span class="va">df2</span>, fm <span class="op">=</span> <span class="st">"minres"</span>, fa <span class="op">=</span> <span class="st">"fa"</span>, cor <span class="op">=</span> <span class="st">"cor"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="DataAnalysis_chap11_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="768"></p>
